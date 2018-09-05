@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "esnext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

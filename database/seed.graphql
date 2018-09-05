@@ -1,0 +1,18 @@
+mutation {
+  createNote(
+    data: {
+      name: "Todo list"
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      todos: {
+        create: [
+          { name: "Buy milk" }
+          { name: "Take garbage out" }
+          { name: "Code a lot" }
+          { name: "Avoid sleep" }
+        ]
+      }
+    }
+  ) {
+    id
+  }
+}

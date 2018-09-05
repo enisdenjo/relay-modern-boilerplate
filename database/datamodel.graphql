@@ -1,0 +1,15 @@
+type Note {
+  id: ID! @unique
+  name: String!
+  description: String
+  todos: [Todo!]!
+}
+
+type Todo {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  done: Boolean! @default(value: "false")
+  name: String!
+  note: Note!
+}

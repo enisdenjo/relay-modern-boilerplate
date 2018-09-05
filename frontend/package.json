@@ -1,0 +1,53 @@
+{
+  "name": "re-relay-modern",
+  "version": "1.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/enisdenjo/re-relay-modern.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "relay:get-schema": "get-graphql-schema http://localhost:4466 > schema.graphql",
+    "relay:compile": "relay-compiler --src ./src --schema ./schema.graphql --language typescript --artifactDirectory ./src/artifacts",
+    "dev:relay": "yarn relay:compile --watch",
+    "dev": "NODE_ENV=development webpack-dev-server"
+  },
+  "dependencies": {
+    "@material-ui/core": "3.0.2",
+    "@material-ui/icons": "3.0.1",
+    "lodash": "4.17.10",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "react-relay": "1.7.0-rc.1",
+    "react-router": "4.3.1",
+    "react-router-dom": "4.3.1",
+    "relay-runtime": "1.7.0-rc.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0",
+    "@types/lodash": "4.14.116",
+    "@types/react": "16.4.13",
+    "@types/react-dom": "16.0.7",
+    "@types/react-relay": "1.3.9",
+    "@types/react-router-dom": "4.3.0",
+    "@types/relay-runtime": "1.3.6",
+    "babel-loader": "8.0.2",
+    "babel-plugin-relay": "1.7.0-rc.1",
+    "css-loader": "1.0.0",
+    "file-loader": "2.0.0",
+    "get-graphql-schema": "2.1.1",
+    "graphql": "14.0.0",
+    "graphql-compiler": "1.7.0-rc.1",
+    "html-webpack-plugin": "3.2.0",
+    "relay-compiler": "1.7.0-rc.1",
+    "relay-compiler-language-typescript": "1.1.0",
+    "style-loader": "0.23.0",
+    "ts-loader": "5.0.0",
+    "typescript": "3.0.3",
+    "webpack": "4.17.2",
+    "webpack-cli": "3.1.0",
+    "webpack-dev-server": "3.1.7"
+  }
+}

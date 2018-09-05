@@ -1,0 +1,606 @@
+type AggregateNote {
+  count: Int!
+}
+
+type AggregateTodo {
+  count: Int!
+}
+
+type BatchPayload {
+  # The number of nodes that have been affected by the Batch operation.
+  count: Long!
+}
+
+scalar DateTime
+
+# The `Long` scalar type represents non-fractional signed whole numeric values.
+# Long can represent values between -(2^63) and 2^63 - 1.
+scalar Long
+
+type Mutation {
+  createNote(data: NoteCreateInput!): Note!
+  createTodo(data: TodoCreateInput!): Todo!
+  updateNote(data: NoteUpdateInput!, where: NoteWhereUniqueInput!): Note
+  updateTodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo
+  deleteNote(where: NoteWhereUniqueInput!): Note
+  deleteTodo(where: TodoWhereUniqueInput!): Todo
+  upsertNote(where: NoteWhereUniqueInput!, create: NoteCreateInput!, update: NoteUpdateInput!): Note!
+  upsertTodo(where: TodoWhereUniqueInput!, create: TodoCreateInput!, update: TodoUpdateInput!): Todo!
+  updateManyNotes(data: NoteUpdateInput!, where: NoteWhereInput): BatchPayload!
+  updateManyTodoes(data: TodoUpdateInput!, where: TodoWhereInput): BatchPayload!
+  deleteManyNotes(where: NoteWhereInput): BatchPayload!
+  deleteManyTodoes(where: TodoWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+type Note implements Node {
+  id: ID!
+  name: String!
+  description: String
+  todos(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Todo!]
+}
+
+# A connection to a list of items.
+type NoteConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [NoteEdge]!
+  aggregate: AggregateNote!
+}
+
+input NoteCreateInput {
+  name: String!
+  description: String
+  todos: TodoCreateManyWithoutNoteInput
+}
+
+input NoteCreateOneWithoutTodosInput {
+  create: NoteCreateWithoutTodosInput
+  connect: NoteWhereUniqueInput
+}
+
+input NoteCreateWithoutTodosInput {
+  name: String!
+  description: String
+}
+
+# An edge in a connection.
+type NoteEdge {
+  # The item at the end of the edge.
+  node: Note!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum NoteOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type NotePreviousValues {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type NoteSubscriptionPayload {
+  mutation: MutationType!
+  node: Note
+  updatedFields: [String!]
+  previousValues: NotePreviousValues
+}
+
+input NoteSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [NoteSubscriptionWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [NoteSubscriptionWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [NoteSubscriptionWhereInput!]
+
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: NoteWhereInput
+}
+
+input NoteUpdateInput {
+  name: String
+  description: String
+  todos: TodoUpdateManyWithoutNoteInput
+}
+
+input NoteUpdateOneWithoutTodosInput {
+  create: NoteCreateWithoutTodosInput
+  connect: NoteWhereUniqueInput
+  delete: Boolean
+  update: NoteUpdateWithoutTodosDataInput
+  upsert: NoteUpsertWithoutTodosInput
+}
+
+input NoteUpdateWithoutTodosDataInput {
+  name: String
+  description: String
+}
+
+input NoteUpsertWithoutTodosInput {
+  update: NoteUpdateWithoutTodosDataInput!
+  create: NoteCreateWithoutTodosInput!
+}
+
+input NoteWhereInput {
+  # Logical AND on all given filters.
+  AND: [NoteWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [NoteWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [NoteWhereInput!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  description: String
+
+  # All values that are not equal to given value.
+  description_not: String
+
+  # All values that are contained in given list.
+  description_in: [String!]
+
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+
+  # All values less than the given value.
+  description_lt: String
+
+  # All values less than or equal the given value.
+  description_lte: String
+
+  # All values greater than the given value.
+  description_gt: String
+
+  # All values greater than or equal the given value.
+  description_gte: String
+
+  # All values containing the given string.
+  description_contains: String
+
+  # All values not containing the given string.
+  description_not_contains: String
+
+  # All values starting with the given string.
+  description_starts_with: String
+
+  # All values not starting with the given string.
+  description_not_starts_with: String
+
+  # All values ending with the given string.
+  description_ends_with: String
+
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  todos_every: TodoWhereInput
+  todos_some: TodoWhereInput
+  todos_none: TodoWhereInput
+}
+
+input NoteWhereUniqueInput {
+  id: ID
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  notes(where: NoteWhereInput, orderBy: NoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Note]!
+  todoes(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Todo]!
+  note(where: NoteWhereUniqueInput!): Note
+  todo(where: TodoWhereUniqueInput!): Todo
+  notesConnection(where: NoteWhereInput, orderBy: NoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NoteConnection!
+  todoesConnection(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  note(where: NoteSubscriptionWhereInput): NoteSubscriptionPayload
+  todo(where: TodoSubscriptionWhereInput): TodoSubscriptionPayload
+}
+
+type Todo implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  done: Boolean!
+  name: String!
+  note(where: NoteWhereInput): Note!
+}
+
+# A connection to a list of items.
+type TodoConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [TodoEdge]!
+  aggregate: AggregateTodo!
+}
+
+input TodoCreateInput {
+  done: Boolean
+  name: String!
+  note: NoteCreateOneWithoutTodosInput!
+}
+
+input TodoCreateManyWithoutNoteInput {
+  create: [TodoCreateWithoutNoteInput!]
+  connect: [TodoWhereUniqueInput!]
+}
+
+input TodoCreateWithoutNoteInput {
+  done: Boolean
+  name: String!
+}
+
+# An edge in a connection.
+type TodoEdge {
+  # The item at the end of the edge.
+  node: Todo!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum TodoOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  done_ASC
+  done_DESC
+  name_ASC
+  name_DESC
+}
+
+type TodoPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  done: Boolean!
+  name: String!
+}
+
+type TodoSubscriptionPayload {
+  mutation: MutationType!
+  node: Todo
+  updatedFields: [String!]
+  previousValues: TodoPreviousValues
+}
+
+input TodoSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [TodoSubscriptionWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [TodoSubscriptionWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [TodoSubscriptionWhereInput!]
+
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: TodoWhereInput
+}
+
+input TodoUpdateInput {
+  done: Boolean
+  name: String
+  note: NoteUpdateOneWithoutTodosInput
+}
+
+input TodoUpdateManyWithoutNoteInput {
+  create: [TodoCreateWithoutNoteInput!]
+  connect: [TodoWhereUniqueInput!]
+  disconnect: [TodoWhereUniqueInput!]
+  delete: [TodoWhereUniqueInput!]
+  update: [TodoUpdateWithWhereUniqueWithoutNoteInput!]
+  upsert: [TodoUpsertWithWhereUniqueWithoutNoteInput!]
+}
+
+input TodoUpdateWithoutNoteDataInput {
+  done: Boolean
+  name: String
+}
+
+input TodoUpdateWithWhereUniqueWithoutNoteInput {
+  where: TodoWhereUniqueInput!
+  data: TodoUpdateWithoutNoteDataInput!
+}
+
+input TodoUpsertWithWhereUniqueWithoutNoteInput {
+  where: TodoWhereUniqueInput!
+  update: TodoUpdateWithoutNoteDataInput!
+  create: TodoCreateWithoutNoteInput!
+}
+
+input TodoWhereInput {
+  # Logical AND on all given filters.
+  AND: [TodoWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [TodoWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [TodoWhereInput!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  done: Boolean
+
+  # All values that are not equal to given value.
+  done_not: Boolean
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  note: NoteWhereInput
+}
+
+input TodoWhereUniqueInput {
+  id: ID
+}
+
