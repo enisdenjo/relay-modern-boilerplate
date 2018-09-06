@@ -1,25 +1,29 @@
 /* tslint:disable */
 
 import { ConcreteFragment } from "relay-runtime";
-declare const _NotesTable_query$ref: unique symbol;
-export type NotesTable_query$ref = typeof _NotesTable_query$ref;
-export type NotesTable_query = {
-    readonly notesConnection: {
+declare const _ArticlesTable_query$ref: unique symbol;
+export type ArticlesTable_query$ref = typeof _ArticlesTable_query$ref;
+export type ArticlesTable_query = {
+    readonly articlesConnection: {
         readonly aggregate: {
             readonly count: number;
         };
         readonly edges: ReadonlyArray<({
             readonly node: {
                 readonly id: string;
-                readonly name: string;
-                readonly description: string | null;
-                readonly todos: ReadonlyArray<{
+                readonly title: string;
+                readonly content: string;
+                readonly author: {
+                    readonly id: string;
+                    readonly fullName: string;
+                };
+                readonly comments: ReadonlyArray<{
                     readonly id: string;
                 }> | null;
             };
         }) | null>;
     };
-    readonly " $refType": NotesTable_query$ref;
+    readonly " $refType": ArticlesTable_query$ref;
 };
 
 
@@ -34,7 +38,7 @@ var v0 = {
 };
 return {
   "kind": "Fragment",
-  "name": "NotesTable_query",
+  "name": "ArticlesTable_query",
   "type": "Query",
   "metadata": {
     "connection": [
@@ -43,7 +47,7 @@ return {
         "cursor": null,
         "direction": "forward",
         "path": [
-          "notesConnection"
+          "articlesConnection"
         ]
       }
     ]
@@ -52,11 +56,11 @@ return {
   "selections": [
     {
       "kind": "LinkedField",
-      "alias": "notesConnection",
-      "name": "__NotesTable_notesConnection_connection",
+      "alias": "articlesConnection",
+      "name": "__ArticlesTable_articlesConnection_connection",
       "storageKey": null,
       "args": null,
-      "concreteType": "NoteConnection",
+      "concreteType": "ArticleConnection",
       "plural": false,
       "selections": [
         {
@@ -65,7 +69,7 @@ return {
           "name": "aggregate",
           "storageKey": null,
           "args": null,
-          "concreteType": "AggregateNote",
+          "concreteType": "AggregateArticle",
           "plural": false,
           "selections": [
             {
@@ -83,7 +87,7 @@ return {
           "name": "edges",
           "storageKey": null,
           "args": null,
-          "concreteType": "NoteEdge",
+          "concreteType": "ArticleEdge",
           "plural": true,
           "selections": [
             {
@@ -92,31 +96,50 @@ return {
               "name": "node",
               "storageKey": null,
               "args": null,
-              "concreteType": "Note",
+              "concreteType": "Article",
               "plural": false,
               "selections": [
                 v0,
                 {
                   "kind": "ScalarField",
                   "alias": null,
-                  "name": "name",
+                  "name": "title",
                   "args": null,
                   "storageKey": null
                 },
                 {
                   "kind": "ScalarField",
                   "alias": null,
-                  "name": "description",
+                  "name": "content",
                   "args": null,
                   "storageKey": null
                 },
                 {
                   "kind": "LinkedField",
                   "alias": null,
-                  "name": "todos",
+                  "name": "author",
                   "storageKey": null,
                   "args": null,
-                  "concreteType": "Todo",
+                  "concreteType": "User",
+                  "plural": false,
+                  "selections": [
+                    v0,
+                    {
+                      "kind": "ScalarField",
+                      "alias": null,
+                      "name": "fullName",
+                      "args": null,
+                      "storageKey": null
+                    }
+                  ]
+                },
+                {
+                  "kind": "LinkedField",
+                  "alias": null,
+                  "name": "comments",
+                  "storageKey": null,
+                  "args": null,
+                  "concreteType": "Comment",
                   "plural": true,
                   "selections": [
                     v0
@@ -170,5 +193,5 @@ return {
   ]
 };
 })();
-(node as any).hash = 'eff7884e952c0b144a5e292fd7c3b0e4';
+(node as any).hash = 'f37c10fa18ebb810aaffd583f55424af';
 export default node;

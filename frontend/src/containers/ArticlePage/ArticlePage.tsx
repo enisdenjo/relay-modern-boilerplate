@@ -1,6 +1,6 @@
 /**
  *
- * NotePage
+ * ArticlePage
  *
  */
 
@@ -9,7 +9,7 @@ import environment from 'relay/environment';
 
 // types
 import { RouteComponentProps } from 'react-router-dom';
-import { NotePageQueryResponse } from 'artifacts/NotePageQuery.graphql';
+import { ArticlePageQueryResponse } from 'artifacts/ArticlePageQuery.graphql';
 
 // containers
 import { graphql, QueryRenderer, ReadyState } from 'react-relay';
@@ -18,27 +18,31 @@ import { graphql, QueryRenderer, ReadyState } from 'react-relay';
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
 
-class NotePage extends React.Component<RouteComponentProps<{ id: string }>> {
+class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
   public render() {
     const { match } = this.props;
     return (
       <QueryRenderer
         environment={environment}
         query={graphql`
-          query NotePageQuery($where: NoteWhereUniqueInput!) {
-            note(where: $where) {
+          query ArticlePageQuery($where: ArticleWhereUniqueInput!) {
+            article(where: $where) {
               id
-              name
-              todos {
+              title
+              content
+              author {
                 id
-                done
-                name
+                email
+                fullName
+              }
+              comments {
+                id
               }
             }
           }
         `}
         variables={{ where: { id: match.params.id } }}
-        render={({ error, retry, props }: ReadyState<NotePageQueryResponse>) => {
+        render={({ error, retry, props }: ReadyState<ArticlePageQueryResponse>) => {
           if (error) {
             return <Err error={error} onRetry={retry} />;
           }
@@ -58,4 +62,4 @@ class NotePage extends React.Component<RouteComponentProps<{ id: string }>> {
   }
 }
 
-export default NotePage;
+export default ArticlePage;

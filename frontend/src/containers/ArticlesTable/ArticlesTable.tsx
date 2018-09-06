@@ -1,6 +1,6 @@
 /**
  *
- * NotesTable
+ * ArticlesTable
  *
  */
 
@@ -8,10 +8,10 @@ import * as React from 'react';
 import { graphql, createFragmentContainer, RelayProp } from 'react-relay';
 
 // types
-import { NotesTable_query } from 'artifacts/NotesTable_query.graphql';
+import { ArticlesTable_query } from 'artifacts/ArticlesTable_query.graphql';
 
 // mutations
-import DeleteNoteMutation from 'relay/mutations/DeleteNoteMutation';
+import DeleteArticleMutation from 'relay/mutations/DeleteArticleMutation';
 
 // icons
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -25,19 +25,20 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
 // decorate
 import decorate, { Decorate } from './decorate';
 
 export interface Props {
-  query: NotesTable_query;
+  query: ArticlesTable_query;
 }
 
-class NotesTable extends React.Component<Props & { relay: RelayProp } & Decorate> {
+class ArticlesTable extends React.Component<Props & { relay: RelayProp } & Decorate> {
   private handleDelete = (id: string) => (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation(); // so that the click does not propagate to row click
-    DeleteNoteMutation({ where: { id } });
+    DeleteArticleMutation({ where: { id } });
   };
 
   public render() {
@@ -48,21 +49,35 @@ class NotesTable extends React.Component<Props & { relay: RelayProp } & Decorate
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell numeric>Todos</TableCell>
+                  <TableCell>Author</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Content</TableCell>
+                  <TableCell numeric>Comments</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.query.notesConnection.edges.map(
-                  ({ node: { id, name, description, todos } }) => (
+                {this.props.query.articlesConnection.edges.map(
+                  ({
+                    node: {
+                      id,
+                      author: { fullName },
+                      title,
+                      content,
+                      comments,
+                    },
+                  }) => (
                     <TableRow key={id}>
+                      <TableCell>{fullName}</TableCell>
                       <TableCell>
-                        <Link to={`/notes/${id}`}>{name}</Link>
+                        <Link to={`/articles/${id}`}>{title}</Link>
                       </TableCell>
-                      <TableCell>{description}</TableCell>
-                      <TableCell numeric>{todos.length}</TableCell>
+                      <TableCell>
+                        <Typography noWrap style={{ maxWidth: 256 }}>
+                          {content}
+                        </Typography>
+                      </TableCell>
+                      <TableCell numeric>{comments.length}</TableCell>
                       <TableCell>
                         <IconButton onClick={this.handleDelete(id)}>
                           <DeleteIcon />
@@ -81,21 +96,25 @@ class NotesTable extends React.Component<Props & { relay: RelayProp } & Decorate
 }
 
 export default createFragmentContainer(
-  decorate(NotesTable),
+  decorate(ArticlesTable),
   graphql`
-    fragment NotesTable_query on Query {
-      notesConnection(
+    fragment ArticlesTable_query on Query {
+      articlesConnection(
         first: 2147483646 # max Prisma GraphQLInt
-      ) @connection(key: "NotesTable_notesConnection", filters: []) {
+      ) @connection(key: "ArticlesTable_articlesConnection", filters: []) {
         aggregate {
           count
         }
         edges {
           node {
             id
-            name
-            description
-            todos {
+            title
+            content
+            author {
+              id
+              fullName
+            }
+            comments {
               id
             }
           }

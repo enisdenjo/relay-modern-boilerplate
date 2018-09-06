@@ -1,34 +1,38 @@
 /* tslint:disable */
 
 import { ConcreteRequest } from "relay-runtime";
-import { NotesTable_query$ref } from "./NotesTable_query.graphql";
-export type NotesPageQueryVariables = {};
-export type NotesPageQueryResponse = {
-    readonly " $fragmentRefs": NotesTable_query$ref;
+import { ArticlesTable_query$ref } from "./ArticlesTable_query.graphql";
+export type ArticlesPageQueryVariables = {};
+export type ArticlesPageQueryResponse = {
+    readonly " $fragmentRefs": ArticlesTable_query$ref;
 };
-export type NotesPageQuery = {
-    readonly response: NotesPageQueryResponse;
-    readonly variables: NotesPageQueryVariables;
+export type ArticlesPageQuery = {
+    readonly response: ArticlesPageQueryResponse;
+    readonly variables: ArticlesPageQueryVariables;
 };
 
 
 
 /*
-query NotesPageQuery {
-  ...NotesTable_query
+query ArticlesPageQuery {
+  ...ArticlesTable_query
 }
 
-fragment NotesTable_query on Query {
-  notesConnection(first: 2147483646) {
+fragment ArticlesTable_query on Query {
+  articlesConnection(first: 2147483646) {
     aggregate {
       count
     }
     edges {
       node {
         id
-        name
-        description
-        todos {
+        title
+        content
+        author {
+          id
+          fullName
+        }
+        comments {
           id
         }
         __typename
@@ -62,36 +66,36 @@ v1 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "NotesPageQuery",
+  "name": "ArticlesPageQuery",
   "id": null,
-  "text": "query NotesPageQuery {\n  ...NotesTable_query\n}\n\nfragment NotesTable_query on Query {\n  notesConnection(first: 2147483646) {\n    aggregate {\n      count\n    }\n    edges {\n      node {\n        id\n        name\n        description\n        todos {\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
+  "text": "query ArticlesPageQuery {\n  ...ArticlesTable_query\n}\n\nfragment ArticlesTable_query on Query {\n  articlesConnection(first: 2147483646) {\n    aggregate {\n      count\n    }\n    edges {\n      node {\n        id\n        title\n        content\n        author {\n          id\n          fullName\n        }\n        comments {\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "NotesPageQuery",
+    "name": "ArticlesPageQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": [],
     "selections": [
       {
         "kind": "FragmentSpread",
-        "name": "NotesTable_query",
+        "name": "ArticlesTable_query",
         "args": null
       }
     ]
   },
   "operation": {
     "kind": "Operation",
-    "name": "NotesPageQuery",
+    "name": "ArticlesPageQuery",
     "argumentDefinitions": [],
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
-        "name": "notesConnection",
-        "storageKey": "notesConnection(first:2147483646)",
+        "name": "articlesConnection",
+        "storageKey": "articlesConnection(first:2147483646)",
         "args": v0,
-        "concreteType": "NoteConnection",
+        "concreteType": "ArticleConnection",
         "plural": false,
         "selections": [
           {
@@ -100,7 +104,7 @@ return {
             "name": "aggregate",
             "storageKey": null,
             "args": null,
-            "concreteType": "AggregateNote",
+            "concreteType": "AggregateArticle",
             "plural": false,
             "selections": [
               {
@@ -118,7 +122,7 @@ return {
             "name": "edges",
             "storageKey": null,
             "args": null,
-            "concreteType": "NoteEdge",
+            "concreteType": "ArticleEdge",
             "plural": true,
             "selections": [
               {
@@ -127,31 +131,50 @@ return {
                 "name": "node",
                 "storageKey": null,
                 "args": null,
-                "concreteType": "Note",
+                "concreteType": "Article",
                 "plural": false,
                 "selections": [
                   v1,
                   {
                     "kind": "ScalarField",
                     "alias": null,
-                    "name": "name",
+                    "name": "title",
                     "args": null,
                     "storageKey": null
                   },
                   {
                     "kind": "ScalarField",
                     "alias": null,
-                    "name": "description",
+                    "name": "content",
                     "args": null,
                     "storageKey": null
                   },
                   {
                     "kind": "LinkedField",
                     "alias": null,
-                    "name": "todos",
+                    "name": "author",
                     "storageKey": null,
                     "args": null,
-                    "concreteType": "Todo",
+                    "concreteType": "User",
+                    "plural": false,
+                    "selections": [
+                      v1,
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "name": "fullName",
+                        "args": null,
+                        "storageKey": null
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "name": "comments",
+                    "storageKey": null,
+                    "args": null,
+                    "concreteType": "Comment",
                     "plural": true,
                     "selections": [
                       v1
@@ -205,15 +228,15 @@ return {
       {
         "kind": "LinkedHandle",
         "alias": null,
-        "name": "notesConnection",
+        "name": "articlesConnection",
         "args": v0,
         "handle": "connection",
-        "key": "NotesTable_notesConnection",
+        "key": "ArticlesTable_articlesConnection",
         "filters": []
       }
     ]
   }
 };
 })();
-(node as any).hash = '51c975cd175dd526808673d4e75116e7';
+(node as any).hash = '16d33c059e9ede5523f101b8ef3a3552';
 export default node;

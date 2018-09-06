@@ -1,14 +1,32 @@
 mutation {
-  createNote(
+  # John Doe
+  m1: createUser(
     data: {
-      name: "Todo list"
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      todos: {
+      email: "john@doe.com"
+      fullName: "John Doe"
+      articles: {
         create: [
-          { name: "Buy milk" }
-          { name: "Take garbage out" }
-          { name: "Code a lot" }
-          { name: "Avoid sleep" }
+          {
+            title: "6 Instant Confidence Boosters"
+            content: "Lorem ipsum dolor sit amet, detracto partiendo consetetur qui id, vel sint antiopam constituto et, case porro temporibus id eos. Has ad sint graeco eligendi, nec te primis inimicus. Mei at noluisse suavitate, cum ut quot adipisci, nisl ludus his in. Te soluta lucilius quo."
+          }
+        ]
+      }
+    }
+  ) {
+    id
+  }
+  # Jane Doe
+  m2: createUser(
+    data: {
+      email: "jane@doe.com"
+      fullName: "Jane Doe"
+      articles: {
+        create: [
+          {
+            title: "Parenting Guru: From Chaos to Access"
+            content: "Lorem ipsum dolor sit amet, detracto partiendo consetetur qui id, vel sint antiopam constituto et, case porro temporibus id eos. Has ad sint graeco eligendi, nec te primis inimicus. Mei at noluisse suavitate, cum ut quot adipisci, nisl ludus his in. Te soluta lucilius quo."
+          }
         ]
       }
     }

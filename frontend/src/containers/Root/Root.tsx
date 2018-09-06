@@ -14,7 +14,7 @@ import RelayLogo from 'assets/relay-logo.svg';
 // containers
 import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage';
-import NotesPage from 'containers/NotesPage';
+import ArticlesPage from 'containers/ArticlesPage';
 
 // components
 import Grid from '@material-ui/core/Grid';
@@ -69,7 +69,7 @@ class Root extends React.Component<Decorate, State> {
           <Grid item>
             <Grid container className={classes.pageContainer}>
               <Switch>
-                <Route path="/notes" component={NotesPage} />
+                <Route path="/articles" component={ArticlesPage} />
                 <Route exact path="/" component={HomePage} />
               </Switch>
             </Grid>

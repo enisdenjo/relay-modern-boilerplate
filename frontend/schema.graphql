@@ -1,126 +1,110 @@
-type AggregateNote {
+type AggregateArticle {
   count: Int!
 }
 
-type AggregateTodo {
+type AggregateComment {
   count: Int!
 }
 
-type BatchPayload {
-  # The number of nodes that have been affected by the Batch operation.
-  count: Long!
+type AggregateUser {
+  count: Int!
 }
 
-scalar DateTime
-
-# The `Long` scalar type represents non-fractional signed whole numeric values.
-# Long can represent values between -(2^63) and 2^63 - 1.
-scalar Long
-
-type Mutation {
-  createNote(data: NoteCreateInput!): Note!
-  createTodo(data: TodoCreateInput!): Todo!
-  updateNote(data: NoteUpdateInput!, where: NoteWhereUniqueInput!): Note
-  updateTodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo
-  deleteNote(where: NoteWhereUniqueInput!): Note
-  deleteTodo(where: TodoWhereUniqueInput!): Todo
-  upsertNote(where: NoteWhereUniqueInput!, create: NoteCreateInput!, update: NoteUpdateInput!): Note!
-  upsertTodo(where: TodoWhereUniqueInput!, create: TodoCreateInput!, update: TodoUpdateInput!): Todo!
-  updateManyNotes(data: NoteUpdateInput!, where: NoteWhereInput): BatchPayload!
-  updateManyTodoes(data: TodoUpdateInput!, where: TodoWhereInput): BatchPayload!
-  deleteManyNotes(where: NoteWhereInput): BatchPayload!
-  deleteManyTodoes(where: TodoWhereInput): BatchPayload!
-}
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-# An object with an ID
-interface Node {
-  # The id of the object.
+type Article implements Node {
   id: ID!
-}
-
-type Note implements Node {
-  id: ID!
-  name: String!
-  description: String
-  todos(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Todo!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  content: String!
+  author(where: UserWhereInput): User!
+  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
 }
 
 # A connection to a list of items.
-type NoteConnection {
+type ArticleConnection {
   # Information to aid in pagination.
   pageInfo: PageInfo!
 
   # A list of edges.
-  edges: [NoteEdge]!
-  aggregate: AggregateNote!
+  edges: [ArticleEdge]!
+  aggregate: AggregateArticle!
 }
 
-input NoteCreateInput {
-  name: String!
-  description: String
-  todos: TodoCreateManyWithoutNoteInput
+input ArticleCreateInput {
+  title: String!
+  content: String!
+  author: UserCreateOneWithoutArticlesInput!
+  comments: CommentCreateManyWithoutArticleInput
 }
 
-input NoteCreateOneWithoutTodosInput {
-  create: NoteCreateWithoutTodosInput
-  connect: NoteWhereUniqueInput
+input ArticleCreateManyWithoutAuthorInput {
+  create: [ArticleCreateWithoutAuthorInput!]
+  connect: [ArticleWhereUniqueInput!]
 }
 
-input NoteCreateWithoutTodosInput {
-  name: String!
-  description: String
+input ArticleCreateOneWithoutCommentsInput {
+  create: ArticleCreateWithoutCommentsInput
+  connect: ArticleWhereUniqueInput
+}
+
+input ArticleCreateWithoutAuthorInput {
+  title: String!
+  content: String!
+  comments: CommentCreateManyWithoutArticleInput
+}
+
+input ArticleCreateWithoutCommentsInput {
+  title: String!
+  content: String!
+  author: UserCreateOneWithoutArticlesInput!
 }
 
 # An edge in a connection.
-type NoteEdge {
+type ArticleEdge {
   # The item at the end of the edge.
-  node: Note!
+  node: Article!
 
   # A cursor for use in pagination.
   cursor: String!
 }
 
-enum NoteOrderByInput {
+enum ArticleOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
-  description_ASC
-  description_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  title_ASC
+  title_DESC
+  content_ASC
+  content_DESC
 }
 
-type NotePreviousValues {
+type ArticlePreviousValues {
   id: ID!
-  name: String!
-  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  content: String!
 }
 
-type NoteSubscriptionPayload {
+type ArticleSubscriptionPayload {
   mutation: MutationType!
-  node: Note
+  node: Article
   updatedFields: [String!]
-  previousValues: NotePreviousValues
+  previousValues: ArticlePreviousValues
 }
 
-input NoteSubscriptionWhereInput {
+input ArticleSubscriptionWhereInput {
   # Logical AND on all given filters.
-  AND: [NoteSubscriptionWhereInput!]
+  AND: [ArticleSubscriptionWhereInput!]
 
   # Logical OR on all given filters.
-  OR: [NoteSubscriptionWhereInput!]
+  OR: [ArticleSubscriptionWhereInput!]
 
   # Logical NOT on all given filters combined by AND.
-  NOT: [NoteSubscriptionWhereInput!]
+  NOT: [ArticleSubscriptionWhereInput!]
 
   # The subscription event gets dispatched when it's listed in mutation_in
   mutation_in: [MutationType!]
@@ -133,342 +117,70 @@ input NoteSubscriptionWhereInput {
 
   # The subscription event gets only dispatched when some of the field names included in this list have been updated
   updatedFields_contains_some: [String!]
-  node: NoteWhereInput
+  node: ArticleWhereInput
 }
 
-input NoteUpdateInput {
-  name: String
-  description: String
-  todos: TodoUpdateManyWithoutNoteInput
+input ArticleUpdateInput {
+  title: String
+  content: String
+  author: UserUpdateOneWithoutArticlesInput
+  comments: CommentUpdateManyWithoutArticleInput
 }
 
-input NoteUpdateOneWithoutTodosInput {
-  create: NoteCreateWithoutTodosInput
-  connect: NoteWhereUniqueInput
+input ArticleUpdateManyWithoutAuthorInput {
+  create: [ArticleCreateWithoutAuthorInput!]
+  connect: [ArticleWhereUniqueInput!]
+  disconnect: [ArticleWhereUniqueInput!]
+  delete: [ArticleWhereUniqueInput!]
+  update: [ArticleUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [ArticleUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input ArticleUpdateOneWithoutCommentsInput {
+  create: ArticleCreateWithoutCommentsInput
+  connect: ArticleWhereUniqueInput
   delete: Boolean
-  update: NoteUpdateWithoutTodosDataInput
-  upsert: NoteUpsertWithoutTodosInput
+  update: ArticleUpdateWithoutCommentsDataInput
+  upsert: ArticleUpsertWithoutCommentsInput
 }
 
-input NoteUpdateWithoutTodosDataInput {
-  name: String
-  description: String
+input ArticleUpdateWithoutAuthorDataInput {
+  title: String
+  content: String
+  comments: CommentUpdateManyWithoutArticleInput
 }
 
-input NoteUpsertWithoutTodosInput {
-  update: NoteUpdateWithoutTodosDataInput!
-  create: NoteCreateWithoutTodosInput!
+input ArticleUpdateWithoutCommentsDataInput {
+  title: String
+  content: String
+  author: UserUpdateOneWithoutArticlesInput
 }
 
-input NoteWhereInput {
+input ArticleUpdateWithWhereUniqueWithoutAuthorInput {
+  where: ArticleWhereUniqueInput!
+  data: ArticleUpdateWithoutAuthorDataInput!
+}
+
+input ArticleUpsertWithoutCommentsInput {
+  update: ArticleUpdateWithoutCommentsDataInput!
+  create: ArticleCreateWithoutCommentsInput!
+}
+
+input ArticleUpsertWithWhereUniqueWithoutAuthorInput {
+  where: ArticleWhereUniqueInput!
+  update: ArticleUpdateWithoutAuthorDataInput!
+  create: ArticleCreateWithoutAuthorInput!
+}
+
+input ArticleWhereInput {
   # Logical AND on all given filters.
-  AND: [NoteWhereInput!]
+  AND: [ArticleWhereInput!]
 
   # Logical OR on all given filters.
-  OR: [NoteWhereInput!]
+  OR: [ArticleWhereInput!]
 
   # Logical NOT on all given filters combined by AND.
-  NOT: [NoteWhereInput!]
-  id: ID
-
-  # All values that are not equal to given value.
-  id_not: ID
-
-  # All values that are contained in given list.
-  id_in: [ID!]
-
-  # All values that are not contained in given list.
-  id_not_in: [ID!]
-
-  # All values less than the given value.
-  id_lt: ID
-
-  # All values less than or equal the given value.
-  id_lte: ID
-
-  # All values greater than the given value.
-  id_gt: ID
-
-  # All values greater than or equal the given value.
-  id_gte: ID
-
-  # All values containing the given string.
-  id_contains: ID
-
-  # All values not containing the given string.
-  id_not_contains: ID
-
-  # All values starting with the given string.
-  id_starts_with: ID
-
-  # All values not starting with the given string.
-  id_not_starts_with: ID
-
-  # All values ending with the given string.
-  id_ends_with: ID
-
-  # All values not ending with the given string.
-  id_not_ends_with: ID
-  name: String
-
-  # All values that are not equal to given value.
-  name_not: String
-
-  # All values that are contained in given list.
-  name_in: [String!]
-
-  # All values that are not contained in given list.
-  name_not_in: [String!]
-
-  # All values less than the given value.
-  name_lt: String
-
-  # All values less than or equal the given value.
-  name_lte: String
-
-  # All values greater than the given value.
-  name_gt: String
-
-  # All values greater than or equal the given value.
-  name_gte: String
-
-  # All values containing the given string.
-  name_contains: String
-
-  # All values not containing the given string.
-  name_not_contains: String
-
-  # All values starting with the given string.
-  name_starts_with: String
-
-  # All values not starting with the given string.
-  name_not_starts_with: String
-
-  # All values ending with the given string.
-  name_ends_with: String
-
-  # All values not ending with the given string.
-  name_not_ends_with: String
-  description: String
-
-  # All values that are not equal to given value.
-  description_not: String
-
-  # All values that are contained in given list.
-  description_in: [String!]
-
-  # All values that are not contained in given list.
-  description_not_in: [String!]
-
-  # All values less than the given value.
-  description_lt: String
-
-  # All values less than or equal the given value.
-  description_lte: String
-
-  # All values greater than the given value.
-  description_gt: String
-
-  # All values greater than or equal the given value.
-  description_gte: String
-
-  # All values containing the given string.
-  description_contains: String
-
-  # All values not containing the given string.
-  description_not_contains: String
-
-  # All values starting with the given string.
-  description_starts_with: String
-
-  # All values not starting with the given string.
-  description_not_starts_with: String
-
-  # All values ending with the given string.
-  description_ends_with: String
-
-  # All values not ending with the given string.
-  description_not_ends_with: String
-  todos_every: TodoWhereInput
-  todos_some: TodoWhereInput
-  todos_none: TodoWhereInput
-}
-
-input NoteWhereUniqueInput {
-  id: ID
-}
-
-# Information about pagination in a connection.
-type PageInfo {
-  # When paginating forwards, are there more items?
-  hasNextPage: Boolean!
-
-  # When paginating backwards, are there more items?
-  hasPreviousPage: Boolean!
-
-  # When paginating backwards, the cursor to continue.
-  startCursor: String
-
-  # When paginating forwards, the cursor to continue.
-  endCursor: String
-}
-
-type Query {
-  notes(where: NoteWhereInput, orderBy: NoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Note]!
-  todoes(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Todo]!
-  note(where: NoteWhereUniqueInput!): Note
-  todo(where: TodoWhereUniqueInput!): Todo
-  notesConnection(where: NoteWhereInput, orderBy: NoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NoteConnection!
-  todoesConnection(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection!
-
-  # Fetches an object given its ID
-  node(
-    # The ID of an object
-    id: ID!
-  ): Node
-}
-
-type Subscription {
-  note(where: NoteSubscriptionWhereInput): NoteSubscriptionPayload
-  todo(where: TodoSubscriptionWhereInput): TodoSubscriptionPayload
-}
-
-type Todo implements Node {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  done: Boolean!
-  name: String!
-  note(where: NoteWhereInput): Note!
-}
-
-# A connection to a list of items.
-type TodoConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [TodoEdge]!
-  aggregate: AggregateTodo!
-}
-
-input TodoCreateInput {
-  done: Boolean
-  name: String!
-  note: NoteCreateOneWithoutTodosInput!
-}
-
-input TodoCreateManyWithoutNoteInput {
-  create: [TodoCreateWithoutNoteInput!]
-  connect: [TodoWhereUniqueInput!]
-}
-
-input TodoCreateWithoutNoteInput {
-  done: Boolean
-  name: String!
-}
-
-# An edge in a connection.
-type TodoEdge {
-  # The item at the end of the edge.
-  node: Todo!
-
-  # A cursor for use in pagination.
-  cursor: String!
-}
-
-enum TodoOrderByInput {
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  done_ASC
-  done_DESC
-  name_ASC
-  name_DESC
-}
-
-type TodoPreviousValues {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  done: Boolean!
-  name: String!
-}
-
-type TodoSubscriptionPayload {
-  mutation: MutationType!
-  node: Todo
-  updatedFields: [String!]
-  previousValues: TodoPreviousValues
-}
-
-input TodoSubscriptionWhereInput {
-  # Logical AND on all given filters.
-  AND: [TodoSubscriptionWhereInput!]
-
-  # Logical OR on all given filters.
-  OR: [TodoSubscriptionWhereInput!]
-
-  # Logical NOT on all given filters combined by AND.
-  NOT: [TodoSubscriptionWhereInput!]
-
-  # The subscription event gets dispatched when it's listed in mutation_in
-  mutation_in: [MutationType!]
-
-  # The subscription event gets only dispatched when one of the updated fields names is included in this list
-  updatedFields_contains: String
-
-  # The subscription event gets only dispatched when all of the field names included in this list have been updated
-  updatedFields_contains_every: [String!]
-
-  # The subscription event gets only dispatched when some of the field names included in this list have been updated
-  updatedFields_contains_some: [String!]
-  node: TodoWhereInput
-}
-
-input TodoUpdateInput {
-  done: Boolean
-  name: String
-  note: NoteUpdateOneWithoutTodosInput
-}
-
-input TodoUpdateManyWithoutNoteInput {
-  create: [TodoCreateWithoutNoteInput!]
-  connect: [TodoWhereUniqueInput!]
-  disconnect: [TodoWhereUniqueInput!]
-  delete: [TodoWhereUniqueInput!]
-  update: [TodoUpdateWithWhereUniqueWithoutNoteInput!]
-  upsert: [TodoUpsertWithWhereUniqueWithoutNoteInput!]
-}
-
-input TodoUpdateWithoutNoteDataInput {
-  done: Boolean
-  name: String
-}
-
-input TodoUpdateWithWhereUniqueWithoutNoteInput {
-  where: TodoWhereUniqueInput!
-  data: TodoUpdateWithoutNoteDataInput!
-}
-
-input TodoUpsertWithWhereUniqueWithoutNoteInput {
-  where: TodoWhereUniqueInput!
-  update: TodoUpdateWithoutNoteDataInput!
-  create: TodoCreateWithoutNoteInput!
-}
-
-input TodoWhereInput {
-  # Logical AND on all given filters.
-  AND: [TodoWhereInput!]
-
-  # Logical OR on all given filters.
-  OR: [TodoWhereInput!]
-
-  # Logical NOT on all given filters combined by AND.
-  NOT: [TodoWhereInput!]
+  NOT: [ArticleWhereInput!]
   id: ID
 
   # All values that are not equal to given value.
@@ -553,54 +265,769 @@ input TodoWhereInput {
 
   # All values greater than or equal the given value.
   updatedAt_gte: DateTime
-  done: Boolean
+  title: String
 
   # All values that are not equal to given value.
-  done_not: Boolean
-  name: String
-
-  # All values that are not equal to given value.
-  name_not: String
+  title_not: String
 
   # All values that are contained in given list.
-  name_in: [String!]
+  title_in: [String!]
 
   # All values that are not contained in given list.
-  name_not_in: [String!]
+  title_not_in: [String!]
 
   # All values less than the given value.
-  name_lt: String
+  title_lt: String
 
   # All values less than or equal the given value.
-  name_lte: String
+  title_lte: String
 
   # All values greater than the given value.
-  name_gt: String
+  title_gt: String
 
   # All values greater than or equal the given value.
-  name_gte: String
+  title_gte: String
 
   # All values containing the given string.
-  name_contains: String
+  title_contains: String
 
   # All values not containing the given string.
-  name_not_contains: String
+  title_not_contains: String
 
   # All values starting with the given string.
-  name_starts_with: String
+  title_starts_with: String
 
   # All values not starting with the given string.
-  name_not_starts_with: String
+  title_not_starts_with: String
 
   # All values ending with the given string.
-  name_ends_with: String
+  title_ends_with: String
 
   # All values not ending with the given string.
-  name_not_ends_with: String
-  note: NoteWhereInput
+  title_not_ends_with: String
+  content: String
+
+  # All values that are not equal to given value.
+  content_not: String
+
+  # All values that are contained in given list.
+  content_in: [String!]
+
+  # All values that are not contained in given list.
+  content_not_in: [String!]
+
+  # All values less than the given value.
+  content_lt: String
+
+  # All values less than or equal the given value.
+  content_lte: String
+
+  # All values greater than the given value.
+  content_gt: String
+
+  # All values greater than or equal the given value.
+  content_gte: String
+
+  # All values containing the given string.
+  content_contains: String
+
+  # All values not containing the given string.
+  content_not_contains: String
+
+  # All values starting with the given string.
+  content_starts_with: String
+
+  # All values not starting with the given string.
+  content_not_starts_with: String
+
+  # All values ending with the given string.
+  content_ends_with: String
+
+  # All values not ending with the given string.
+  content_not_ends_with: String
+  author: UserWhereInput
+  comments_every: CommentWhereInput
+  comments_some: CommentWhereInput
+  comments_none: CommentWhereInput
 }
 
-input TodoWhereUniqueInput {
+input ArticleWhereUniqueInput {
   id: ID
+}
+
+type BatchPayload {
+  # The number of nodes that have been affected by the Batch operation.
+  count: Long!
+}
+
+type Comment implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: String!
+  article(where: ArticleWhereInput): Article!
+  author(where: UserWhereInput): User!
+}
+
+# A connection to a list of items.
+type CommentConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CommentEdge]!
+  aggregate: AggregateComment!
+}
+
+input CommentCreateInput {
+  content: String!
+  article: ArticleCreateOneWithoutCommentsInput!
+  author: UserCreateOneWithoutCommentsInput!
+}
+
+input CommentCreateManyWithoutArticleInput {
+  create: [CommentCreateWithoutArticleInput!]
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateManyWithoutAuthorInput {
+  create: [CommentCreateWithoutAuthorInput!]
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateWithoutArticleInput {
+  content: String!
+  author: UserCreateOneWithoutCommentsInput!
+}
+
+input CommentCreateWithoutAuthorInput {
+  content: String!
+  article: ArticleCreateOneWithoutCommentsInput!
+}
+
+# An edge in a connection.
+type CommentEdge {
+  # The item at the end of the edge.
+  node: Comment!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum CommentOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  content_ASC
+  content_DESC
+}
+
+type CommentPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: String!
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment
+  updatedFields: [String!]
+  previousValues: CommentPreviousValues
+}
+
+input CommentSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [CommentSubscriptionWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [CommentSubscriptionWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CommentSubscriptionWhereInput!]
+
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: CommentWhereInput
+}
+
+input CommentUpdateInput {
+  content: String
+  article: ArticleUpdateOneWithoutCommentsInput
+  author: UserUpdateOneWithoutCommentsInput
+}
+
+input CommentUpdateManyWithoutArticleInput {
+  create: [CommentCreateWithoutArticleInput!]
+  connect: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutArticleInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutArticleInput!]
+}
+
+input CommentUpdateManyWithoutAuthorInput {
+  create: [CommentCreateWithoutAuthorInput!]
+  connect: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input CommentUpdateWithoutArticleDataInput {
+  content: String
+  author: UserUpdateOneWithoutCommentsInput
+}
+
+input CommentUpdateWithoutAuthorDataInput {
+  content: String
+  article: ArticleUpdateOneWithoutCommentsInput
+}
+
+input CommentUpdateWithWhereUniqueWithoutArticleInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutArticleDataInput!
+}
+
+input CommentUpdateWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutAuthorDataInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutArticleInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutArticleDataInput!
+  create: CommentCreateWithoutArticleInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutAuthorDataInput!
+  create: CommentCreateWithoutAuthorInput!
+}
+
+input CommentWhereInput {
+  # Logical AND on all given filters.
+  AND: [CommentWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [CommentWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CommentWhereInput!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  content: String
+
+  # All values that are not equal to given value.
+  content_not: String
+
+  # All values that are contained in given list.
+  content_in: [String!]
+
+  # All values that are not contained in given list.
+  content_not_in: [String!]
+
+  # All values less than the given value.
+  content_lt: String
+
+  # All values less than or equal the given value.
+  content_lte: String
+
+  # All values greater than the given value.
+  content_gt: String
+
+  # All values greater than or equal the given value.
+  content_gte: String
+
+  # All values containing the given string.
+  content_contains: String
+
+  # All values not containing the given string.
+  content_not_contains: String
+
+  # All values starting with the given string.
+  content_starts_with: String
+
+  # All values not starting with the given string.
+  content_not_starts_with: String
+
+  # All values ending with the given string.
+  content_ends_with: String
+
+  # All values not ending with the given string.
+  content_not_ends_with: String
+  article: ArticleWhereInput
+  author: UserWhereInput
+}
+
+input CommentWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
+# The `Long` scalar type represents non-fractional signed whole numeric values.
+# Long can represent values between -(2^63) and 2^63 - 1.
+scalar Long
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  createArticle(data: ArticleCreateInput!): Article!
+  createComment(data: CommentCreateInput!): Comment!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateArticle(data: ArticleUpdateInput!, where: ArticleWhereUniqueInput!): Article
+  updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteArticle(where: ArticleWhereUniqueInput!): Article
+  deleteComment(where: CommentWhereUniqueInput!): Comment
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertArticle(where: ArticleWhereUniqueInput!, create: ArticleCreateInput!, update: ArticleUpdateInput!): Article!
+  upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyArticles(data: ArticleUpdateInput!, where: ArticleWhereInput): BatchPayload!
+  updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyArticles(where: ArticleWhereInput): BatchPayload!
+  deleteManyComments(where: CommentWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
+  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
+  user(where: UserWhereUniqueInput!): User
+  article(where: ArticleWhereUniqueInput!): Article
+  comment(where: CommentWhereUniqueInput!): Comment
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  articlesConnection(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ArticleConnection!
+  commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  article(where: ArticleSubscriptionWhereInput): ArticleSubscriptionPayload
+  comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+}
+
+type User implements Node {
+  id: ID!
+  email: String!
+  fullName: String!
+  articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article!]
+  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+}
+
+# A connection to a list of items.
+type UserConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  email: String!
+  fullName: String!
+  articles: ArticleCreateManyWithoutAuthorInput
+  comments: CommentCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutArticlesInput {
+  create: UserCreateWithoutArticlesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutCommentsInput {
+  create: UserCreateWithoutCommentsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutArticlesInput {
+  email: String!
+  fullName: String!
+  comments: CommentCreateManyWithoutAuthorInput
+}
+
+input UserCreateWithoutCommentsInput {
+  email: String!
+  fullName: String!
+  articles: ArticleCreateManyWithoutAuthorInput
+}
+
+# An edge in a connection.
+type UserEdge {
+  # The item at the end of the edge.
+  node: User!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  email_ASC
+  email_DESC
+  fullName_ASC
+  fullName_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  email: String!
+  fullName: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [UserSubscriptionWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [UserSubscriptionWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [UserSubscriptionWhereInput!]
+
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  email: String
+  fullName: String
+  articles: ArticleUpdateManyWithoutAuthorInput
+  comments: CommentUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateOneWithoutArticlesInput {
+  create: UserCreateWithoutArticlesInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutArticlesDataInput
+  upsert: UserUpsertWithoutArticlesInput
+}
+
+input UserUpdateOneWithoutCommentsInput {
+  create: UserCreateWithoutCommentsInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutCommentsDataInput
+  upsert: UserUpsertWithoutCommentsInput
+}
+
+input UserUpdateWithoutArticlesDataInput {
+  email: String
+  fullName: String
+  comments: CommentUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateWithoutCommentsDataInput {
+  email: String
+  fullName: String
+  articles: ArticleUpdateManyWithoutAuthorInput
+}
+
+input UserUpsertWithoutArticlesInput {
+  update: UserUpdateWithoutArticlesDataInput!
+  create: UserCreateWithoutArticlesInput!
+}
+
+input UserUpsertWithoutCommentsInput {
+  update: UserUpdateWithoutCommentsDataInput!
+  create: UserCreateWithoutCommentsInput!
+}
+
+input UserWhereInput {
+  # Logical AND on all given filters.
+  AND: [UserWhereInput!]
+
+  # Logical OR on all given filters.
+  OR: [UserWhereInput!]
+
+  # Logical NOT on all given filters combined by AND.
+  NOT: [UserWhereInput!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  email: String
+
+  # All values that are not equal to given value.
+  email_not: String
+
+  # All values that are contained in given list.
+  email_in: [String!]
+
+  # All values that are not contained in given list.
+  email_not_in: [String!]
+
+  # All values less than the given value.
+  email_lt: String
+
+  # All values less than or equal the given value.
+  email_lte: String
+
+  # All values greater than the given value.
+  email_gt: String
+
+  # All values greater than or equal the given value.
+  email_gte: String
+
+  # All values containing the given string.
+  email_contains: String
+
+  # All values not containing the given string.
+  email_not_contains: String
+
+  # All values starting with the given string.
+  email_starts_with: String
+
+  # All values not starting with the given string.
+  email_not_starts_with: String
+
+  # All values ending with the given string.
+  email_ends_with: String
+
+  # All values not ending with the given string.
+  email_not_ends_with: String
+  fullName: String
+
+  # All values that are not equal to given value.
+  fullName_not: String
+
+  # All values that are contained in given list.
+  fullName_in: [String!]
+
+  # All values that are not contained in given list.
+  fullName_not_in: [String!]
+
+  # All values less than the given value.
+  fullName_lt: String
+
+  # All values less than or equal the given value.
+  fullName_lte: String
+
+  # All values greater than the given value.
+  fullName_gt: String
+
+  # All values greater than or equal the given value.
+  fullName_gte: String
+
+  # All values containing the given string.
+  fullName_contains: String
+
+  # All values not containing the given string.
+  fullName_not_contains: String
+
+  # All values starting with the given string.
+  fullName_starts_with: String
+
+  # All values not starting with the given string.
+  fullName_not_starts_with: String
+
+  # All values ending with the given string.
+  fullName_ends_with: String
+
+  # All values not ending with the given string.
+  fullName_not_ends_with: String
+  articles_every: ArticleWhereInput
+  articles_some: ArticleWhereInput
+  articles_none: ArticleWhereInput
+  comments_every: CommentWhereInput
+  comments_some: CommentWhereInput
+  comments_none: CommentWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
 }
 

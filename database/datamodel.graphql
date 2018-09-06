@@ -1,15 +1,26 @@
-type Note {
+type User {
   id: ID! @unique
-  name: String!
-  description: String
-  todos: [Todo!]!
+  email: String! @unique
+  fullName: String!
+  articles: [Article!]!
+  comments: [Comment!]!
 }
 
-type Todo {
+type Article {
   id: ID! @unique
   createdAt: DateTime!
   updatedAt: DateTime!
-  done: Boolean! @default(value: "false")
-  name: String!
-  note: Note!
+  title: String!
+  content: String!
+  author: User!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: String!
+  article: Article!
+  author: User!
 }

@@ -1,29 +1,29 @@
 /* tslint:disable */
 
 import { ConcreteRequest } from "relay-runtime";
-export type NoteWhereUniqueInput = {
+export type ArticleWhereUniqueInput = {
     readonly id?: string | null;
 };
-export type DeleteNoteMutationVariables = {
-    readonly where: NoteWhereUniqueInput;
+export type DeleteArticleMutationVariables = {
+    readonly where: ArticleWhereUniqueInput;
 };
-export type DeleteNoteMutationResponse = {
-    readonly deleteNote: ({
+export type DeleteArticleMutationResponse = {
+    readonly deleteArticle: ({
         readonly id: string;
     }) | null;
 };
-export type DeleteNoteMutation = {
-    readonly response: DeleteNoteMutationResponse;
-    readonly variables: DeleteNoteMutationVariables;
+export type DeleteArticleMutation = {
+    readonly response: DeleteArticleMutationResponse;
+    readonly variables: DeleteArticleMutationVariables;
 };
 
 
 
 /*
-mutation DeleteNoteMutation(
-  $where: NoteWhereUniqueInput!
+mutation DeleteArticleMutation(
+  $where: ArticleWhereUniqueInput!
 ) {
-  deleteNote(where: $where) {
+  deleteArticle(where: $where) {
     id
   }
 }
@@ -34,7 +34,7 @@ var v0 = [
   {
     "kind": "LocalArgument",
     "name": "where",
-    "type": "NoteWhereUniqueInput!",
+    "type": "ArticleWhereUniqueInput!",
     "defaultValue": null
   }
 ],
@@ -42,17 +42,17 @@ v1 = [
   {
     "kind": "LinkedField",
     "alias": null,
-    "name": "deleteNote",
+    "name": "deleteArticle",
     "storageKey": null,
     "args": [
       {
         "kind": "Variable",
         "name": "where",
         "variableName": "where",
-        "type": "NoteWhereUniqueInput!"
+        "type": "ArticleWhereUniqueInput!"
       }
     ],
-    "concreteType": "Note",
+    "concreteType": "Article",
     "plural": false,
     "selections": [
       {
@@ -68,13 +68,13 @@ v1 = [
 return {
   "kind": "Request",
   "operationKind": "mutation",
-  "name": "DeleteNoteMutation",
+  "name": "DeleteArticleMutation",
   "id": null,
-  "text": "mutation DeleteNoteMutation(\n  $where: NoteWhereUniqueInput!\n) {\n  deleteNote(where: $where) {\n    id\n  }\n}\n",
+  "text": "mutation DeleteArticleMutation(\n  $where: ArticleWhereUniqueInput!\n) {\n  deleteArticle(where: $where) {\n    id\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "DeleteNoteMutation",
+    "name": "DeleteArticleMutation",
     "type": "Mutation",
     "metadata": null,
     "argumentDefinitions": v0,
@@ -82,11 +82,11 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "DeleteNoteMutation",
+    "name": "DeleteArticleMutation",
     "argumentDefinitions": v0,
     "selections": v1
   }
 };
 })();
-(node as any).hash = '506824bb46ab52016153bb20f3d17282';
+(node as any).hash = '7fea8426de5cd80795bbc6c43027ab75';
 export default node;

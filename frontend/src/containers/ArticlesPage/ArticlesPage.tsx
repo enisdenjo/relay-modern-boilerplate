@@ -1,6 +1,6 @@
 /**
  *
- * NotesPage
+ * ArticlesPage
  *
  */
 
@@ -9,15 +9,15 @@ import { RouteComponentProps } from 'react-router-dom';
 import environment from 'relay/environment';
 
 // types
-import { NotesPageQueryResponse } from 'artifacts/NotesPageQuery.graphql';
+import { ArticlesPageQueryResponse } from 'artifacts/ArticlesPageQuery.graphql';
 
 // icons
 import AddIcon from '@material-ui/icons/Add';
 
 // containers
 import { graphql, QueryRenderer, ReadyState } from 'react-relay';
-import NotesTable from 'containers/NotesTable';
-import NotePage from 'containers/NotePage';
+import ArticlesTable from 'containers/ArticlesTable';
+import ArticlePage from 'containers/ArticlePage';
 
 // components
 import { Switch, Route, Link } from 'react-router-dom';
@@ -27,21 +27,21 @@ import Button from '@material-ui/core/Button';
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
 
-class NotesPage extends React.PureComponent<RouteComponentProps<{}>> {
+class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>> {
   public render() {
     const { match } = this.props;
     return (
       <QueryRenderer
         environment={environment}
         query={graphql`
-          query NotesPageQuery {
-            ...NotesTable_query
+          query ArticlesPageQuery {
+            ...ArticlesTable_query
           }
         `}
         variables={{}}
-        render={({ error, retry, props }: ReadyState<NotesPageQueryResponse>) => (
+        render={({ error, retry, props }: ReadyState<ArticlesPageQueryResponse>) => (
           <Switch>
-            <Route exact path={`${match.path}/:id`} component={NotePage} />
+            <Route exact path={`${match.path}/:id`} component={ArticlePage} />
             <Route
               exact
               path={match.path}
@@ -58,7 +58,7 @@ class NotesPage extends React.PureComponent<RouteComponentProps<{}>> {
                   <Grid container direction="column" spacing={16}>
                     <Grid item container justify="space-between" alignItems="center">
                       <Grid item>
-                        <Typography variant="title">Notes</Typography>
+                        <Typography variant="title">Articles</Typography>
                       </Grid>
                       <Grid item>
                         <Button
@@ -75,7 +75,7 @@ class NotesPage extends React.PureComponent<RouteComponentProps<{}>> {
                       </Grid>
                     </Grid>
                     <Grid item>
-                      <NotesTable query={props} />
+                      <ArticlesTable query={props} />
                     </Grid>
                   </Grid>
                 );
@@ -88,4 +88,4 @@ class NotesPage extends React.PureComponent<RouteComponentProps<{}>> {
   }
 }
 
-export default NotesPage;
+export default ArticlesPage;
