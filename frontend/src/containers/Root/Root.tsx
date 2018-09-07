@@ -62,7 +62,7 @@ class Root extends React.Component<Decorate, State> {
             </Grid>
             <Grid item>
               <Typography variant="subheading" color="textSecondary">
-                An application serving as a Relay Modern crash course.
+                Educational application serving as a Relay Modern crash course.
               </Typography>
             </Grid>
           </Grid>
@@ -72,6 +72,13 @@ class Root extends React.Component<Decorate, State> {
                 <Route path="/articles" component={ArticlesPage} />
                 <Route exact path="/" component={HomePage} />
               </Switch>
+            </Grid>
+          </Grid>
+          <Grid item container justify="center">
+            <Grid item>
+              <Typography variant="caption">
+                Reintroducing Relay Modern &bull; <strong>Denis Badurina</strong>
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
