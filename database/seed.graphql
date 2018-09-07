@@ -7,7 +7,11 @@ mutation {
       articles: {
         create: [
           {
-            title: "6 Instant Confidence Boosters"
+            title: "Reintroducing Relay Modern"
+            content: "Lorem ipsum dolor sit amet, detracto partiendo consetetur qui id, vel sint antiopam constituto et, case porro temporibus id eos. Has ad sint graeco eligendi, nec te primis inimicus. Mei at noluisse suavitate, cum ut quot adipisci, nisl ludus his in. Te soluta lucilius quo."
+          }
+          {
+            title: "How Relay helped me sleep at night"
             content: "Lorem ipsum dolor sit amet, detracto partiendo consetetur qui id, vel sint antiopam constituto et, case porro temporibus id eos. Has ad sint graeco eligendi, nec te primis inimicus. Mei at noluisse suavitate, cum ut quot adipisci, nisl ludus his in. Te soluta lucilius quo."
           }
         ]
