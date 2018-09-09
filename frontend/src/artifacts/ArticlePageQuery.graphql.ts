@@ -1,6 +1,7 @@
 /* tslint:disable */
 
 import { ConcreteRequest } from "relay-runtime";
+import { Article_article$ref } from "./Article_article.graphql";
 export type ArticleWhereUniqueInput = {
     readonly id?: string | null;
 };
@@ -9,17 +10,7 @@ export type ArticlePageQueryVariables = {
 };
 export type ArticlePageQueryResponse = {
     readonly article: ({
-        readonly id: string;
-        readonly title: string;
-        readonly content: string;
-        readonly author: {
-            readonly id: string;
-            readonly email: string;
-            readonly fullName: string;
-        };
-        readonly comments: ReadonlyArray<{
-            readonly id: string;
-        }> | null;
+        readonly " $fragmentRefs": Article_article$ref;
     }) | null;
 };
 export type ArticlePageQuery = {
@@ -34,17 +25,20 @@ query ArticlePageQuery(
   $where: ArticleWhereUniqueInput!
 ) {
   article(where: $where) {
+    ...Article_article
     id
-    title
-    content
-    author {
-      id
-      email
-      fullName
-    }
-    comments {
-      id
-    }
+  }
+}
+
+fragment Article_article on Article {
+  id
+  createdAt
+  title
+  content
+  author {
+    id
+    fullName
+    email
   }
 }
 */
@@ -58,92 +52,27 @@ var v0 = [
     "defaultValue": null
   }
 ],
-v1 = {
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "where",
+    "variableName": "where",
+    "type": "ArticleWhereUniqueInput!"
+  }
+],
+v2 = {
   "kind": "ScalarField",
   "alias": null,
   "name": "id",
   "args": null,
   "storageKey": null
-},
-v2 = [
-  {
-    "kind": "LinkedField",
-    "alias": null,
-    "name": "article",
-    "storageKey": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "where",
-        "variableName": "where",
-        "type": "ArticleWhereUniqueInput!"
-      }
-    ],
-    "concreteType": "Article",
-    "plural": false,
-    "selections": [
-      v1,
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "title",
-        "args": null,
-        "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "content",
-        "args": null,
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "name": "author",
-        "storageKey": null,
-        "args": null,
-        "concreteType": "User",
-        "plural": false,
-        "selections": [
-          v1,
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "email",
-            "args": null,
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "fullName",
-            "args": null,
-            "storageKey": null
-          }
-        ]
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "name": "comments",
-        "storageKey": null,
-        "args": null,
-        "concreteType": "Comment",
-        "plural": true,
-        "selections": [
-          v1
-        ]
-      }
-    ]
-  }
-];
+};
 return {
   "kind": "Request",
   "operationKind": "query",
   "name": "ArticlePageQuery",
   "id": null,
-  "text": "query ArticlePageQuery(\n  $where: ArticleWhereUniqueInput!\n) {\n  article(where: $where) {\n    id\n    title\n    content\n    author {\n      id\n      email\n      fullName\n    }\n    comments {\n      id\n    }\n  }\n}\n",
+  "text": "query ArticlePageQuery(\n  $where: ArticleWhereUniqueInput!\n) {\n  article(where: $where) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  createdAt\n  title\n  content\n  author {\n    id\n    fullName\n    email\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -151,15 +80,92 @@ return {
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": v0,
-    "selections": v2
+    "selections": [
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "name": "article",
+        "storageKey": null,
+        "args": v1,
+        "concreteType": "Article",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": "Article_article",
+            "args": null
+          }
+        ]
+      }
+    ]
   },
   "operation": {
     "kind": "Operation",
     "name": "ArticlePageQuery",
     "argumentDefinitions": v0,
-    "selections": v2
+    "selections": [
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "name": "article",
+        "storageKey": null,
+        "args": v1,
+        "concreteType": "Article",
+        "plural": false,
+        "selections": [
+          v2,
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "createdAt",
+            "args": null,
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "title",
+            "args": null,
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "content",
+            "args": null,
+            "storageKey": null
+          },
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "author",
+            "storageKey": null,
+            "args": null,
+            "concreteType": "User",
+            "plural": false,
+            "selections": [
+              v2,
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "name": "fullName",
+                "args": null,
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "name": "email",
+                "args": null,
+                "storageKey": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 };
 })();
-(node as any).hash = '9d6ddd841f956f14f03a17ce20fda760';
+(node as any).hash = 'a5d860dc4ebe126d004aab467e80aa7a';
 export default node;

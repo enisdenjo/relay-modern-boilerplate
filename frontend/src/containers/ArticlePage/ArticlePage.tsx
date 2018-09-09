@@ -13,6 +13,7 @@ import { ArticlePageQueryResponse } from 'artifacts/ArticlePageQuery.graphql';
 
 // containers
 import { graphql, QueryRenderer, ReadyState } from 'react-relay';
+import Article from 'containers/Article';
 
 // components
 import Err from 'components/Err';
@@ -27,17 +28,7 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
         query={graphql`
           query ArticlePageQuery($where: ArticleWhereUniqueInput!) {
             article(where: $where) {
-              id
-              title
-              content
-              author {
-                id
-                email
-                fullName
-              }
-              comments {
-                id
-              }
+              ...Article_article
             }
           }
         `}
@@ -51,11 +42,7 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
             return <Spinner />;
           }
 
-          return (
-            <pre>
-              <code>{JSON.stringify(props, undefined, '  ')}</code>
-            </pre>
-          );
+          return <Article article={props.article} />;
         }}
       />
     );
