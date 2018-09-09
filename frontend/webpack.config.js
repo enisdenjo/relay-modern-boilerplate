@@ -37,7 +37,6 @@ module.exports = {
             options: {
               cacheDirectory: true,
               plugins: [
-                '@babel/plugin-proposal-object-rest-spread',
                 [
                   // Relay Modern requires a Babel plugin to convert GraphQL to runtime artifacts.
                   'relay',
@@ -46,6 +45,8 @@ module.exports = {
                     artifactDirectory: path.join(__dirname, 'src', 'artifacts'),
                   },
                 ],
+                '@babel/plugin-proposal-object-rest-spread',
+                '@babel/plugin-syntax-dynamic-import',
               ],
             },
           },

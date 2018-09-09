@@ -13,8 +13,8 @@ import RelayLogo from 'assets/relay-logo.svg';
 
 // containers
 import { Switch, Route } from 'react-router-dom';
-import HomePage from 'containers/HomePage';
-import ArticlesPage from 'containers/ArticlesPage';
+import HomePage from 'containers/HomePage/Loadable';
+import ArticlesPage from 'containers/ArticlesPage/Loadable';
 
 // components
 import Grid from '@material-ui/core/Grid';

@@ -17,7 +17,7 @@ import AddIcon from '@material-ui/icons/Add';
 // containers
 import { graphql, QueryRenderer, ReadyState } from 'react-relay';
 import ArticlesTable from 'containers/ArticlesTable';
-import ArticlePage from 'containers/ArticlePage';
+import ArticlePage from 'containers/ArticlePage/Loadable';
 
 // components
 import { Switch, Route, Link } from 'react-router-dom';
