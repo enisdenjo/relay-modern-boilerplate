@@ -36,10 +36,7 @@ export interface Props {
 }
 
 class ArticlesTable extends React.Component<Props & { relay: RelayProp } & Decorate> {
-  private handleDelete = (id: string) => (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); // so that the click does not propagate to row click
-    DeleteArticleMutation({ where: { id } });
-  };
+  private handleDelete = (id: string) => () => DeleteArticleMutation({ where: { id } });
 
   public render() {
     return (
