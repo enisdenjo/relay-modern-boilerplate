@@ -2,19 +2,25 @@
  *
  * relay/environment
  *
- * Environment used by Relay throughout the app.
+ * Reference: https://facebook.github.io/relay/docs/en/runtime-architecture.html#data-types
  *
  */
 
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 
-// Customized fetch function for handling GraphQL requests.
-const graphqlFetch = (operation, variables) => {
-  console.log(operation);
-  return fetch(
+// A collection of records keyed by their data ID, used both to represent the cache and updates to it.
+const recordSource = new RecordSource();
+
+// The source of truth for an instance of `RelayRuntime`, holding the canonical set of records in the form of a `RecordSource`.
+const store = new Store(recordSource);
+
+// Provides methods for fetching query data from and executing mutations against an external data source.
+const network = Network.create((operation, variables) =>
+  // Fetch function for handling GraphQL requests.
+  fetch(
     // Here we include the `operation.operationKind` and `operation.name` only
     // because its easier to navigate through the GraphQL requests in the DevTools.
-    // For example: `query TestQuery {...}` would look like this `GRAPHQL_ENDPOINT?query=TestQuery`.
+    // For example: `query TestQuery {...}` URL would end like this: `GRAPHQL_ENDPOINT?query=TestQuery`.
     `/api/graphql?${operation.operationKind}=${operation.name}`,
     {
       method: 'POST',
@@ -31,14 +37,13 @@ const graphqlFetch = (operation, variables) => {
   ).then(
     // Returning the JSON response Promise.
     (response) => response.json(),
-  );
-};
+  ),
+);
 
+// Environment providing a high-level API for interacting with both the `Store` and the `Network`.
 const environment = new Environment({
-  // Network through which the Relay communication will be happening.
-  network: Network.create(graphqlFetch),
-  // The store where Relay is going to save all its records.
-  store: new Store(new RecordSource()),
+  store,
+  network,
 });
 
 export default environment;
