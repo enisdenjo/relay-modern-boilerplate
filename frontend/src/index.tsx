@@ -6,8 +6,8 @@
  *
  */
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // colors
 import blue from '@material-ui/core/colors/blue';

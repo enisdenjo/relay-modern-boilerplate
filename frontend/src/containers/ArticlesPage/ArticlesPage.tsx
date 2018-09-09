@@ -4,7 +4,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import environment from 'relay/environment';
 

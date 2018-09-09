@@ -6,6 +6,7 @@
     "target": "esnext",
     "module": "esnext",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "allowSyntheticDefaultImports": true
   }
 }

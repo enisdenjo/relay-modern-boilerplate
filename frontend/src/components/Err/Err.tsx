@@ -6,7 +6,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 
 // components
 import Grid from '@material-ui/core/Grid';

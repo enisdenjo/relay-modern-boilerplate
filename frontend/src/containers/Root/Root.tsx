@@ -6,7 +6,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 
 // assets
 import RelayLogo from 'assets/relay-logo.svg';

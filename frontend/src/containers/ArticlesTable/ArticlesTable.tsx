@@ -4,7 +4,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 import { graphql, createFragmentContainer, RelayProp } from 'react-relay';
 
 // types
