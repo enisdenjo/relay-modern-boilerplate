@@ -40,7 +40,7 @@ export default (variables: DeleteArticleMutationVariables) =>
         // Find the appropriate connection from which the node should be deleted.
         const connection = ConnectionHandler.getConnection(
           store.get('client:root'),
-          'ArticlesTable_articlesConnection',
+          'ArticlesList_articlesConnection',
         );
 
         // Check if the connection exists.

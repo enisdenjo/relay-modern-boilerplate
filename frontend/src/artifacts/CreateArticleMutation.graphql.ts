@@ -75,6 +75,7 @@ export type CreateArticleMutationVariables = {
 export type CreateArticleMutationResponse = {
     readonly createArticle: {
         readonly id: string;
+        readonly createdAt: any;
         readonly title: string;
         readonly content: string;
         readonly author: {
@@ -82,10 +83,6 @@ export type CreateArticleMutationResponse = {
             readonly email: string;
             readonly fullName: string;
         };
-        readonly comments: ReadonlyArray<{
-            readonly id: string;
-            readonly content: string;
-        }> | null;
     };
 };
 export type CreateArticleMutation = {
@@ -101,16 +98,13 @@ mutation CreateArticleMutation(
 ) {
   createArticle(data: $data) {
     id
+    createdAt
     title
     content
     author {
       id
       email
       fullName
-    }
-    comments {
-      id
-      content
     }
   }
 }
@@ -132,14 +126,7 @@ v1 = {
   "args": null,
   "storageKey": null
 },
-v2 = {
-  "kind": "ScalarField",
-  "alias": null,
-  "name": "content",
-  "args": null,
-  "storageKey": null
-},
-v3 = [
+v2 = [
   {
     "kind": "LinkedField",
     "alias": null,
@@ -160,11 +147,24 @@ v3 = [
       {
         "kind": "ScalarField",
         "alias": null,
+        "name": "createdAt",
+        "args": null,
+        "storageKey": null
+      },
+      {
+        "kind": "ScalarField",
+        "alias": null,
         "name": "title",
         "args": null,
         "storageKey": null
       },
-      v2,
+      {
+        "kind": "ScalarField",
+        "alias": null,
+        "name": "content",
+        "args": null,
+        "storageKey": null
+      },
       {
         "kind": "LinkedField",
         "alias": null,
@@ -190,19 +190,6 @@ v3 = [
             "storageKey": null
           }
         ]
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "name": "comments",
-        "storageKey": null,
-        "args": null,
-        "concreteType": "Comment",
-        "plural": true,
-        "selections": [
-          v1,
-          v2
-        ]
       }
     ]
   }
@@ -212,7 +199,7 @@ return {
   "operationKind": "mutation",
   "name": "CreateArticleMutation",
   "id": null,
-  "text": "mutation CreateArticleMutation(\n  $data: ArticleCreateInput!\n) {\n  createArticle(data: $data) {\n    id\n    title\n    content\n    author {\n      id\n      email\n      fullName\n    }\n    comments {\n      id\n      content\n    }\n  }\n}\n",
+  "text": "mutation CreateArticleMutation(\n  $data: ArticleCreateInput!\n) {\n  createArticle(data: $data) {\n    id\n    createdAt\n    title\n    content\n    author {\n      id\n      email\n      fullName\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -220,15 +207,15 @@ return {
     "type": "Mutation",
     "metadata": null,
     "argumentDefinitions": v0,
-    "selections": v3
+    "selections": v2
   },
   "operation": {
     "kind": "Operation",
     "name": "CreateArticleMutation",
     "argumentDefinitions": v0,
-    "selections": v3
+    "selections": v2
   }
 };
 })();
-(node as any).hash = 'cafbe22e4010d9e43f8b74739e096a29';
+(node as any).hash = '17b1f01bdc846a495defb5752ab1cef0';
 export default node;

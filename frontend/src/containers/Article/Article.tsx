@@ -10,14 +10,18 @@ import { graphql, createFragmentContainer } from 'react-relay';
 // types
 import { Article_article } from 'artifacts/Article_article.graphql';
 
+// mutations
+import DeleteArticleMutation from 'relay/mutations/DeleteArticleMutation';
+
 // icons
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // container
 import EditArticleView from 'containers/EditArticleView';
 
 // components
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,19 +35,31 @@ export interface Props {
 
 interface State {
   editDialogOpen: boolean;
+  deleted: boolean;
 }
 
 class Article extends React.PureComponent<Props, State> {
   public state = {
     editDialogOpen: false,
+    deleted: false,
   };
 
   private toggleEditDialog = () =>
     this.setState(({ editDialogOpen }) => ({ editDialogOpen: !editDialogOpen }));
 
+  private deleteArticle = async () => {
+    const { article } = this.props;
+    await DeleteArticleMutation({ where: { id: article.id } });
+    this.setState({ deleted: true });
+  };
+
   public render() {
     const { article } = this.props;
-    const { editDialogOpen } = this.state;
+    const { editDialogOpen, deleted } = this.state;
+
+    if (deleted) {
+      return <Redirect to="/articles" />;
+    }
 
     return (
       <>
@@ -54,12 +70,18 @@ class Article extends React.PureComponent<Props, State> {
           </DialogContent>
         </Dialog>
         <Grid container direction="column" spacing={16}>
-          <Grid item container justify="space-between" alignItems="center">
+          <Grid item container alignItems="center">
             <Grid item>
               <Typography variant="headline">{article.title}</Typography>
               <Typography variant="subheading" color="textSecondary">
                 by <Link to={`/user/${article.author.id}`}>{article.author.fullName}</Link>
               </Typography>
+            </Grid>
+            <Grid item xs />
+            <Grid item>
+              <IconButton onClick={this.deleteArticle} color="secondary">
+                <DeleteIcon />
+              </IconButton>
             </Grid>
             <Grid item>
               <IconButton onClick={this.toggleEditDialog} color="primary">
