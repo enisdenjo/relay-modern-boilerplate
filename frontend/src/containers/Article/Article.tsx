@@ -56,7 +56,7 @@ class Article extends React.PureComponent<Props, State> {
         <Grid container direction="column" spacing={16}>
           <Grid item container justify="space-between" alignItems="center">
             <Grid item>
-              <Typography variant="title">{article.title}</Typography>
+              <Typography variant="headline">{article.title}</Typography>
               <Typography variant="subheading" color="textSecondary">
                 by <Link to={`/user/${article.author.id}`}>{article.author.fullName}</Link>
               </Typography>
