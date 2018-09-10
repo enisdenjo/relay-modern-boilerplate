@@ -16,11 +16,15 @@ module.exports = {
   mode: process.env.NODE_ENV,
   context: __dirname,
   target: 'web',
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   output: {
-    filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
-    publicPath: '/',
     path: path.join(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+    publicPath: '/',
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
