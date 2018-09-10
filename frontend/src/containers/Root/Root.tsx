@@ -56,7 +56,7 @@ class Root extends React.Component<Decorate, State> {
               </Grid>
               <Grid item>
                 <Typography variant="headline" color="primary" noWrap>
-                  Re-Relay Modern
+                  Relay Modern Boilerplate
                 </Typography>
               </Grid>
             </Grid>
@@ -72,13 +72,6 @@ class Root extends React.Component<Decorate, State> {
                 <Route path="/articles" component={ArticlesPage} />
                 <Route exact path="/" component={HomePage} />
               </Switch>
-            </Grid>
-          </Grid>
-          <Grid item container justify="center">
-            <Grid item>
-              <Typography variant="caption">
-                Reintroducing Relay Modern &bull; <strong>Denis Badurina</strong>
-              </Typography>
             </Grid>
           </Grid>
         </Grid>

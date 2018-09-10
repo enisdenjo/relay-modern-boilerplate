@@ -1,10 +1,10 @@
 {
-  "name": "re-relay-modern",
+  "name": "relay-modern-boilerplate",
   "version": "1.0.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/enisdenjo/re-relay-modern.git"
+    "url": "git://github.com/enisdenjo/relay-modern-boilerplate.git"
   },
   "license": "MIT",
   "scripts": {
