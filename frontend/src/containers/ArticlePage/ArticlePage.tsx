@@ -9,10 +9,10 @@ import environment from 'relay/environment';
 
 // types
 import { RouteComponentProps } from 'react-router-dom';
-import { ArticlePageQueryResponse } from 'artifacts/ArticlePageQuery.graphql';
+import { ArticlePageQuery } from 'artifacts/ArticlePageQuery.graphql';
 
 // containers
-import { graphql, QueryRenderer, ReadyState } from 'react-relay';
+import { graphql, QueryRenderer } from 'react-relay';
 import Article from 'containers/Article';
 
 // components
@@ -23,7 +23,7 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
   public render() {
     const { match } = this.props;
     return (
-      <QueryRenderer
+      <QueryRenderer<ArticlePageQuery>
         environment={environment}
         query={graphql`
           query ArticlePageQuery($where: ArticleWhereUniqueInput!) {
@@ -33,7 +33,7 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
           }
         `}
         variables={{ where: { id: match.params.id } }}
-        render={({ error, retry, props }: ReadyState<ArticlePageQueryResponse>) => {
+        render={({ error, retry, props }) => {
           if (error) {
             return <Err error={error} onRetry={retry} />;
           }

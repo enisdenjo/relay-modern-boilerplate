@@ -1,23 +1,23 @@
 /* tslint:disable */
 
 import { ConcreteRequest } from "relay-runtime";
-export type AddArticleViewQueryVariables = {};
-export type AddArticleViewQueryResponse = {
+export type CreateArticleViewQueryVariables = {};
+export type CreateArticleViewQueryResponse = {
     readonly users: ReadonlyArray<({
         readonly id: string;
         readonly email: string;
         readonly fullName: string;
     }) | null>;
 };
-export type AddArticleViewQuery = {
-    readonly response: AddArticleViewQueryResponse;
-    readonly variables: AddArticleViewQueryVariables;
+export type CreateArticleViewQuery = {
+    readonly response: CreateArticleViewQueryResponse;
+    readonly variables: CreateArticleViewQueryVariables;
 };
 
 
 
 /*
-query AddArticleViewQuery {
+query CreateArticleViewQuery {
   users {
     id
     email
@@ -64,13 +64,13 @@ var v0 = [
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "AddArticleViewQuery",
+  "name": "CreateArticleViewQuery",
   "id": null,
-  "text": "query AddArticleViewQuery {\n  users {\n    id\n    email\n    fullName\n  }\n}\n",
+  "text": "query CreateArticleViewQuery {\n  users {\n    id\n    email\n    fullName\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "AddArticleViewQuery",
+    "name": "CreateArticleViewQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": [],
@@ -78,11 +78,11 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "AddArticleViewQuery",
+    "name": "CreateArticleViewQuery",
     "argumentDefinitions": [],
     "selections": v0
   }
 };
 })();
-(node as any).hash = 'af48ba594e1775c99340249578425941';
+(node as any).hash = 'd14b1aae87187e9e1f1935e40a2de1f9';
 export default node;

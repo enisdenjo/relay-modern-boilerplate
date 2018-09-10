@@ -1,6 +1,6 @@
 /**
  *
- * AddArticleView
+ * CreateArticleView
  *
  */
 
@@ -9,7 +9,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
 
 // types
-import { AddArticleViewQuery } from 'artifacts/AddArticleViewQuery.graphql';
+import { CreateArticleViewQuery } from 'artifacts/CreateArticleViewQuery.graphql';
 
 // mutations
 import CreateArticleMutation from 'relay/mutations/CreateArticleMutation';
@@ -29,12 +29,12 @@ interface State {
   submitError: Error | null;
 }
 
-class AddArticleView extends React.PureComponent<{}, State> {
+class CreateArticleView extends React.PureComponent<{}, State> {
   public state = {
     submitError: null,
   };
 
-  private handleSubmit = (query: AddArticleViewQuery['response']) => async (
+  private handleSubmit = (query: CreateArticleViewQuery['response']) => async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
@@ -73,10 +73,10 @@ class AddArticleView extends React.PureComponent<{}, State> {
     const { submitError } = this.state;
 
     return (
-      <QueryRenderer<AddArticleViewQuery>
+      <QueryRenderer<CreateArticleViewQuery>
         environment={environment}
         query={graphql`
-          query AddArticleViewQuery {
+          query CreateArticleViewQuery {
             users {
               id
               email
@@ -139,4 +139,4 @@ class AddArticleView extends React.PureComponent<{}, State> {
   }
 }
 
-export default AddArticleView;
+export default CreateArticleView;

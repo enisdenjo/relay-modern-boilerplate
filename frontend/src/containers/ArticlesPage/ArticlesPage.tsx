@@ -18,7 +18,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { graphql, QueryRenderer } from 'react-relay';
 import ArticlesList from 'containers/ArticlesList';
 import ArticlePage from 'containers/ArticlePage/Loadable';
-import AddArticleView from 'containers/AddArticleView';
+import CreateArticleView from 'containers/CreateArticleView';
 
 // components
 import { Switch, Route } from 'react-router-dom';
@@ -35,27 +35,29 @@ import DialogContent from '@material-ui/core/DialogContent';
 const ARTICLES_LIST_PAGE_SIZE = 5;
 
 interface State {
-  addArticleDialogOpen: boolean;
+  createArticleDialogOpen: boolean;
 }
 
 class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>, State> {
   public state = {
-    addArticleDialogOpen: false,
+    createArticleDialogOpen: false,
   };
 
   private toggleAddArticleDialog = () =>
-    this.setState(({ addArticleDialogOpen }) => ({ addArticleDialogOpen: !addArticleDialogOpen }));
+    this.setState(({ createArticleDialogOpen }) => ({
+      createArticleDialogOpen: !createArticleDialogOpen,
+    }));
 
   public render() {
     const { match } = this.props;
-    const { addArticleDialogOpen } = this.state;
+    const { createArticleDialogOpen } = this.state;
 
     return (
       <>
-        <Dialog open={addArticleDialogOpen} onClose={this.toggleAddArticleDialog}>
-          <DialogTitle>Add article</DialogTitle>
+        <Dialog open={createArticleDialogOpen} onClose={this.toggleAddArticleDialog}>
+          <DialogTitle>Create article</DialogTitle>
           <DialogContent style={{ minWidth: 512 }}>
-            <AddArticleView />
+            <CreateArticleView />
           </DialogContent>
         </Dialog>
         <QueryRenderer<ArticlesPageQuery>
