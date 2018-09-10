@@ -7,6 +7,7 @@
 import { graphql, commitMutation } from 'react-relay';
 import { ConnectionHandler, SelectorStoreUpdater } from 'relay-runtime';
 import environment from 'relay/environment';
+import { randomString } from 'utils';
 
 // types
 import {
@@ -70,8 +71,8 @@ export default (
       variables,
       optimisticResponse: {
         createArticle: {
-          id: `client:createdArticle:${variables.data.title}`,
-          createdAt: String(new Date()),
+          id: `client:createdArticle:${randomString()}`,
+          createdAt: new Date().toISOString(),
           title: variables.data.title,
           content: variables.data.content,
           author: metadata.author,
