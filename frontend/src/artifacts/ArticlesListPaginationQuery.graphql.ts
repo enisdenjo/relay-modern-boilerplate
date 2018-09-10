@@ -2,28 +2,30 @@
 
 import { ConcreteRequest } from "relay-runtime";
 import { ArticlesList_query$ref } from "./ArticlesList_query.graphql";
-export type ArticlesPageQueryVariables = {
+export type ArticlesListPaginationQueryVariables = {
     readonly count: number;
+    readonly cursor?: string | null;
 };
-export type ArticlesPageQueryResponse = {
+export type ArticlesListPaginationQueryResponse = {
     readonly " $fragmentRefs": ArticlesList_query$ref;
 };
-export type ArticlesPageQuery = {
-    readonly response: ArticlesPageQueryResponse;
-    readonly variables: ArticlesPageQueryVariables;
+export type ArticlesListPaginationQuery = {
+    readonly response: ArticlesListPaginationQueryResponse;
+    readonly variables: ArticlesListPaginationQueryVariables;
 };
 
 
 
 /*
-query ArticlesPageQuery(
+query ArticlesListPaginationQuery(
   $count: Int!
+  $cursor: String
 ) {
-  ...ArticlesList_query_yu5n1
+  ...ArticlesList_query_1G22uz
 }
 
-fragment ArticlesList_query_yu5n1 on Query {
-  articlesConnection(first: $count) {
+fragment ArticlesList_query_1G22uz on Query {
+  articlesConnection(first: $count, after: $cursor) {
     aggregate {
       count
     }
@@ -59,9 +61,21 @@ var v0 = [
     "name": "count",
     "type": "Int!",
     "defaultValue": null
+  },
+  {
+    "kind": "LocalArgument",
+    "name": "cursor",
+    "type": "String",
+    "defaultValue": null
   }
 ],
 v1 = [
+  {
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor",
+    "type": "String"
+  },
   {
     "kind": "Variable",
     "name": "first",
@@ -79,13 +93,13 @@ v2 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "ArticlesPageQuery",
+  "name": "ArticlesListPaginationQuery",
   "id": null,
-  "text": "query ArticlesPageQuery(\n  $count: Int!\n) {\n  ...ArticlesList_query_yu5n1\n}\n\nfragment ArticlesList_query_yu5n1 on Query {\n  articlesConnection(first: $count) {\n    aggregate {\n      count\n    }\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        comments {\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
+  "text": "query ArticlesListPaginationQuery(\n  $count: Int!\n  $cursor: String\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  articlesConnection(first: $count, after: $cursor) {\n    aggregate {\n      count\n    }\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        comments {\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "ArticlesPageQuery",
+    "name": "ArticlesListPaginationQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": v0,
@@ -99,6 +113,12 @@ return {
             "name": "count",
             "variableName": "count",
             "type": null
+          },
+          {
+            "kind": "Variable",
+            "name": "cursor",
+            "variableName": "cursor",
+            "type": null
           }
         ]
       }
@@ -106,7 +126,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "ArticlesPageQuery",
+    "name": "ArticlesListPaginationQuery",
     "argumentDefinitions": v0,
     "selections": [
       {
@@ -265,5 +285,5 @@ return {
   }
 };
 })();
-(node as any).hash = 'c3e4cb4d2649990465f76aa0255c8933';
+(node as any).hash = 'bc1334f5d29338ca704b8badfe6024a1';
 export default node;

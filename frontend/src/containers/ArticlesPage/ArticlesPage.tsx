@@ -9,14 +9,14 @@ import { RouteComponentProps } from 'react-router-dom';
 import environment from 'relay/environment';
 
 // types
-import { ArticlesPageQueryResponse } from 'artifacts/ArticlesPageQuery.graphql';
+import { ArticlesPageQuery } from 'artifacts/ArticlesPageQuery.graphql';
 
 // icons
 import AddIcon from '@material-ui/icons/Add';
 
 // containers
-import { graphql, QueryRenderer, ReadyState } from 'react-relay';
-import ArticlesTable from 'containers/ArticlesTable';
+import { graphql, QueryRenderer } from 'react-relay';
+import ArticlesList from 'containers/ArticlesList';
 import ArticlePage from 'containers/ArticlePage/Loadable';
 
 // components
@@ -27,19 +27,22 @@ import Button from '@material-ui/core/Button';
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
 
+// constants
+const ARTICLES_LIST_PAGE_SIZE = 5;
+
 class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>> {
   public render() {
     const { match } = this.props;
     return (
-      <QueryRenderer
+      <QueryRenderer<ArticlesPageQuery>
         environment={environment}
         query={graphql`
-          query ArticlesPageQuery {
-            ...ArticlesTable_query
+          query ArticlesPageQuery($count: Int!) {
+            ...ArticlesList_query @arguments(count: $count)
           }
         `}
-        variables={{}}
-        render={({ error, retry, props }: ReadyState<ArticlesPageQueryResponse>) => (
+        variables={{ count: ARTICLES_LIST_PAGE_SIZE }}
+        render={({ error, retry, props }) => (
           <Switch>
             <Route exact path={`${match.path}/:id`} component={ArticlePage} />
             <Route
@@ -58,7 +61,7 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>> {
                   <Grid container direction="column" spacing={16}>
                     <Grid item container justify="space-between" alignItems="center">
                       <Grid item>
-                        <Typography variant="title">Articles</Typography>
+                        <Typography variant="display1">Articles</Typography>
                       </Grid>
                       <Grid item>
                         <Button
@@ -75,7 +78,7 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>> {
                       </Grid>
                     </Grid>
                     <Grid item>
-                      <ArticlesTable query={props} />
+                      <ArticlesList pageSize={ARTICLES_LIST_PAGE_SIZE} query={props} />
                     </Grid>
                   </Grid>
                 );

@@ -1,9 +1,9 @@
 /* tslint:disable */
 
 import { ConcreteFragment } from "relay-runtime";
-declare const _ArticlesTable_query$ref: unique symbol;
-export type ArticlesTable_query$ref = typeof _ArticlesTable_query$ref;
-export type ArticlesTable_query = {
+declare const _ArticlesList_query$ref: unique symbol;
+export type ArticlesList_query$ref = typeof _ArticlesList_query$ref;
+export type ArticlesList_query = {
     readonly articlesConnection: {
         readonly aggregate: {
             readonly count: number;
@@ -13,6 +13,7 @@ export type ArticlesTable_query = {
                 readonly id: string;
                 readonly title: string;
                 readonly content: string;
+                readonly createdAt: any;
                 readonly author: {
                     readonly id: string;
                     readonly fullName: string;
@@ -23,7 +24,7 @@ export type ArticlesTable_query = {
             };
         }) | null>;
     };
-    readonly " $refType": ArticlesTable_query$ref;
+    readonly " $refType": ArticlesList_query$ref;
 };
 
 
@@ -38,13 +39,13 @@ var v0 = {
 };
 return {
   "kind": "Fragment",
-  "name": "ArticlesTable_query",
+  "name": "ArticlesList_query",
   "type": "Query",
   "metadata": {
     "connection": [
       {
-        "count": null,
-        "cursor": null,
+        "count": "count",
+        "cursor": "cursor",
         "direction": "forward",
         "path": [
           "articlesConnection"
@@ -52,12 +53,25 @@ return {
       }
     ]
   },
-  "argumentDefinitions": [],
+  "argumentDefinitions": [
+    {
+      "kind": "LocalArgument",
+      "name": "cursor",
+      "type": "String",
+      "defaultValue": null
+    },
+    {
+      "kind": "LocalArgument",
+      "name": "count",
+      "type": "Int!",
+      "defaultValue": null
+    }
+  ],
   "selections": [
     {
       "kind": "LinkedField",
       "alias": "articlesConnection",
-      "name": "__ArticlesTable_articlesConnection_connection",
+      "name": "__ArticlesList_articlesConnection_connection",
       "storageKey": null,
       "args": null,
       "concreteType": "ArticleConnection",
@@ -111,6 +125,13 @@ return {
                   "kind": "ScalarField",
                   "alias": null,
                   "name": "content",
+                  "args": null,
+                  "storageKey": null
+                },
+                {
+                  "kind": "ScalarField",
+                  "alias": null,
+                  "name": "createdAt",
                   "args": null,
                   "storageKey": null
                 },
@@ -193,5 +214,5 @@ return {
   ]
 };
 })();
-(node as any).hash = 'f37c10fa18ebb810aaffd583f55424af';
+(node as any).hash = '4d36d0484dbe525aa4150ed86adfbdc3';
 export default node;

@@ -51,7 +51,7 @@ export default (variables: CreateArticleMutationVariables) =>
         // Find the appropriate connection to which the node should be added.
         const connection = ConnectionHandler.getConnection(
           store.get('client:root'),
-          'ArticlesTable_articlesConnection',
+          'ArticlesList_articlesConnection',
         );
 
         // Check if the connection exists.
