@@ -78,6 +78,7 @@ export default (
         },
       },
       updater: storeUpdater,
+      optimisticUpdater: storeUpdater,
       onCompleted: resolve,
       onError: reject,
     }),
