@@ -33,7 +33,7 @@
     3.  In another terminal install the [Prisma CLI](https://github.com/prisma/prisma) by running `yarn global add prisma`
     4.  Run `prisma deploy && prisma seed` to create and populate the database
     5.  You can navigate to [http://locahost:4466/](http://locahost:4466/) to see the Playground
-5.  Starting the **frontent**
+5.  Starting the **frontend**
     1.  Change directory to [frontend](./frontend)
     2.  Run `yarn` to install dependencies
     3.  Run `yarn dev` to run the [webpack dev server](https://github.com/webpack/webpack-dev-server)
