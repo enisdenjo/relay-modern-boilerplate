@@ -1,4 +1,0 @@
-endpoint: http://localhost:4466
-datamodel: datamodel.graphql
-seed:
-  import: seed.graphql

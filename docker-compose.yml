@@ -1,0 +1,35 @@
+version: '3'
+volumes:
+  postgres-data:
+    driver: 'local'
+networks:
+  private:
+    driver: 'bridge'
+  public:
+    driver: 'bridge'
+services:
+  postgres:
+    image: postgres
+    env_file: .env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
+    networks:
+      - private
+    ports:
+      - 5432:5432
+  postgraphile:
+    build: postgraphile
+    env_file: .env
+    environment:
+      - NO_AUTH=false
+    working_dir: /usr/src/postgraphile
+    restart: on-failure
+    depends_on:
+      - postgres
+    networks:
+      - private
+      - public
+    ports:
+      - ${POSTGRAPHILE_PORT}:${POSTGRAPHILE_PORT}
+    command: npm start

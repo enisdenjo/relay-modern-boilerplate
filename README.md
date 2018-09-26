@@ -5,7 +5,9 @@
 <p align="center">
   <a href="https://www.docker.com/">Docker</a>
   +
-  <a href="https://www.prisma.io/">Prisma</a>
+  <a href="https://www.postgresql.org/">Postgres</a>
+  +
+  <a href="https://www.graphile.org/postgraphile/">Postgraphile</a>
   +
   <a href="https://webpack.js.org/">Webpack</a>
   +
@@ -28,13 +30,10 @@
 2.  Clone this repo using `git clone --depth=1 https://github.com/enisdenjo/relay-modern-boilerplate.git`
 3.  Change directory to `relay-modern-boilerplate`
 4.  Starting the **database**
-    1.  Change directory to [database](./database)
-    2.  Run `docker-compose up` to start [Prisma](https://www.prisma.io/) and wait for it to boot
-    3.  In another terminal install the [Prisma CLI](https://github.com/prisma/prisma) by running `yarn global add prisma`
-    4.  Run `prisma deploy && prisma seed` to create and populate the database
-    5.  You can navigate to [http://locahost:4466/](http://locahost:4466/) to see the Playground
-5.  Starting the **frontend**
-    1.  Change directory to [frontend](./frontend)
+    1.  Run `docker-compose up` to build and start [Postgres](https://www.postgresql.org/) + [Postgraphile](https://www.graphile.org/postgraphile/)<br>
+        _If you set `NO_AUTH=true` for `postgraphile` in [docker-compose.yml](./docker-compose.yml), you can navigate to [http://locahost:5000/graphiql](http://locahost:5000/graphiql) to see the GraphiQL_
+5.  Starting the **app**
+    1.  Change directory to [app](./app)
     2.  Run `yarn` to install dependencies
     3.  Run `yarn dev` to run the [webpack dev server](https://github.com/webpack/webpack-dev-server)
     4.  In another terminal run `yarn dev:relay` to run the [Relay Compiler](https://facebook.github.io/relay/docs/en/graphql-in-relay.html#relay-compiler) and have it watch for changes

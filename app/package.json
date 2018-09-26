@@ -1,14 +1,14 @@
 {
-  "name": "relay-modern-boilerplate",
+  "name": "@relay-modern-boilerplate/app",
   "version": "1.0.0",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/enisdenjo/relay-modern-boilerplate.git"
   },
   "license": "MIT",
+  "description": "React application for relay-modern-boilerplate",
   "scripts": {
-    "relay:get-schema": "get-graphql-schema http://localhost:4466 > schema.graphql",
+    "relay:get-schema": "get-graphql-schema http://localhost:5000/graphql > schema.graphql",
     "relay:compile": "relay-compiler --src ./src --schema ./schema.graphql --language typescript --artifactDirectory ./src/artifacts",
     "dev:relay": "yarn relay:compile --watch",
     "dev": "NODE_ENV=development webpack-dev-server"
