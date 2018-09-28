@@ -7,7 +7,7 @@
   +
   <a href="https://www.postgresql.org/">Postgres</a>
   +
-  <a href="https://www.graphile.org/postgraphile/">Postgraphile</a>
+  <a href="https://www.graphile.org/postgraphile/">PostGraphile</a>
   +
   <a href="https://webpack.js.org/">Webpack</a>
   +
@@ -30,7 +30,7 @@
 2.  Clone this repo using `git clone --depth=1 https://github.com/enisdenjo/relay-modern-boilerplate.git`
 3.  Change directory to `relay-modern-boilerplate`
 4.  Starting the **database**
-    1.  Run `docker-compose up` to build and start [Postgres](https://www.postgresql.org/) + [Postgraphile](https://www.graphile.org/postgraphile/)<br>
+    1.  Run `docker-compose up` to build and start [Postgres](https://www.postgresql.org/) + [PostGraphile](https://www.graphile.org/postgraphile/)<br>
         _If you set `NO_AUTH=true` for `postgraphile` in [docker-compose.yml](./docker-compose.yml), you can navigate to [http://locahost:5000/graphiql](http://locahost:5000/graphiql) to see the GraphiQL_
 5.  Starting the **app**
     1.  Change directory to [app](./app)

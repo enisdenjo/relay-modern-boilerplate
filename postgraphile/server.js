@@ -14,7 +14,7 @@ const schema = 'public';
 const port = process.env.POSTGRAPHILE_PORT || 5000;
 const noAuth = process.env.NO_AUTH === 'true';
 
-console.log(`Starting Postgraphile${noAuth ? ' in no-auth mode' : ''}...\n`);
+console.log(`Starting PostGraphile${noAuth ? ' in no-auth mode' : ''}...\n`);
 
 http
   .createServer(

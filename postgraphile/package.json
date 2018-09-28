@@ -2,7 +2,7 @@
   "name": "@relay-modern-boilerplate/postgraphile",
   "version": "1.0.0",
   "main": "server.js",
-  "description": "Postgraphile package for relay-modern-boilerplate",
+  "description": "PostGraphile package for relay-modern-boilerplate",
   "license": "MIT",
   "repository": {
     "type": "git",
