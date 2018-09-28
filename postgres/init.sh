@@ -6,7 +6,7 @@ if [[ -z "${POSTGRES_INIT_DIR}" ]]; then
   POSTGRES_INIT_DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 fi
 
-psql -v ON_ERROR_STOP=1 --username "${POSTGRES_USER}"  <<-EOSQL
+psql -X -v ON_ERROR_STOP=1 --username "${POSTGRES_USER}"  <<-EOSQL
 \echo
 \echo 'Initializing database...'
 \echo
