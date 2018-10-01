@@ -12,6 +12,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@graphile-contrib/pg-simplify-inflector": "2.0.1",
     "postgraphile": "4.0.0-rc.5.1"
   }
 }

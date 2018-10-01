@@ -1,0 +1,9 @@
+version: '3'
+services:
+  postgraphile:
+    build: postgraphile
+    volumes:
+      - ./postgraphile:/usr/src/postgraphile
+    ports:
+      - ${POSTGRAPHILE_PORT}:${POSTGRAPHILE_PORT}
+    command: npm start

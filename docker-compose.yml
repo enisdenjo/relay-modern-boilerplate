@@ -19,17 +19,14 @@ services:
     ports:
       - 5432:5432
   postgraphile:
-    build: postgraphile
+    image: relay-modern-boilerplate/postgraphile
     env_file: .env
     environment:
       - NO_AUTH=false
     working_dir: /usr/src/postgraphile
-    restart: on-failure
+    restart: always
     depends_on:
       - postgres
     networks:
       - private
       - public
-    ports:
-      - ${POSTGRAPHILE_PORT}:${POSTGRAPHILE_PORT}
-    command: npm start

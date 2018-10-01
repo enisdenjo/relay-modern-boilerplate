@@ -51,9 +51,17 @@ GRANT viewer TO ${POSTGRAPHILE_USER};
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${POSTGRAPHILE_USER};
 GRANT USAGE ON SCHEMA public TO viewer;
+GRANT USAGE ON SCHEMA public TO anonymous;
 
 CREATE SCHEMA IF NOT EXISTS private;
 GRANT USAGE ON SCHEMA private TO viewer;
+GRANT USAGE ON SCHEMA private TO anonymous;
+
+\echo
+\echo 'Setting up private schema...'
+\echo
+
+\i ${POSTGRES_INIT_DIR}/database/private.sql
 
 \echo
 \echo 'Setting up public schema...'
