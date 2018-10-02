@@ -38,3 +38,7 @@
     3.  Run `yarn dev` to run the [webpack dev server](https://github.com/webpack/webpack-dev-server)
     4.  In another terminal run `yarn dev:relay` to run the [Relay Compiler](https://facebook.github.io/relay/docs/en/graphql-in-relay.html#relay-compiler) and have it watch for changes
     5.  You can navigate to [http://locahost:4455/](http://locahost:4466/) to see the application
+
+# Documentation
+
+Detailed documentation coming soon, for now happy code digging. 😁
