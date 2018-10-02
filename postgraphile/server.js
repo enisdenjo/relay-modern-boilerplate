@@ -24,6 +24,7 @@ http
         classicIds: true,
         dynamicJson: true,
         setofFunctionsContainNulls: false,
+        ignoreRBAC: false,
         pgDefaultRole: noAuth ? 'viewer' : 'anonymous',
         disableDefaultMutations: true,
         disableQueryLog: false,
