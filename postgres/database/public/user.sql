@@ -21,22 +21,33 @@ CREATE OR REPLACE FUNCTION public.register(
   password   text
 ) RETURNS private.jwt_token AS
 $$
-  WITH private_user AS (
+DECLARE
+  tokenDuration   interval := '7 days';
+  new_user_row_id uuid;
+BEGIN
+  -- create user
+  WITH new_private_user AS (
     INSERT INTO private.user (password)
       VALUES (crypt(register.password, gen_salt('bf')))
     RETURNING row_id
-  ), public_user AS (
-    INSERT INTO public.user (row_id, email, first_name, last_name)
-      VALUES ((SELECT row_id FROM private_user), register.email, register.first_name, register.last_name)
-    RETURNING row_id
   )
-  SELECT (
-      'viewer',
-      extract(epoch from now() + interval '7 days'),
-      (SELECT row_id FROM public_user)
-    )::private.jwt_token
+  INSERT INTO public.user (row_id, email, first_name, last_name)
+    VALUES ((SELECT row_id FROM new_private_user), register.email, register.first_name, register.last_name)
+  RETURNING row_id INTO new_user_row_id;
+
+  -- make token
+  RETURN (
+    'viewer',
+    EXTRACT(epoch FROM (now() + tokenDuration)),
+    new_user_row_id
+  )::private.jwt_token;
+
+  -- catch unique violation and nicely report error
+  EXCEPTION WHEN unique_violation THEN
+    RAISE EXCEPTION 'User already exists!';
+END;
 $$
-LANGUAGE SQL VOLATILE
+LANGUAGE plpgsql VOLATILE
 SECURITY DEFINER;
 
 COMMENT ON FUNCTION public.register IS 'Creates a new `User`.';
@@ -48,21 +59,34 @@ CREATE OR REPLACE FUNCTION public.authenticate(
   password text
 ) RETURNS private.jwt_token AS
 $$
-  SELECT
-    (
-      'viewer',
-      extract(epoch from now() + interval '7 days'),
-      public_user.row_id
-    )::private.jwt_token
-  FROM public.user AS public_user
-    INNER JOIN private.user AS private_user ON (private_user.row_id = public_user.row_id)
-  WHERE (
-    public_user.email = authenticate.email
-  ) AND (
-    private_user.password = crypt(authenticate.password, private_user.password)
-  )
+DECLARE
+  tokenDuration interval := '7 days';
+  token         private.jwt_token;
+BEGIN
+  token := (
+    SELECT
+      (
+        'viewer',
+        EXTRACT(epoch FROM (now() + tokenDuration)),
+        new_public_user.row_id
+      )
+    FROM public.user AS new_public_user
+      INNER JOIN private.user AS private_user ON (private_user.row_id = new_public_user.row_id)
+    WHERE (
+      new_public_user.email = authenticate.email
+    ) AND (
+      private_user.password = crypt(authenticate.password, private_user.password)
+    )
+  );
+
+  IF token IS NULL THEN
+    RAISE EXCEPTION 'Wrong email or password.';
+  END IF;
+
+  RETURN token;
+END;
 $$
-LANGUAGE SQL VOLATILE STRICT
+LANGUAGE plpgsql VOLATILE STRICT
 SECURITY DEFINER;
 
 COMMENT ON FUNCTION public.authenticate IS 'Authenticates a `User`.';
