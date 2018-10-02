@@ -63,4 +63,22 @@ GRANT USAGE ON SCHEMA private TO anonymous;
 \i ${POSTGRES_INIT_DIR}/database/public.sql
 
 COMMIT;
+
+\echo
+\echo 'Database setup done.'
+\echo
+
+BEGIN;
+
+\echo
+\echo 'Applying seed...'
+\echo
+
+\i ${POSTGRES_INIT_DIR}/database/seed.sql
+
+COMMIT;
+
+\echo
+\echo 'Seed applied.'
+\echo
 EOSQL
