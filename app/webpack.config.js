@@ -76,14 +76,15 @@ module.exports = {
     }),
   ],
   devServer: {
-    port: 4455,
+    host: '0.0.0.0',
+    port: process.env.APP_PORT,
     progress: true,
     stats: 'minimal',
     overlay: true,
     historyApiFallback: true, // All requests that do not map to an existing asset will instead by routed straight to `/`.
     proxy: {
       '/api/graphql': {
-        target: 'http://localhost:4466/',
+        target: `http://postgraphile:${process.env.POSTGRAPHILE_PORT}/graphql`,
         pathRewrite: { '^/api/graphql': '' },
       },
     },

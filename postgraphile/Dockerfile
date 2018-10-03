@@ -1,9 +1,12 @@
 FROM node
 
-WORKDIR /usr/src/postgraphile
+# Prepare postgraphile
 
-# Install app dependencies
-COPY package.json ./
-RUN npm install
+WORKDIR /usr/relay-modern-boilerplate/postgraphile
+
+COPY package.json package-lock.json ./
+RUN npm i
 
 COPY . .
+
+# TODO: production build steps

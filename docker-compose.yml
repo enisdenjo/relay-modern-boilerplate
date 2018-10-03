@@ -16,17 +16,23 @@ services:
       - ./postgres:/docker-entrypoint-initdb.d
     networks:
       - private
-    ports:
-      - 5432:5432
   postgraphile:
     image: relay-modern-boilerplate/postgraphile
     env_file: .env
     environment:
       - NO_AUTH=false
-    working_dir: /usr/src/postgraphile
+    working_dir: /usr/relay-modern-boilerplate/postgraphile
     restart: always
     depends_on:
       - postgres
     networks:
       - private
+      - public
+  app:
+    image: relay-modern-boilerplate/app
+    env_file: .env
+    working_dir: /usr/relay-modern-boilerplate/app
+    depends_on:
+      - postgraphile
+    networks:
       - public

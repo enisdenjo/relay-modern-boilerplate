@@ -10,6 +10,7 @@ const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflect
 // constants
 const postgresUser = process.env.POSTGRES_USER;
 const postgresPassword = process.env.POSTGRES_PASSWORD;
+const postgresPort = process.env.POSTGRES_PORT;
 const postgresDb = process.env.POSTGRES_DB;
 const noAuth = process.env.NO_AUTH === 'true';
 
@@ -18,7 +19,7 @@ console.log(`Starting PostGraphile${noAuth ? ' in no-auth mode' : ''}...\n`);
 http
   .createServer(
     postgraphile(
-      `postgres://${postgresUser}:${postgresPassword}@postgres:5432/${postgresDb}`,
+      `postgres://${postgresUser}:${postgresPassword}@postgres:${postgresPort}/${postgresDb}`,
       'public', // introspected schema
       {
         classicIds: true,

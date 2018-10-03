@@ -1,9 +1,19 @@
 version: '3'
 services:
+  postgres:
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
   postgraphile:
     build: postgraphile
     volumes:
-      - ./postgraphile:/usr/src/postgraphile
+      - ./postgraphile:/usr/relay-modern-boilerplate/postgraphile
     ports:
       - ${POSTGRAPHILE_PORT}:${POSTGRAPHILE_PORT}
-    command: npm start
+    command: /bin/bash -c "npm i && npm run start"
+  app:
+    build: app
+    volumes:
+      - ./app:/usr/relay-modern-boilerplate/app
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    command: /bin/bash -c "npm i && npm run dev"
