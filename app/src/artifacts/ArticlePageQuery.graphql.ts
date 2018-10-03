@@ -2,11 +2,8 @@
 
 import { ConcreteRequest } from "relay-runtime";
 import { Article_article$ref } from "./Article_article.graphql";
-export type ArticleWhereUniqueInput = {
-    readonly id?: string | null;
-};
 export type ArticlePageQueryVariables = {
-    readonly where: ArticleWhereUniqueInput;
+    readonly id: string;
 };
 export type ArticlePageQueryResponse = {
     readonly article: ({
@@ -22,9 +19,9 @@ export type ArticlePageQuery = {
 
 /*
 query ArticlePageQuery(
-  $where: ArticleWhereUniqueInput!
+  $id: ID!
 ) {
-  article(where: $where) {
+  article(id: $id) {
     ...Article_article
     id
   }
@@ -37,7 +34,7 @@ fragment Article_article on Article {
   content
   author {
     id
-    fullName
+    firstName
     email
   }
 }
@@ -47,17 +44,17 @@ const node: ConcreteRequest = (function(){
 var v0 = [
   {
     "kind": "LocalArgument",
-    "name": "where",
-    "type": "ArticleWhereUniqueInput!",
+    "name": "id",
+    "type": "ID!",
     "defaultValue": null
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "where",
-    "variableName": "where",
-    "type": "ArticleWhereUniqueInput!"
+    "name": "id",
+    "variableName": "id",
+    "type": "ID!"
   }
 ],
 v2 = {
@@ -72,7 +69,7 @@ return {
   "operationKind": "query",
   "name": "ArticlePageQuery",
   "id": null,
-  "text": "query ArticlePageQuery(\n  $where: ArticleWhereUniqueInput!\n) {\n  article(where: $where) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  createdAt\n  title\n  content\n  author {\n    id\n    fullName\n    email\n  }\n}\n",
+  "text": "query ArticlePageQuery(\n  $id: ID!\n) {\n  article(id: $id) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  createdAt\n  title\n  content\n  author {\n    id\n    firstName\n    email\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -148,7 +145,7 @@ return {
               {
                 "kind": "ScalarField",
                 "alias": null,
-                "name": "fullName",
+                "name": "firstName",
                 "args": null,
                 "storageKey": null
               },
@@ -167,5 +164,5 @@ return {
   }
 };
 })();
-(node as any).hash = 'a5d860dc4ebe126d004aab467e80aa7a';
+(node as any).hash = '41bba65c89a56ed71761c6560a95fd1d';
 export default node;

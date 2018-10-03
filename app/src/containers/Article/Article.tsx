@@ -74,7 +74,7 @@ class Article extends React.PureComponent<Props, State> {
             <Grid item>
               <Typography variant="headline">{article.title}</Typography>
               <Typography variant="subheading" color="textSecondary">
-                by <Link to={`/user/${article.author.id}`}>{article.author.fullName}</Link>
+                by <Link to={`/user/${article.author.id}`}>{article.author.firstName}</Link>
               </Typography>
             </Grid>
             <Grid item xs />
@@ -111,7 +111,7 @@ export default createFragmentContainer(
       content
       author {
         id
-        fullName
+        firstName
         email
       }
     }

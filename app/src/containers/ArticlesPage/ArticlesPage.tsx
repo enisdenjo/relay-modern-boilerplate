@@ -16,11 +16,11 @@ import AddIcon from '@material-ui/icons/Add';
 
 // containers
 import { graphql, QueryRenderer } from 'react-relay';
-import ArticlesList from 'containers/ArticlesList';
-import ArticlePage from 'containers/ArticlePage/Loadable';
+// import ArticlesList from 'containers/ArticlesList';
 import CreateArticleView from 'containers/CreateArticleView';
 
 // components
+import { makeLoadable } from 'components/Loadable';
 import { Switch, Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -30,6 +30,9 @@ import Spinner from 'components/Spinner';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+
+// pages
+const LoadableArticlePage = makeLoadable(import('containers/ArticlePage'));
 
 // constants
 const ARTICLES_LIST_PAGE_SIZE = 5;
@@ -63,14 +66,20 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>, State> {
         <QueryRenderer<ArticlesPageQuery>
           environment={environment}
           query={graphql`
-            query ArticlesPageQuery($count: Int!) {
-              ...ArticlesList_query @arguments(count: $count)
+            query ArticlesPageQuery {
+              query {
+                allArticles {
+                  nodes {
+                    id
+                  }
+                }
+              }
             }
           `}
           variables={{ count: ARTICLES_LIST_PAGE_SIZE }}
           render={({ error, retry, props }) => (
             <Switch>
-              <Route exact path={`${match.path}/:id`} component={ArticlePage} />
+              <Route exact path={`${match.path}/:id`} component={LoadableArticlePage} />
               <Route
                 exact
                 path={match.path}
@@ -97,7 +106,8 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>, State> {
                         </Grid>
                       </Grid>
                       <Grid item>
-                        <ArticlesList pageSize={ARTICLES_LIST_PAGE_SIZE} query={props} />
+                        lele
+                        {/* <ArticlesList pageSize={ARTICLES_LIST_PAGE_SIZE} query={props} /> */}
                       </Grid>
                     </Grid>
                   );

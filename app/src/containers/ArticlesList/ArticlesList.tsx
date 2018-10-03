@@ -5,10 +5,10 @@
  */
 
 import React from 'react';
-import { graphql, createPaginationContainer, RelayPaginationProp } from 'react-relay';
+import { RelayPaginationProp } from 'react-relay';
 
 // types
-import { ArticlesList_query } from 'artifacts/ArticlesList_query.graphql';
+// import { ArticlesList_query } from 'artifacts/ArticlesList_query.graphql';
 
 // components
 import Err from 'components/Err';
@@ -21,7 +21,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 export interface Props {
   pageSize: number;
-  query: ArticlesList_query;
+  query: any; // ArticlesList_query
 }
 
 interface State {
@@ -97,50 +97,60 @@ class ArticlesList extends React.Component<Props & { relay: RelayPaginationProp 
   }
 }
 
-export default createPaginationContainer(
-  ArticlesList,
-  graphql`
-    fragment ArticlesList_query on Query
-      @argumentDefinitions(cursor: { type: "String" }, count: { type: "Int!" }) {
-      articlesConnection(first: $count, after: $cursor)
-        @connection(key: "ArticlesList_articlesConnection", filters: []) {
-        aggregate {
-          count
-        }
-        edges {
-          node {
-            id
-            title
-            content
-            createdAt
-            author {
-              id
-              fullName
-            }
-            comments {
-              id
-            }
-          }
-        }
-      }
-    }
-  `,
-  {
-    direction: 'forward',
-    getConnectionFromProps: (props) => props.query && props.query.articlesConnection,
-    getFragmentVariables: (prevVars, totalCount) => ({
-      ...prevVars,
-      count: totalCount,
-    }),
-    getVariables: (_0, { count, cursor }, fragmentVariables) => ({
-      ...fragmentVariables,
-      count,
-      cursor,
-    }),
-    query: graphql`
-      query ArticlesListPaginationQuery($count: Int!, $cursor: String) {
-        ...ArticlesList_query @arguments(count: $count, cursor: $cursor)
-      }
-    `,
-  },
-);
+export default ArticlesList;
+// export default createPaginationContainer(
+//   ArticlesList,
+//   // graphql`
+//   //   fragment ArticlesList_query on Query
+//   //     @argumentDefinitions(cursor: { type: "String" }, count: { type: "Int!" }) {
+//   //     articlesConnection(first: $count, after: $cursor)
+//   //       @connection(key: "ArticlesList_articlesConnection", filters: []) {
+//   //       aggregate {
+//   //         count
+//   //       }
+//   //       edges {
+//   //         node {
+//   //           id
+//   //           title
+//   //           content
+//   //           createdAt
+//   //           author {
+//   //             id
+//   //             fullName
+//   //           }
+//   //           comments {
+//   //             id
+//   //           }
+//   //         }
+//   //       }
+//   //     }
+//   //   }
+//   // `,
+//   graphql`
+//     fragment ArticlesList_query on Query {
+//       allArticles {
+//         nodes {
+//           id
+//         }
+//       }
+//     }
+//   `,
+//   {
+//     direction: 'forward',
+//     getConnectionFromProps: (props) => props.query && props.query.articlesConnection,
+//     getFragmentVariables: (prevVars, totalCount) => ({
+//       ...prevVars,
+//       count: totalCount,
+//     }),
+//     getVariables: (_0, { count, cursor }, fragmentVariables) => ({
+//       ...fragmentVariables,
+//       count,
+//       cursor,
+//     }),
+//     query: graphql`
+//       query ArticlesListPaginationQuery($count: Int!, $cursor: String) {
+//         ...ArticlesList_query @arguments(count: $count, cursor: $cursor)
+//       }
+//     `,
+//   },
+// );

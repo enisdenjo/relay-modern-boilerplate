@@ -7,11 +7,11 @@ export type Article_article = {
     readonly id: string;
     readonly createdAt: any;
     readonly title: string;
-    readonly content: string;
+    readonly content: string | null;
     readonly author: {
         readonly id: string;
-        readonly fullName: string;
-        readonly email: string;
+        readonly firstName: string;
+        readonly email: any;
     };
     readonly " $refType": Article_article$ref;
 };
@@ -68,7 +68,7 @@ return {
         {
           "kind": "ScalarField",
           "alias": null,
-          "name": "fullName",
+          "name": "firstName",
           "args": null,
           "storageKey": null
         },
@@ -84,5 +84,5 @@ return {
   ]
 };
 })();
-(node as any).hash = 'b6f7e6889c9fb7b91040f2fe59038669';
+(node as any).hash = '5c60b0a62000f90b0f9dcc544f686fd3';
 export default node;

@@ -5,11 +5,12 @@
  */
 
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
+import { QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
 
 // types
-import { CreateArticleViewQuery } from 'artifacts/CreateArticleViewQuery.graphql';
+// import { CreateArticleViewQuery } from 'artifacts/CreateArticleViewQuery.graphql';
+type CreateArticleViewQuery = any;
 
 // mutations
 import CreateArticleMutation from 'relay/mutations/CreateArticleMutation';
@@ -75,15 +76,17 @@ class CreateArticleView extends React.PureComponent<{}, State> {
     return (
       <QueryRenderer<CreateArticleViewQuery>
         environment={environment}
-        query={graphql`
-          query CreateArticleViewQuery {
-            users {
-              id
-              email
-              fullName
-            }
-          }
-        `}
+        // query={
+        //   graphql`
+        //   query CreateArticleViewQuery {
+        //     users {
+        //       id
+        //       email
+        //       fullName
+        //     }
+        //   }
+        // `
+        // }
         variables={{}}
         render={({ error, retry, props }) => {
           if (error) {

@@ -28,7 +28,7 @@ module.exports = {
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs'],
   },
   module: {
     rules: [
@@ -66,6 +66,13 @@ module.exports = {
       {
         test: /\.(svg|jpg|png)$/,
         use: 'file-loader',
+      },
+      // Required for supporting react-relay-network-modern
+      // see: https://github.com/aws/aws-amplify/issues/686#issuecomment-387710340
+      {
+        test: /\.mjs$/,
+        include: /node_modules\/react-relay-network-modern/,
+        type: 'javascript/auto',
       },
     ],
   },

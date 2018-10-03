@@ -1,86 +1,91 @@
-/**
- *
- * CreateArticleMutation
- *
- */
+// /**
+//  *
+//  * CreateArticleMutation
+//  *
+//  */
 
-import { graphql, commitMutation } from 'react-relay';
-import { ConnectionHandler, SelectorStoreUpdater } from 'relay-runtime';
-import environment from 'relay/environment';
-import { randomString } from 'utils';
+// import { graphql, commitMutation } from 'react-relay';
+// import { ConnectionHandler, SelectorStoreUpdater } from 'relay-runtime';
+// import environment from 'relay/environment';
+// import { randomString } from 'utils';
 
-// types
-import {
-  CreateArticleMutation,
-  CreateArticleMutationVariables,
-  CreateArticleMutationResponse,
-} from 'artifacts/CreateArticleMutation.graphql';
+// // types
+// import {
+//   CreateArticleMutation,
+//   CreateArticleMutationVariables,
+//   CreateArticleMutationResponse,
+// } from 'artifacts/CreateArticleMutation.graphql';
 
-const mutation = graphql`
-  mutation CreateArticleMutation($data: ArticleCreateInput!) {
-    createArticle(data: $data) {
-      id
-      createdAt
-      title
-      content
-      author {
-        id
-        email
-        fullName
-      }
-    }
-  }
-`;
+// const mutation = graphql`
+//   mutation CreateArticleMutation($data: ArticleCreateInput!) {
+//     createArticle(data: $data) {
+//       article {
+//         id
+//         createdAt
+//         title
+//         content
+//         author {
+//           id
+//           email
+//           firstName
+//         }
+//       }
+//     }
+//   }
+// `;
 
-const storeUpdater: SelectorStoreUpdater = (store) => {
-  // Take the newly created node.
-  const createdArticle = store.getRootField('createArticle');
-  if (!createdArticle) {
-    return;
-  }
+// const storeUpdater: SelectorStoreUpdater = (store) => {
+//   // Take the newly created node.
+//   const createdArticle = store.getRootField('createArticle');
+//   if (!createdArticle) {
+//     return;
+//   }
 
-  // Find the appropriate connection to which the node should be added.
-  const connection = ConnectionHandler.getConnection(
-    store.get('client:root'),
-    'ArticlesList_articlesConnection',
-  );
+//   // Find the appropriate connection to which the node should be added.
+//   const connection = ConnectionHandler.getConnection(
+//     store.get('client:root'),
+//     'ArticlesList_articlesConnection',
+//   );
 
-  // Check if the connection exists.
-  if (connection) {
-    // Create an edge from the node.
-    const edge = ConnectionHandler.createEdge(store, connection, createdArticle, 'ArticleEdge');
+//   // Check if the connection exists.
+//   if (connection) {
+//     // Create an edge from the node.
+//     const edge = ConnectionHandler.createEdge(store, connection, createdArticle, 'ArticleEdge');
 
-    // Insert the edge in the beginning of the connection.
-    ConnectionHandler.insertEdgeBefore(connection, edge);
-  }
-};
+//     // Insert the edge in the beginning of the connection.
+//     ConnectionHandler.insertEdgeBefore(connection, edge);
+//   }
+// };
 
-export { CreateArticleMutationVariables, CreateArticleMutationResponse };
+// export { CreateArticleMutationVariables, CreateArticleMutationResponse };
 
-export interface CreateArticleMutationMetadata {
-  author: CreateArticleMutationResponse['createArticle']['author'];
-}
+// export interface CreateArticleMutationMetadata {
+//   author: CreateArticleMutationResponse['createArticle']['author'];
+// }
 
-export default (
-  variables: CreateArticleMutationVariables,
-  metadata: CreateArticleMutationMetadata,
-) =>
-  new Promise<CreateArticleMutationResponse>((resolve, reject) =>
-    commitMutation<CreateArticleMutation>(environment, {
-      mutation,
-      variables,
-      optimisticResponse: {
-        createArticle: {
-          id: `client:createdArticle:${randomString()}`,
-          createdAt: new Date().toISOString(),
-          title: variables.data.title,
-          content: variables.data.content,
-          author: metadata.author,
-        },
-      },
-      updater: storeUpdater,
-      optimisticUpdater: storeUpdater,
-      onCompleted: resolve,
-      onError: reject,
-    }),
-  );
+// export default (
+//   variables: CreateArticleMutationVariables,
+//   metadata: CreateArticleMutationMetadata,
+// ) =>
+//   new Promise<CreateArticleMutationResponse>((resolve, reject) =>
+//     commitMutation<CreateArticleMutation>(environment, {
+//       mutation,
+//       variables,
+//       optimisticResponse: {
+//         createArticle: {
+//           id: `client:createdArticle:${randomString()}`,
+//           createdAt: new Date().toISOString(),
+//           title: variables.data.title,
+//           content: variables.data.content,
+//           author: metadata.author,
+//         },
+//       },
+//       updater: storeUpdater,
+//       optimisticUpdater: storeUpdater,
+//       onCompleted: resolve,
+//       onError: reject,
+//     }),
+//   );
+
+export default (_0: any, _1: any): Promise<any> =>
+  new Promise((resolve) => setTimeout(resolve, 200));

@@ -5,11 +5,12 @@
  */
 
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
+import { QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
 
 // types
-import { EditArticleViewQuery } from 'artifacts/EditArticleViewQuery.graphql';
+// import { EditArticleViewQuery } from 'artifacts/EditArticleViewQuery.graphql';
+type EditArticleViewQuery = any;
 
 // mutations
 import UpdateArticleMutation from 'relay/mutations/UpdateArticleMutation';
@@ -81,25 +82,25 @@ class EditArticleView extends React.PureComponent<Props, State> {
     return (
       <QueryRenderer<EditArticleViewQuery>
         environment={environment}
-        query={graphql`
-          query EditArticleViewQuery($where: ArticleWhereUniqueInput!) {
-            users {
-              id
-              email
-              fullName
-            }
-            article(where: $where) {
-              id
-              author {
-                id
-                email
-                fullName
-              }
-              title
-              content
-            }
-          }
-        `}
+        // query={graphql`
+        //   query EditArticleViewQuery($where: ArticleWhereUniqueInput!) {
+        //     users {
+        //       id
+        //       email
+        //       fullName
+        //     }
+        //     article(where: $where) {
+        //       id
+        //       author {
+        //         id
+        //         email
+        //         fullName
+        //       }
+        //       title
+        //       content
+        //     }
+        //   }
+        // `}
         variables={{ where: { id } }}
         render={({ error, retry, props }) => {
           if (error) {

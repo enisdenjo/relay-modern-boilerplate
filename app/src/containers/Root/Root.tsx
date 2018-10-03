@@ -13,13 +13,16 @@ import RelayLogo from 'assets/relay-logo.svg';
 
 // containers
 import { Switch, Route } from 'react-router-dom';
-import HomePage from 'containers/HomePage/Loadable';
-import ArticlesPage from 'containers/ArticlesPage/Loadable';
 
 // components
+import { makeLoadable } from 'components/Loadable';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Err from 'components/Err';
+
+// pages
+const LoadableHomePage = makeLoadable(import('containers/HomePage'));
+const LoadableArticlesPage = makeLoadable(import('containers/ArticlesPage'));
 
 // decorate
 import decorate, { Decorate } from './decorate';
@@ -69,8 +72,8 @@ class Root extends React.Component<Decorate, State> {
           <Grid item>
             <Grid container className={classes.pageContainer}>
               <Switch>
-                <Route path="/articles" component={ArticlesPage} />
-                <Route exact path="/" component={HomePage} />
+                <Route path="/articles" component={LoadableArticlesPage} />
+                <Route exact path="/" component={LoadableHomePage} />
               </Switch>
             </Grid>
           </Grid>

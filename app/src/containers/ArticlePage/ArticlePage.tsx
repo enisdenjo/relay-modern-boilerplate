@@ -26,13 +26,13 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
       <QueryRenderer<ArticlePageQuery>
         environment={environment}
         query={graphql`
-          query ArticlePageQuery($where: ArticleWhereUniqueInput!) {
-            article(where: $where) {
+          query ArticlePageQuery($id: ID!) {
+            article(id: $id) {
               ...Article_article
             }
           }
         `}
-        variables={{ where: { id: match.params.id } }}
+        variables={{ id: match.params.id } as any}
         render={({ error, retry, props }) => {
           if (error) {
             return <Err error={error} onRetry={retry} />;
