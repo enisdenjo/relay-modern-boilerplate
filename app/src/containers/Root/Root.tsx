@@ -21,8 +21,8 @@ import Typography from '@material-ui/core/Typography';
 import Err from 'components/Err';
 
 // pages
-const LoadableHomePage = makeLoadable(import('containers/HomePage'));
-const LoadableArticlesPage = makeLoadable(import('containers/ArticlesPage'));
+const LoadableHomePage = makeLoadable(() => import('containers/HomePage'));
+const LoadableArticlesPage = makeLoadable(() => import('containers/ArticlesPage'));
 
 // decorate
 import decorate, { Decorate } from './decorate';

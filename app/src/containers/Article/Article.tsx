@@ -55,11 +55,12 @@ class Article extends React.PureComponent<Props, State> {
 
   public render() {
     const { article } = this.props;
-    const { editDialogOpen, deleted } = this.state;
+    const { editDialogOpen } = this.state;
 
-    if (deleted) {
-      return <Redirect to="/articles" />;
-    }
+    return <Redirect to="/articles" />;
+    // if (deleted) {
+    //   return <Redirect to="/articles" />;
+    // }
 
     return (
       <>

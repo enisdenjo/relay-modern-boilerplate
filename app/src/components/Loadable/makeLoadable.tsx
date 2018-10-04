@@ -14,9 +14,9 @@ import Err from 'components/Err';
 import Spinner from 'components/Spinner';
 
 /** Makes a <Loadable /> wrapping the passed component. The `component` must be an `import()` statement. */
-const makeLoadable = (component: Promise<any>) =>
+const makeLoadable = (loader: () => Promise<any>) =>
   Loadable({
-    loader: () => component,
+    loader,
     loading: ({ error, retry }) => (error ? <Err error={error} onRetry={retry} /> : <Spinner />),
   });
 

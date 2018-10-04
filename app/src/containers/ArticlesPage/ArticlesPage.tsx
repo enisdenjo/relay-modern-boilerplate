@@ -32,7 +32,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 
 // pages
-const LoadableArticlePage = makeLoadable(import('containers/ArticlePage'));
+const LoadableArticlePage = makeLoadable(() => import('containers/ArticlePage'));
 
 // constants
 const ARTICLES_LIST_PAGE_SIZE = 5;
