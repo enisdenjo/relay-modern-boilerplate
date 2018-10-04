@@ -42,12 +42,15 @@ class Root extends React.Component<Decorate, State> {
 
   public render() {
     const { error } = this.state;
+    const { classes } = this.props;
 
     if (error) {
-      return <Err error={error} onRetry={() => this.setState({ error: null })} />;
+      return (
+        <div className={classes.root}>
+          <Err error={error} onRetry={() => this.setState({ error: null })} />
+        </div>
+      );
     }
-
-    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
