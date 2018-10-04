@@ -32,11 +32,13 @@ const Err: React.SFC<Props> = ({ error, onRetry }) => (
         {error.message}
       </Typography>
     </Grid>
-    <Grid item>
-      <Button variant="outlined" color="primary" onClick={onRetry}>
-        Retry
-      </Button>
-    </Grid>
+    {onRetry && (
+      <Grid item>
+        <Button variant="outlined" color="primary" onClick={onRetry}>
+          Retry
+        </Button>
+      </Grid>
+    )}
   </Grid>
 );
 

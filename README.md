@@ -31,7 +31,8 @@
     - Postgres database is exposed at: [postgres://localhost:5432/graphql](postgres://localhost:5432/graphql)
     - GraphQL endpoint is located at: [http://localhost:4400/graphql](http://localhost:4400/graphql)<br>
       _Explore the schema using [GraphiQL](https://github.com/graphql/graphiql) at: [http://localhost:4400/graphiql](http://localhost:4400/graphiql)_
-    - The application is located at: [http://localhost:4401](http://localhost:4401)
+    - The application is located at: [http://localhost:4401](http://localhost:4401)<br>
+      _Use `john@doe.com:password` to login_
 
 # Documentation
 

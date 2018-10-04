@@ -62,6 +62,12 @@ GRANT USAGE ON SCHEMA private TO anonymous;
 
 \i ${POSTGRES_INIT_DIR}/database/public.sql
 
+\echo
+\echo 'Setting up policies...'
+\echo
+
+\i ${POSTGRES_INIT_DIR}/database/policies.sql
+
 COMMIT;
 
 \echo

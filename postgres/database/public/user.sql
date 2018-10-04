@@ -12,6 +12,15 @@ CREATE TABLE IF NOT EXISTS public.user (
 
 GRANT SELECT, UPDATE ON TABLE public.user TO viewer;
 
+-- here we grant select to the anonymous user. we do so
+-- that we can use the graphql query `{ viewer { id } }`
+-- and its result `viewer: { 'someid'} OR viewer: null`
+-- to indicate whether the user is logged in or not
+-- without the grant the query would raise an exception.
+-- take a look at: `policies/user.sql` to see how we
+-- hide the table rows to prevent data leakage
+GRANT SELECT ON TABLE public.user TO anonymous;
+
 ----
 
 CREATE OR REPLACE FUNCTION public.register(

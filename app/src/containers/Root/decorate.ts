@@ -10,7 +10,6 @@ const decorate = withStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     border: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing.unit * 4,
     padding: theme.spacing.unit * 4,
   },
 }));
