@@ -28,6 +28,9 @@ const theme = createMuiTheme({
     },
     secondary: blue,
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 // initial render

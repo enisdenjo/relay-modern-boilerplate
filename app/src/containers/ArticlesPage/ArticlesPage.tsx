@@ -16,7 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 // containers
 import { graphql, QueryRenderer } from 'react-relay';
-// import ArticlesList from 'containers/ArticlesList';
+import ArticlesList from 'containers/ArticlesList';
 import CreateArticleView from 'containers/CreateArticleView';
 
 // components
@@ -57,23 +57,22 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>, State> {
 
     return (
       <>
-        <Dialog open={createArticleDialogOpen} onClose={this.toggleAddArticleDialog}>
+        <Dialog
+          open={createArticleDialogOpen}
+          onClose={this.toggleAddArticleDialog}
+          maxWidth="sm"
+          fullWidth
+        >
           <DialogTitle>Create article</DialogTitle>
-          <DialogContent style={{ minWidth: 512 }}>
-            <CreateArticleView />
+          <DialogContent>
+            <CreateArticleView onCreate={this.toggleAddArticleDialog} />
           </DialogContent>
         </Dialog>
         <QueryRenderer<ArticlesPageQuery>
           environment={environment}
           query={graphql`
-            query ArticlesPageQuery {
-              query {
-                allArticles {
-                  nodes {
-                    id
-                  }
-                }
-              }
+            query ArticlesPageQuery($count: Int!, $cursor: Cursor) {
+              ...ArticlesList_query @arguments(count: $count, cursor: $cursor)
             }
           `}
           variables={{ count: ARTICLES_LIST_PAGE_SIZE }}
@@ -96,7 +95,7 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>, State> {
                     <Grid container direction="column" spacing={16}>
                       <Grid item container justify="space-between" alignItems="center">
                         <Grid item>
-                          <Typography variant="display1">Articles</Typography>
+                          <Typography variant="h4">Articles</Typography>
                         </Grid>
                         <Grid item>
                           <Button color="primary" onClick={this.toggleAddArticleDialog}>
@@ -106,8 +105,7 @@ class ArticlesPage extends React.PureComponent<RouteComponentProps<{}>, State> {
                         </Grid>
                       </Grid>
                       <Grid item>
-                        lele
-                        {/* <ArticlesList pageSize={ARTICLES_LIST_PAGE_SIZE} query={props} /> */}
+                        <ArticlesList pageSize={ARTICLES_LIST_PAGE_SIZE} query={props} />
                       </Grid>
                     </Grid>
                   );

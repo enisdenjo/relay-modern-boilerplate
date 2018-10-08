@@ -29,12 +29,12 @@ query ArticlePageQuery(
 
 fragment Article_article on Article {
   id
-  createdAt
   title
   content
+  createdAt
   author {
     id
-    firstName
+    fullName
     email
   }
 }
@@ -69,7 +69,7 @@ return {
   "operationKind": "query",
   "name": "ArticlePageQuery",
   "id": null,
-  "text": "query ArticlePageQuery(\n  $id: ID!\n) {\n  article(id: $id) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  createdAt\n  title\n  content\n  author {\n    id\n    firstName\n    email\n  }\n}\n",
+  "text": "query ArticlePageQuery(\n  $id: ID!\n) {\n  article(id: $id) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  title\n  content\n  createdAt\n  author {\n    id\n    fullName\n    email\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -114,13 +114,6 @@ return {
           {
             "kind": "ScalarField",
             "alias": null,
-            "name": "createdAt",
-            "args": null,
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
             "name": "title",
             "args": null,
             "storageKey": null
@@ -129,6 +122,13 @@ return {
             "kind": "ScalarField",
             "alias": null,
             "name": "content",
+            "args": null,
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "createdAt",
             "args": null,
             "storageKey": null
           },
@@ -145,7 +145,7 @@ return {
               {
                 "kind": "ScalarField",
                 "alias": null,
-                "name": "firstName",
+                "name": "fullName",
                 "args": null,
                 "storageKey": null
               },

@@ -18,7 +18,7 @@ class HomePage extends React.Component<RouteComponentProps<{}>> {
     return (
       <Grid container justify="center">
         <Grid item>
-          <Typography variant="title">Hello world!</Typography>
+          <Typography variant="h6">Hello world!</Typography>
         </Grid>
       </Grid>
     );

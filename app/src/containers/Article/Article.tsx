@@ -55,27 +55,26 @@ class Article extends React.PureComponent<Props, State> {
 
   public render() {
     const { article } = this.props;
-    const { editDialogOpen } = this.state;
+    const { deleted, editDialogOpen } = this.state;
 
-    return <Redirect to="/articles" />;
-    // if (deleted) {
-    //   return <Redirect to="/articles" />;
-    // }
+    if (deleted) {
+      return <Redirect to="/articles" />;
+    }
 
     return (
       <>
-        <Dialog open={editDialogOpen} onClose={this.toggleEditDialog}>
+        <Dialog open={editDialogOpen} onClose={this.toggleEditDialog} maxWidth="md" fullWidth>
           <DialogTitle>Edit {article.title}</DialogTitle>
-          <DialogContent style={{ minWidth: 512 }}>
+          <DialogContent>
             <EditArticleView id={article.id} />
           </DialogContent>
         </Dialog>
         <Grid container direction="column" spacing={16}>
           <Grid item container alignItems="center">
             <Grid item>
-              <Typography variant="headline">{article.title}</Typography>
-              <Typography variant="subheading" color="textSecondary">
-                by <Link to={`/user/${article.author.id}`}>{article.author.firstName}</Link>
+              <Typography variant="h5">{article.title}</Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                by <Link to={`/user/${article.author.id}`}>{article.author.fullName}</Link>
               </Typography>
             </Grid>
             <Grid item xs />
@@ -94,7 +93,7 @@ class Article extends React.PureComponent<Props, State> {
             <Typography>{article.content}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="subheading" />
+            <Typography variant="subtitle1" />
           </Grid>
         </Grid>
       </>
@@ -107,12 +106,12 @@ export default createFragmentContainer(
   graphql`
     fragment Article_article on Article {
       id
-      createdAt
       title
       content
+      createdAt
       author {
         id
-        firstName
+        fullName
         email
       }
     }

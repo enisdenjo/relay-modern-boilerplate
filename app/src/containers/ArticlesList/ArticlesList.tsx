@@ -5,10 +5,10 @@
  */
 
 import React from 'react';
-import { RelayPaginationProp } from 'react-relay';
+import { graphql, createPaginationContainer, RelayPaginationProp } from 'react-relay';
 
 // types
-// import { ArticlesList_query } from 'artifacts/ArticlesList_query.graphql';
+import { ArticlesList_query } from 'artifacts/ArticlesList_query.graphql';
 
 // components
 import Err from 'components/Err';
@@ -21,7 +21,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 export interface Props {
   pageSize: number;
-  query: any; // ArticlesList_query
+  query: ArticlesList_query;
 }
 
 interface State {
@@ -52,32 +52,30 @@ class ArticlesList extends React.Component<Props & { relay: RelayPaginationProp 
 
     return (
       <Grid container direction="column" spacing={16}>
-        {query.articlesConnection.edges.map(
-          ({ node: { id, createdAt, author, title, content } }) => (
-            <Grid key={id} item>
-              <Card>
-                <CardContent>
-                  <Grid container direction="column" spacing={16}>
-                    <Grid item>
-                      <Typography variant="headline">
-                        <Link to={`/articles/${id}`}>{title}</Link>
-                      </Typography>
-                      <Typography variant="subheading" color="textSecondary">
-                        by <Link to={`/user/${author.id}`}>{author.fullName}</Link>
-                      </Typography>
-                      <Typography variant="caption" color="textSecondary">
-                        {this.dateTimeFormatter.format(new Date(createdAt))}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography>{content}</Typography>
-                    </Grid>
+        {query.allArticles.edges.map(({ node: { id, createdAt, author, title, content } }) => (
+          <Grid key={id} item>
+            <Card>
+              <CardContent>
+                <Grid container direction="column" spacing={16}>
+                  <Grid item>
+                    <Typography variant="h5">
+                      <Link to={`/articles/${id}`}>{title}</Link>
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      by <Link to={`/user/${author.id}`}>{author.fullName}</Link>
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary">
+                      {this.dateTimeFormatter.format(new Date(createdAt))}
+                    </Typography>
                   </Grid>
-                </CardContent>
-              </Card>
-            </Grid>
-          ),
-        )}
+                  <Grid item>
+                    <Typography>{content}</Typography>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
         {relay.hasMore() &&
           (loadMoreError ? (
             <Grid item>
@@ -97,60 +95,45 @@ class ArticlesList extends React.Component<Props & { relay: RelayPaginationProp 
   }
 }
 
-export default ArticlesList;
-// export default createPaginationContainer(
-//   ArticlesList,
-//   // graphql`
-//   //   fragment ArticlesList_query on Query
-//   //     @argumentDefinitions(cursor: { type: "String" }, count: { type: "Int!" }) {
-//   //     articlesConnection(first: $count, after: $cursor)
-//   //       @connection(key: "ArticlesList_articlesConnection", filters: []) {
-//   //       aggregate {
-//   //         count
-//   //       }
-//   //       edges {
-//   //         node {
-//   //           id
-//   //           title
-//   //           content
-//   //           createdAt
-//   //           author {
-//   //             id
-//   //             fullName
-//   //           }
-//   //           comments {
-//   //             id
-//   //           }
-//   //         }
-//   //       }
-//   //     }
-//   //   }
-//   // `,
-//   graphql`
-//     fragment ArticlesList_query on Query {
-//       allArticles {
-//         nodes {
-//           id
-//         }
-//       }
-//     }
-//   `,
-//   {
-//     direction: 'forward',
-//     getConnectionFromProps: (props) => props.query && props.query.articlesConnection,
-//     getFragmentVariables: (prevVars, totalCount) => ({
-//       ...prevVars,
-//       count: totalCount,
-//     }),
-//     getVariables: (_0, { count, cursor }, fragmentVariables) => ({
-//       ...fragmentVariables,
-//       count,
-//       cursor,
-//     }),
-//     query: graphql`
-//       query ArticlesListPaginationQuery($count: Int!, $cursor: String) {
-//         ...ArticlesList_query @arguments(count: $count, cursor: $cursor)
-//       }
-//     `,
-//   },
-// );
+export default createPaginationContainer(
+  ArticlesList,
+  graphql`
+    fragment ArticlesList_query on Query
+      @argumentDefinitions(cursor: { type: "Cursor" }, count: { type: "Int!" }) {
+      allArticles(first: $count, after: $cursor)
+        @connection(key: "ArticlesList_allArticles", filters: []) {
+        totalCount
+        edges {
+          node {
+            id
+            title
+            content
+            createdAt
+            author {
+              id
+              fullName
+            }
+          }
+        }
+      }
+    }
+  `,
+  {
+    direction: 'forward',
+    getConnectionFromProps: (props) => props.query && props.query.allArticles,
+    getFragmentVariables: (prevVars, totalCount) => ({
+      ...prevVars,
+      count: totalCount,
+    }),
+    getVariables: (_0, { count, cursor }, fragmentVariables) => ({
+      ...fragmentVariables,
+      count,
+      cursor,
+    }),
+    query: graphql`
+      query ArticlesListPaginationQuery($count: Int!, $cursor: Cursor) {
+        ...ArticlesList_query @arguments(count: $count, cursor: $cursor)
+      }
+    `,
+  },
+);

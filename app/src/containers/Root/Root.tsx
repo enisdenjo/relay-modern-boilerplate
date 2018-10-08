@@ -16,7 +16,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // containers
 import { Switch, Route } from 'react-router-dom';
-import Protected, { ProtectedProps } from 'containers/Protected';
+import Protected from 'containers/Protected';
 
 // components
 import Err from 'components/Err';
@@ -45,34 +45,6 @@ class Root extends React.Component<Decorate, State> {
     this.setState({ error });
   }
 
-  private renderProtected: ProtectedProps['children'] = (viewer, logout) => {
-    const { classes } = this.props;
-    return (
-      <Grid container direction="column" spacing={8}>
-        <Grid item container alignItems="center" justify="flex-end" spacing={8}>
-          <Grid item>
-            <Typography variant="subheading" color="secondary">
-              Welcome <strong>{viewer.firstName}</strong>!
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton onClick={logout} color="secondary">
-              <ExitToAppIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <Grid item>
-          <Grid container className={classes.pageContainer}>
-            <Switch>
-              <Route path="/articles" component={LoadableArticlesPage} />
-              <Route exact path="/" component={LoadableHomePage} />
-            </Switch>
-          </Grid>
-        </Grid>
-      </Grid>
-    );
-  };
-
   public render() {
     const { error } = this.state;
     const { classes } = this.props;
@@ -94,19 +66,60 @@ class Root extends React.Component<Decorate, State> {
                 <img src={RelayLogo} style={{ height: '4rem' }} />
               </Grid>
               <Grid item>
-                <Typography variant="headline" color="primary" noWrap>
+                <Typography variant="h5" color="primary" noWrap>
                   Relay Modern Boilerplate
                 </Typography>
               </Grid>
             </Grid>
             <Grid item>
-              <Typography variant="subheading" color="textSecondary">
-                Educational application serving as a Relay Modern crash course.
+              <Typography variant="subtitle1" color="textSecondary">
+                <a href="https://www.docker.com/">Docker</a>
+                &nbsp;+&nbsp;
+                <a href="https://www.postgresql.org/">Postgres</a>
+                &nbsp;+&nbsp;
+                <a href="https://www.graphile.org/postgraphile/">PostGraphile</a>
+                &nbsp;+&nbsp;
+                <a href="https://webpack.js.org/">Webpack</a>
+                &nbsp;+&nbsp;
+                <a href="https://reactjs.org/">React</a>
+                &nbsp;+&nbsp;
+                <a href="https://www.typescriptlang.org/">TypeScript</a>
+                &nbsp;+&nbsp;
+                <a href="http://facebook.github.io/relay/docs/en/thinking-in-relay.html">
+                  Relay Modern
+                </a>
+                &nbsp;=&nbsp;
+                <strong>Awesomeness</strong>
               </Typography>
             </Grid>
           </Grid>
           <Grid item container justify="center">
-            <Protected>{this.renderProtected}</Protected>
+            <Protected>
+              {(viewer, logout) => (
+                <Grid container direction="column" spacing={8}>
+                  <Grid item container alignItems="center" justify="flex-end" spacing={8}>
+                    <Grid item>
+                      <Typography variant="subtitle1" color="secondary">
+                        Welcome <strong>{viewer.firstName}</strong>!
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <IconButton onClick={logout} color="secondary">
+                        <ExitToAppIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    <Grid container className={classes.pageContainer}>
+                      <Switch>
+                        <Route path="/articles" component={LoadableArticlesPage} />
+                        <Route exact path="/" component={LoadableHomePage} />
+                      </Switch>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              )}
+            </Protected>
           </Grid>
         </Grid>
       </div>

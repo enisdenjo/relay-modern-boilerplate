@@ -5,32 +5,36 @@
  */
 
 import React from 'react';
-import { QueryRenderer } from 'react-relay';
+import { graphql, QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
 
 // types
-// import { CreateArticleViewQuery } from 'artifacts/CreateArticleViewQuery.graphql';
-type CreateArticleViewQuery = any;
+import { CreateArticleViewQuery } from 'artifacts/CreateArticleViewQuery.graphql';
 
 // mutations
-import CreateArticleMutation from 'relay/mutations/CreateArticleMutation';
+import CreateArticleMutation, {
+  CreateArticleMutationResponse,
+} from 'relay/mutations/CreateArticleMutation';
 
 // components
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+
+export interface Props {
+  onCreate?: (
+    createdArticle: CreateArticleMutationResponse['createArticle']['articleEdge']['node'],
+  ) => void;
+}
 
 interface State {
   submitError: Error | null;
 }
 
-class CreateArticleView extends React.PureComponent<{}, State> {
+class CreateArticleView extends React.PureComponent<Props, State> {
   public state = {
     submitError: null,
   };
@@ -42,28 +46,31 @@ class CreateArticleView extends React.PureComponent<{}, State> {
 
     const { currentTarget: form } = event;
 
-    const title = (form.elements.namedItem('title') as HTMLInputElement).value;
-    const content = (form.elements.namedItem('content') as HTMLInputElement).value;
-    const authorId = (form.elements.namedItem('authorId') as HTMLInputElement).value;
+    const title: string = form.elements['title'].value;
+    const content: string = form.elements['content'].value;
 
     this.setState({ submitError: null });
     try {
-      await CreateArticleMutation(
+      const {
+        createArticle: {
+          articleEdge: { node },
+        },
+      } = await CreateArticleMutation(
         {
-          data: {
+          input: {
             title,
             content,
-            author: {
-              connect: {
-                id: authorId,
-              },
-            },
           },
         },
         {
-          author: query.users.find((user) => user.id === authorId),
+          author: query.viewer,
         },
       );
+
+      const { onCreate } = this.props;
+      if (onCreate) {
+        onCreate(node);
+      }
     } catch (error) {
       form.reset();
       this.setState({ submitError: error });
@@ -76,17 +83,14 @@ class CreateArticleView extends React.PureComponent<{}, State> {
     return (
       <QueryRenderer<CreateArticleViewQuery>
         environment={environment}
-        // query={
-        //   graphql`
-        //   query CreateArticleViewQuery {
-        //     users {
-        //       id
-        //       email
-        //       fullName
-        //     }
-        //   }
-        // `
-        // }
+        query={graphql`
+          query CreateArticleViewQuery {
+            viewer {
+              id
+              fullName
+            }
+          }
+        `}
         variables={{}}
         render={({ error, retry, props }) => {
           if (error) {
@@ -110,26 +114,22 @@ class CreateArticleView extends React.PureComponent<{}, State> {
                 </Grid>
               )}
               <Grid item>
-                <FormControl fullWidth required>
-                  <InputLabel>Author</InputLabel>
-                  <Select native name="authorId">
-                    {props.users.map((user) => (
-                      <option key={user.id} value={user.id}>
-                        {user.fullName}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item>
                 <TextField fullWidth required label="Title" name="title" />
               </Grid>
               <Grid item>
-                <TextField fullWidth required multiline label="Content" name="content" />
+                <TextField
+                  fullWidth
+                  required
+                  multiline
+                  rows={3}
+                  variant="outlined"
+                  label="Content"
+                  name="content"
+                />
               </Grid>
               <Grid item container justify="flex-end">
                 <Grid item>
-                  <Button color="primary" variant="raised" type="submit">
+                  <Button color="primary" variant="contained" type="submit">
                     Add
                   </Button>
                 </Grid>

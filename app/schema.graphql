@@ -323,6 +323,9 @@ type User implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: ArticleCondition
   ): ArticlesConnection!
+
+  # Combined first and last name of the `User`.
+  fullName: String
 }
 
 # A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’

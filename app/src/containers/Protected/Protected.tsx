@@ -119,7 +119,7 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
                 onSubmit={this.handleLogin(retry)}
               >
                 <Grid item>
-                  <Typography variant="display1">Login</Typography>
+                  <Typography variant="h4">Login</Typography>
                 </Grid>
                 {loginError && (
                   <Grid item>
@@ -139,9 +139,14 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
                 <Grid item>
                   <TextField fullWidth name="password" label="Password" required type="password" />
                 </Grid>
-                <Grid item container justify="flex-end">
+                <Grid item container justify="flex-end" spacing={16}>
                   <Grid item>
-                    <Button type="submit" variant="raised" color="primary">
+                    <Button variant="text" color="primary" disabled>
+                      Register
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button type="submit" variant="contained" color="primary">
                       Login
                     </Button>
                   </Grid>

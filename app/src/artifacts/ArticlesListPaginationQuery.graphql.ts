@@ -2,22 +2,22 @@
 
 import { ConcreteRequest } from "relay-runtime";
 import { ArticlesList_query$ref } from "./ArticlesList_query.graphql";
-export type ArticlesPageQueryVariables = {
+export type ArticlesListPaginationQueryVariables = {
     readonly count: number;
     readonly cursor?: any | null;
 };
-export type ArticlesPageQueryResponse = {
+export type ArticlesListPaginationQueryResponse = {
     readonly " $fragmentRefs": ArticlesList_query$ref;
 };
-export type ArticlesPageQuery = {
-    readonly response: ArticlesPageQueryResponse;
-    readonly variables: ArticlesPageQueryVariables;
+export type ArticlesListPaginationQuery = {
+    readonly response: ArticlesListPaginationQueryResponse;
+    readonly variables: ArticlesListPaginationQueryVariables;
 };
 
 
 
 /*
-query ArticlesPageQuery(
+query ArticlesListPaginationQuery(
   $count: Int!
   $cursor: Cursor
 ) {
@@ -88,13 +88,13 @@ v2 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "ArticlesPageQuery",
+  "name": "ArticlesListPaginationQuery",
   "id": null,
-  "text": "query ArticlesPageQuery(\n  $count: Int!\n  $cursor: Cursor\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  allArticles(first: $count, after: $cursor) {\n    totalCount\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
+  "text": "query ArticlesListPaginationQuery(\n  $count: Int!\n  $cursor: Cursor\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  allArticles(first: $count, after: $cursor) {\n    totalCount\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "ArticlesPageQuery",
+    "name": "ArticlesListPaginationQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": v0,
@@ -121,7 +121,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "ArticlesPageQuery",
+    "name": "ArticlesListPaginationQuery",
     "argumentDefinitions": v0,
     "selections": [
       {
@@ -257,5 +257,5 @@ return {
   }
 };
 })();
-(node as any).hash = '032a18e4fd21284927088cdf65a6f293';
+(node as any).hash = '410c30b7cfbdc6a533e53b8bcef72dbd';
 export default node;

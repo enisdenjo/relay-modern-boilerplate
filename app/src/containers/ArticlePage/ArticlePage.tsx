@@ -22,6 +22,7 @@ import Spinner from 'components/Spinner';
 class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
   public render() {
     const { match } = this.props;
+
     return (
       <QueryRenderer<ArticlePageQuery>
         environment={environment}

@@ -5,12 +5,12 @@ declare const _Article_article$ref: unique symbol;
 export type Article_article$ref = typeof _Article_article$ref;
 export type Article_article = {
     readonly id: string;
-    readonly createdAt: any;
     readonly title: string;
     readonly content: string | null;
+    readonly createdAt: any;
     readonly author: {
         readonly id: string;
-        readonly firstName: string;
+        readonly fullName: string | null;
         readonly email: any;
     };
     readonly " $refType": Article_article$ref;
@@ -37,13 +37,6 @@ return {
     {
       "kind": "ScalarField",
       "alias": null,
-      "name": "createdAt",
-      "args": null,
-      "storageKey": null
-    },
-    {
-      "kind": "ScalarField",
-      "alias": null,
       "name": "title",
       "args": null,
       "storageKey": null
@@ -52,6 +45,13 @@ return {
       "kind": "ScalarField",
       "alias": null,
       "name": "content",
+      "args": null,
+      "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "createdAt",
       "args": null,
       "storageKey": null
     },
@@ -68,7 +68,7 @@ return {
         {
           "kind": "ScalarField",
           "alias": null,
-          "name": "firstName",
+          "name": "fullName",
           "args": null,
           "storageKey": null
         },
@@ -84,5 +84,5 @@ return {
   ]
 };
 })();
-(node as any).hash = '5c60b0a62000f90b0f9dcc544f686fd3';
+(node as any).hash = '1755e9ab8523dacee67cb9631965a01f';
 export default node;
