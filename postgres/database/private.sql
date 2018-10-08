@@ -1,1 +1,0 @@
-\ir private/auth.sql

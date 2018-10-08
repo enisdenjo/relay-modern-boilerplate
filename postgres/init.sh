@@ -50,17 +50,7 @@ CREATE SCHEMA IF NOT EXISTS private;
 GRANT USAGE ON SCHEMA private TO viewer;
 GRANT USAGE ON SCHEMA private TO anonymous;
 
-\echo
-\echo 'Setting up private schema...'
-\echo
-
-\i ${POSTGRES_INIT_DIR}/database/private.sql
-
-\echo
-\echo 'Setting up public schema...'
-\echo
-
-\i ${POSTGRES_INIT_DIR}/database/public.sql
+\i ${POSTGRES_INIT_DIR}/database/schemas.sql
 
 \echo
 \echo 'Setting up policies...'

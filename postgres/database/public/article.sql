@@ -2,7 +2,7 @@ CREATE TABLE public.article (
   row_id        uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   author_row_id uuid NOT NULL REFERENCES public.user(row_id) ON DELETE CASCADE,
 
-  title   text NOT NULL CHECK(LENGTH(title) > 3),
+  title   text NOT NULL UNIQUE CHECK(LENGTH(title) > 3),
   content text,
 
   created_at created_timestamp,

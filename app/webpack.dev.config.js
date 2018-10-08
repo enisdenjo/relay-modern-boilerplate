@@ -20,7 +20,7 @@ module.exports = merge(require('./webpack.common.config'), {
   entry: path.join(__dirname, 'src', 'index.tsx'),
   output: {
     filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
+    chunkFilename: '[name].[chunkhash].js',
   },
   // we dont need any optimizations, especially
   // not chunk splitting since we have a DLL
