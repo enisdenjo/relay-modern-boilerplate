@@ -1,30 +1,25 @@
 /**
  *
- * Webpack configuration
- *
- * The minimal Webpack configuration required for running Relay Modern.
+ * Webpack shared/common configuration
  *
  */
 
 const path = require('path');
 
 // plugins
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const IgnoreNotFoundExportPlugin = require('./IgnoreNotFoundExportPlugin');
+
+const mode = process.env.NODE_ENV;
 
 module.exports = {
-  entry: path.join(__dirname, 'src', 'index.tsx'),
-  mode: process.env.NODE_ENV,
+  mode,
   context: __dirname,
   target: 'web',
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
+  performance: { hints: false },
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
     publicPath: '/',
+    path: path.join(__dirname, 'dist'),
+    pathinfo: false,
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
@@ -56,6 +51,11 @@ module.exports = {
           },
           {
             loader: 'ts-loader',
+            options: {
+              transpileOnly: mode === 'development',
+              experimentalWatchApi: true,
+              happyPackMode: true,
+            },
           },
         ],
       },
@@ -69,24 +69,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'index.html'),
-      inject: true,
-    }),
-  ],
-  devServer: {
-    host: '0.0.0.0',
-    port: process.env.APP_PORT,
-    progress: true,
-    stats: 'minimal',
-    overlay: true,
-    historyApiFallback: true, // All requests that do not map to an existing asset will instead by routed straight to `/`.
-    proxy: {
-      '/api/graphql': {
-        target: `http://postgraphile:${process.env.POSTGRAPHILE_PORT}/graphql`,
-        pathRewrite: { '^/api/graphql': '' },
-      },
-    },
-  },
+  plugins: [new IgnoreNotFoundExportPlugin()],
 };

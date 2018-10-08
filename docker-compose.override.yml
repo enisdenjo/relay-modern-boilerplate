@@ -14,6 +14,7 @@ services:
     build: app
     volumes:
       - ./app:/usr/relay-modern-boilerplate/app
+      - ./app/node_modules:/usr/relay-modern-boilerplate/node_modules:cached
     ports:
       - ${APP_PORT}:${APP_PORT}
-    command: /bin/bash -c "npm i && npm run dev"
+    command: /bin/bash -c "npm i && npm run build:dll && npm run dev"
