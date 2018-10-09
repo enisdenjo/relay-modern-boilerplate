@@ -131,6 +131,34 @@ scalar CreatedTimestamp
 # A location in a connection that can be used for resuming pagination.
 scalar Cursor
 
+# All input for the `deleteArticle` mutation.
+input DeleteArticleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  rowId: UUID!
+}
+
+# The output of our `deleteArticle` mutation.
+type DeleteArticlePayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  article: Article
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+
+  # Reads a single `User` that is related to this `Article`.
+  author: User!
+
+  # An edge for our `Article`. May be used by Relay 1.
+  articleEdge(
+    # The method to use when ordering `Article`.
+    orderBy: [ArticlesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ArticlesEdge
+}
+
 # E-Mail address with simple plausability check.
 scalar EmailAddress
 
@@ -152,11 +180,23 @@ type Mutation {
     input: CreateArticleInput!
   ): CreateArticlePayload
 
+  # Deletes an `Article` with the `rowId`.
+  deleteArticle(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteArticleInput!
+  ): DeleteArticlePayload
+
   # Creates a new `User`.
   register(
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     input: RegisterInput!
   ): RegisterPayload
+
+  # Updates an `Article` with the `rowId`.
+  updateArticle(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateArticleInput!
+  ): UpdateArticlePayload
 }
 
 # An object with a globally unique `ID`.
@@ -245,6 +285,7 @@ type Query implements Node {
     condition: UserCondition
   ): UsersConnection
   articleByRowId(rowId: UUID!): Article
+  articleByTitle(title: String!): Article
   userByRowId(rowId: UUID!): User
   userByEmail(email: EmailAddress!): User
 
@@ -284,6 +325,36 @@ type RegisterPayload {
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
+}
+
+# All input for the `updateArticle` mutation.
+input UpdateArticleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  rowId: UUID!
+  title: String!
+  content: String
+}
+
+# The output of our `updateArticle` mutation.
+type UpdateArticlePayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  article: Article
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+
+  # Reads a single `User` that is related to this `Article`.
+  author: User!
+
+  # An edge for our `Article`. May be used by Relay 1.
+  articleEdge(
+    # The method to use when ordering `Article`.
+    orderBy: [ArticlesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ArticlesEdge
 }
 
 # UTC timestamp representing the time at which a node is updated.

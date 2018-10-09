@@ -5,12 +5,12 @@
  */
 
 import React from 'react';
-import { QueryRenderer } from 'react-relay';
+import { graphql, QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
+import { extractFormValues } from 'utils';
 
 // types
-// import { EditArticleViewQuery } from 'artifacts/EditArticleViewQuery.graphql';
-type EditArticleViewQuery = any;
+import { EditArticleViewQuery } from 'artifacts/EditArticleViewQuery.graphql';
 
 // mutations
 import UpdateArticleMutation from 'relay/mutations/UpdateArticleMutation';
@@ -18,13 +18,11 @@ import UpdateArticleMutation from 'relay/mutations/UpdateArticleMutation';
 // components
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
+import NotFound from 'components/NotFound';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 export interface Props {
   id: string;
@@ -35,7 +33,7 @@ interface State {
 }
 
 class EditArticleView extends React.PureComponent<Props, State> {
-  public state = {
+  public state: State = {
     submitError: null,
   };
 
@@ -46,27 +44,20 @@ class EditArticleView extends React.PureComponent<Props, State> {
 
     const { currentTarget: form } = event;
 
-    const title = (form.elements.namedItem('title') as HTMLInputElement).value;
-    const content = (form.elements.namedItem('content') as HTMLInputElement).value;
-    const authorId = (form.elements.namedItem('authorId') as HTMLInputElement).value;
+    const values = extractFormValues<{ title: string; content: string }>(form);
 
     this.setState({ submitError: null });
     try {
       await UpdateArticleMutation(
         {
-          where: { id: this.props.id },
-          data: {
-            title,
-            content,
-            author: {
-              connect: {
-                id: authorId,
-              },
-            },
+          input: {
+            rowId: query.article!.rowId,
+            title: values.title,
+            content: values.content,
           },
         },
         {
-          author: query.users.find((user) => user.id === authorId),
+          id: query.article!.id,
         },
       );
     } catch (error) {
@@ -82,26 +73,22 @@ class EditArticleView extends React.PureComponent<Props, State> {
     return (
       <QueryRenderer<EditArticleViewQuery>
         environment={environment}
-        // query={graphql`
-        //   query EditArticleViewQuery($where: ArticleWhereUniqueInput!) {
-        //     users {
-        //       id
-        //       email
-        //       fullName
-        //     }
-        //     article(where: $where) {
-        //       id
-        //       author {
-        //         id
-        //         email
-        //         fullName
-        //       }
-        //       title
-        //       content
-        //     }
-        //   }
-        // `}
-        variables={{ where: { id } }}
+        query={graphql`
+          query EditArticleViewQuery($id: ID!) {
+            article(id: $id) {
+              id
+              rowId
+              author {
+                id
+                email
+                fullName
+              }
+              title
+              content
+            }
+          }
+        `}
+        variables={{ id }}
         render={({ error, retry, props }) => {
           if (error) {
             return <Err error={error} onRetry={retry} />;
@@ -109,6 +96,10 @@ class EditArticleView extends React.PureComponent<Props, State> {
           if (!props) {
             return <Spinner />;
           }
+          if (!props.article) {
+            return <NotFound />;
+          }
+
           return (
             <Grid
               container
@@ -119,22 +110,10 @@ class EditArticleView extends React.PureComponent<Props, State> {
             >
               {submitError && (
                 <Grid item>
-                  <Typography variant="body2">Something went wrong!</Typography>
+                  <Typography variant="caption">Something went wrong!</Typography>
                   <Typography color="error">{submitError.message}</Typography>
                 </Grid>
               )}
-              <Grid item>
-                <FormControl fullWidth required>
-                  <InputLabel>Author</InputLabel>
-                  <Select native defaultValue={props.article.author.id} name="authorId">
-                    {props.users.map((user) => (
-                      <option key={user.id} value={user.id}>
-                        {user.fullName}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
               <Grid item>
                 <TextField
                   fullWidth
@@ -147,16 +126,18 @@ class EditArticleView extends React.PureComponent<Props, State> {
               <Grid item>
                 <TextField
                   fullWidth
-                  defaultValue={props.article.content}
+                  defaultValue={props.article.content || ''}
                   required
                   multiline
+                  rows={3}
                   label="Content"
                   name="content"
+                  variant="outlined"
                 />
               </Grid>
               <Grid item container justify="flex-end">
                 <Grid item>
-                  <Button color="primary" variant="raised" type="submit">
+                  <Button color="primary" variant="contained" type="submit">
                     Save
                   </Button>
                 </Grid>

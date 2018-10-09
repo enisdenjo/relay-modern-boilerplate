@@ -25,3 +25,35 @@ $$
 LANGUAGE SQL VOLATILE;
 
 COMMENT ON FUNCTION public.create_article IS 'Creates an `Article` with the `viewer` as the author.';
+
+----
+
+CREATE OR REPLACE FUNCTION public.update_article(
+  row_id        uuid,
+  title         text,
+  content       text = NULL
+) RETURNS public.article AS
+$$
+  UPDATE public.article SET
+    title=update_article.title,
+    content=update_article.content,
+    updated_at=now()
+  WHERE (row_id = update_article.row_id)
+  RETURNING *
+$$
+LANGUAGE SQL VOLATILE;
+
+COMMENT ON FUNCTION public.update_article IS 'Updates an `Article` with the `rowId`.';
+
+----
+
+CREATE OR REPLACE FUNCTION public.delete_article(
+  row_id uuid
+) RETURNS public.article AS
+$$
+  DELETE FROM public.article WHERE (row_id = delete_article.row_id)
+  RETURNING *
+$$
+LANGUAGE SQL VOLATILE;
+
+COMMENT ON FUNCTION public.delete_article IS 'Deletes an `Article` with the `rowId`.';

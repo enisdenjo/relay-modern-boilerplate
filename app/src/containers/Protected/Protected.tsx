@@ -28,7 +28,7 @@ import decorate, { Decorate } from './decorate';
 export interface Props {
   /** component to render after the user has authenticated */
   children: (
-    viewer: ProtectedQuery['response']['viewer'],
+    viewer: NonNullable<ProtectedQuery['response']['viewer']>,
     logout: () => void,
   ) => React.ReactElement<any>;
 }
@@ -42,9 +42,9 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
     loginError: null,
   };
 
-  private handleLogin = (retryQuery: () => void): React.FormEventHandler<HTMLFormElement> => async (
-    event,
-  ) => {
+  private handleLogin = (
+    retryQuery?: () => void,
+  ): React.FormEventHandler<HTMLFormElement> => async (event) => {
     event.preventDefault();
 
     const { currentTarget: form } = event;
@@ -54,25 +54,27 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
 
     try {
       this.setState({ loginError: null });
-      const {
-        authenticate: { jwtToken },
-      } = await AuthenticateMutation({ input: { email, password } });
+      const { authenticate } = await AuthenticateMutation({ input: { email, password } });
 
       // set the token
-      localStorage.setItem('token', jwtToken);
+      localStorage.setItem('token', authenticate!.jwtToken);
       // re-fetch the viewer query
-      retryQuery();
+      if (retryQuery) {
+        retryQuery();
+      }
     } catch (error) {
       this.setState({ loginError: error });
       form.reset();
     }
   };
 
-  private handleLogout = (retryQuery: () => void) => () => {
+  private handleLogout = (retryQuery?: () => void) => () => {
     // remove the token
     localStorage.removeItem('token');
     // re-fetch the viewer query
-    retryQuery();
+    if (retryQuery) {
+      retryQuery();
+    }
   };
 
   public render() {
@@ -123,6 +125,7 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
                 </Grid>
                 {loginError && (
                   <Grid item>
+                    <Typography variant="caption">Something went wrong!</Typography>
                     <Typography color="error">{loginError.message}</Typography>
                   </Grid>
                 )}

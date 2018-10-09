@@ -5,6 +5,7 @@ declare const _Article_article$ref: unique symbol;
 export type Article_article$ref = typeof _Article_article$ref;
 export type Article_article = {
     readonly id: string;
+    readonly rowId: any;
     readonly title: string;
     readonly content: string | null;
     readonly createdAt: any;
@@ -34,6 +35,13 @@ return {
   "argumentDefinitions": [],
   "selections": [
     v0,
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "rowId",
+      "args": null,
+      "storageKey": null
+    },
     {
       "kind": "ScalarField",
       "alias": null,
@@ -84,5 +92,5 @@ return {
   ]
 };
 })();
-(node as any).hash = '1755e9ab8523dacee67cb9631965a01f';
+(node as any).hash = 'f9a0128493357f64ab205aabf47e3ae1';
 export default node;

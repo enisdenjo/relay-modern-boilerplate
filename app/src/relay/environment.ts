@@ -48,7 +48,7 @@ const network = Network.create(async (operation, variables) => {
   // check for errors
   const data = await response.json();
   if (data.errors) {
-    const messages: string[] = data.errors.map(({ message }) => message);
+    const messages: string[] = data.errors.map(({ message }: { message: string }) => message);
     throw new Error(messages.join(', '));
   }
 

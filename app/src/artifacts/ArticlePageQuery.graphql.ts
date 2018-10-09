@@ -29,6 +29,7 @@ query ArticlePageQuery(
 
 fragment Article_article on Article {
   id
+  rowId
   title
   content
   createdAt
@@ -69,7 +70,7 @@ return {
   "operationKind": "query",
   "name": "ArticlePageQuery",
   "id": null,
-  "text": "query ArticlePageQuery(\n  $id: ID!\n) {\n  article(id: $id) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  title\n  content\n  createdAt\n  author {\n    id\n    fullName\n    email\n  }\n}\n",
+  "text": "query ArticlePageQuery(\n  $id: ID!\n) {\n  article(id: $id) {\n    ...Article_article\n    id\n  }\n}\n\nfragment Article_article on Article {\n  id\n  rowId\n  title\n  content\n  createdAt\n  author {\n    id\n    fullName\n    email\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -111,6 +112,13 @@ return {
         "plural": false,
         "selections": [
           v2,
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "rowId",
+            "args": null,
+            "storageKey": null
+          },
           {
             "kind": "ScalarField",
             "alias": null,

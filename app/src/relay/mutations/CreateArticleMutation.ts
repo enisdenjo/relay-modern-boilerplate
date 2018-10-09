@@ -58,7 +58,9 @@ const storeUpdater: SelectorStoreUpdater = (store) => {
 export { CreateArticleMutationVariables, CreateArticleMutationResponse };
 
 export interface CreateArticleMutationMetadata {
-  author: CreateArticleMutationResponse['createArticle']['articleEdge']['node']['author'];
+  author: NonNullable<
+    NonNullable<CreateArticleMutationResponse['createArticle']>['articleEdge']
+  >['node']['author'];
 }
 
 export default (
@@ -75,7 +77,7 @@ export default (
             node: {
               id: `client:createdArticle:${randomString()}`,
               title: variables.input.title,
-              content: variables.input.content,
+              content: variables.input.content || null,
               author: metadata.author,
               createdAt: new Date().toISOString(),
             },

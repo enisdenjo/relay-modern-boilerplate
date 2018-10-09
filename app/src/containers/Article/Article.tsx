@@ -49,7 +49,7 @@ class Article extends React.PureComponent<Props, State> {
 
   private deleteArticle = async () => {
     const { article } = this.props;
-    await DeleteArticleMutation({ where: { id: article.id } });
+    await DeleteArticleMutation({ input: { rowId: article.rowId } }, { id: article.id });
     this.setState({ deleted: true });
   };
 
@@ -92,9 +92,6 @@ class Article extends React.PureComponent<Props, State> {
           <Grid item>
             <Typography>{article.content}</Typography>
           </Grid>
-          <Grid item>
-            <Typography variant="subtitle1" />
-          </Grid>
         </Grid>
       </>
     );
@@ -106,6 +103,7 @@ export default createFragmentContainer(
   graphql`
     fragment Article_article on Article {
       id
+      rowId
       title
       content
       createdAt

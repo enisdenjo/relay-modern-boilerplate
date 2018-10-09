@@ -18,6 +18,7 @@ import Article from 'containers/Article';
 // components
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
+import NotFound from 'components/NotFound';
 
 class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
   public render() {
@@ -41,6 +42,10 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
 
           if (!props) {
             return <Spinner />;
+          }
+
+          if (!props.article) {
+            return <NotFound />;
           }
 
           return <Article article={props.article} />;

@@ -41,7 +41,7 @@ class Root extends React.Component<Decorate, State> {
     error: null,
   };
 
-  public componentDidCatch(error) {
+  public componentDidCatch(error: Error) {
     this.setState({ error });
   }
 

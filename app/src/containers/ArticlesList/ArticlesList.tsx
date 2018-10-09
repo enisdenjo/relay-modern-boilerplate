@@ -52,7 +52,7 @@ class ArticlesList extends React.Component<Props & { relay: RelayPaginationProp 
 
     return (
       <Grid container direction="column" spacing={16}>
-        {query.allArticles.edges.map(({ node: { id, createdAt, author, title, content } }) => (
+        {query.allArticles!.edges.map(({ node: { id, createdAt, author, title, content } }) => (
           <Grid key={id} item>
             <Card>
               <CardContent>

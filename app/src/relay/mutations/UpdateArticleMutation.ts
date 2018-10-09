@@ -1,61 +1,57 @@
-// /**
-//  *
-//  * UpdateArticleMutation
-//  *
-//  */
+/**
+ *
+ * UpdateArticleMutation
+ *
+ */
 
-// import { commitMutation } from 'react-relay';
-// import environment from 'relay/environment';
+import { graphql, commitMutation } from 'react-relay';
+import environment from 'relay/environment';
 
-// // types
-// import {
-//   UpdateArticleMutation,
-//   UpdateArticleMutationVariables,
-//   UpdateArticleMutationResponse,
-// } from 'artifacts/UpdateArticleMutation.graphql';
+// types
+import {
+  UpdateArticleMutation,
+  UpdateArticleMutationVariables,
+  UpdateArticleMutationResponse,
+} from 'artifacts/UpdateArticleMutation.graphql';
 
-// const mutation = '';
-// // graphql`
-// //   mutation UpdateArticleMutation($data: ArticleUpdateInput!, $where: ArticleWhereUniqueInput!) {
-// //     updateArticle(data: $data, where: $where) {
-// //       id
-// //       title
-// //       content
-// //       author {
-// //         id
-// //         email
-// //         fullName
-// //       }
-// //     }
-// //   }
-// // `;
+const mutation = graphql`
+  mutation UpdateArticleMutation($input: UpdateArticleInput!) {
+    updateArticle(input: $input) {
+      article {
+        id
+        title
+        content
+        updatedAt
+      }
+    }
+  }
+`;
 
-// export { UpdateArticleMutationVariables, UpdateArticleMutationResponse };
+export { UpdateArticleMutationVariables, UpdateArticleMutationResponse };
 
-// export interface UpdateArticleMutationMetadata {
-//   author: UpdateArticleMutationResponse['updateArticle']['author'];
-// }
+export interface UpdateArticleMutationMetadata {
+  id: string;
+}
 
-// export default (
-//   variables: UpdateArticleMutationVariables,
-//   metadata: UpdateArticleMutationMetadata,
-// ) =>
-//   new Promise<UpdateArticleMutationResponse>((resolve, reject) =>
-//     commitMutation<UpdateArticleMutation>(environment, {
-//       mutation,
-//       variables,
-//       optimisticResponse: {
-//         updateArticle: {
-//           id: variables.where.id,
-//           title: variables.data.title,
-//           content: variables.data.content,
-//           author: metadata.author,
-//         },
-//       },
-//       onCompleted: resolve,
-//       onError: reject,
-//     }),
-//   );
-
-export default (_0: any, _1: any): Promise<any> =>
-  new Promise((resolve) => setTimeout(resolve, 200));
+export default (
+  variables: UpdateArticleMutationVariables,
+  metadata: UpdateArticleMutationMetadata,
+) =>
+  new Promise<UpdateArticleMutationResponse>((resolve, reject) =>
+    commitMutation<UpdateArticleMutation>(environment, {
+      mutation,
+      variables,
+      optimisticResponse: {
+        updateArticle: {
+          article: {
+            id: metadata.id,
+            title: variables.input.title,
+            content: variables.input.content || null,
+            updatedAt: new Date().toISOString(),
+          },
+        },
+      },
+      onCompleted: resolve,
+      onError: reject,
+    }),
+  );

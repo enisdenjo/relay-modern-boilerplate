@@ -25,9 +25,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 export interface Props {
-  onCreate?: (
-    createdArticle: CreateArticleMutationResponse['createArticle']['articleEdge']['node'],
-  ) => void;
+  onCreate?: (createArticle: CreateArticleMutationResponse['createArticle']) => void;
 }
 
 interface State {
@@ -35,7 +33,7 @@ interface State {
 }
 
 class CreateArticleView extends React.PureComponent<Props, State> {
-  public state = {
+  public state: State = {
     submitError: null,
   };
 
@@ -51,11 +49,7 @@ class CreateArticleView extends React.PureComponent<Props, State> {
 
     this.setState({ submitError: null });
     try {
-      const {
-        createArticle: {
-          articleEdge: { node },
-        },
-      } = await CreateArticleMutation(
+      const { createArticle } = await CreateArticleMutation(
         {
           input: {
             title,
@@ -63,13 +57,13 @@ class CreateArticleView extends React.PureComponent<Props, State> {
           },
         },
         {
-          author: query.viewer,
+          author: query.viewer!,
         },
       );
 
       const { onCreate } = this.props;
       if (onCreate) {
-        onCreate(node);
+        onCreate(createArticle);
       }
     } catch (error) {
       form.reset();
