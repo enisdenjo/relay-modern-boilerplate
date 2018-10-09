@@ -28,10 +28,10 @@
 3.  Change directory to `relay-modern-boilerplate`
 4.  Run `docker-compose up` to build and start [Postgres](https://www.postgresql.org/) + [PostGraphile](https://www.graphile.org/postgraphile/) + [webpack-dev-server](https://github.com/webpack/webpack-dev-server)<br>
     _Initial build may take some time because we need to install [Watchman](https://facebook.github.io/watchman/) from source_
-    - Postgres database is exposed at: [postgres://localhost:5432/graphql](postgres://localhost:5432/graphql)
-    - GraphQL endpoint is located at: [http://localhost:4400/graphql](http://localhost:4400/graphql)<br>
+    - Postgres database is exposed at: **[postgres://localhost:5432/graphql](postgres://localhost:5432/graphql)**
+    - GraphQL endpoint is located at: **[http://localhost:4400/graphql](http://localhost:4400/graphql)**<br>
       _Explore the schema using [GraphiQL](https://github.com/graphql/graphiql) at: [http://localhost:4400/graphiql](http://localhost:4400/graphiql)_
-    - The application is located at: [http://localhost:4401](http://localhost:4401)<br>
+    - The application is located at: **[http://localhost:4401](http://localhost:4401)**<br>
       _Use `john@doe.com:password` to login_
 
 # Documentation
