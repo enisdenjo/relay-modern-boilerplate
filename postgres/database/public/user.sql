@@ -22,4 +22,4 @@ $$
 $$
 LANGUAGE SQL STABLE;
 
-COMMENT ON FUNCTION public.user_full_name IS 'Combined first and last name of the `User`.';
+COMMENT ON FUNCTION public.user_full_name IS E'@nonNull\nCombined first and last name of the `User`.';

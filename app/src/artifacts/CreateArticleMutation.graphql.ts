@@ -19,7 +19,7 @@ export type CreateArticleMutationResponse = {
                 readonly createdAt: any;
                 readonly author: {
                     readonly id: string;
-                    readonly fullName: string | null;
+                    readonly fullName: string;
                 };
             };
         }) | null;

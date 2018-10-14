@@ -25,7 +25,7 @@ query ArticlesListPaginationQuery(
 }
 
 fragment ArticlesList_query_1G22uz on Query {
-  allArticles(first: $count, after: $cursor) {
+  articles(first: $count, after: $cursor) {
     totalCount
     edges {
       node {
@@ -90,7 +90,7 @@ return {
   "operationKind": "query",
   "name": "ArticlesListPaginationQuery",
   "id": null,
-  "text": "query ArticlesListPaginationQuery(\n  $count: Int!\n  $cursor: Cursor\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  allArticles(first: $count, after: $cursor) {\n    totalCount\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
+  "text": "query ArticlesListPaginationQuery(\n  $count: Int!\n  $cursor: Cursor\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  articles(first: $count, after: $cursor) {\n    totalCount\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -127,7 +127,7 @@ return {
       {
         "kind": "LinkedField",
         "alias": null,
-        "name": "allArticles",
+        "name": "articles",
         "storageKey": null,
         "args": v1,
         "concreteType": "ArticlesConnection",
@@ -247,10 +247,10 @@ return {
       {
         "kind": "LinkedHandle",
         "alias": null,
-        "name": "allArticles",
+        "name": "articles",
         "args": v1,
         "handle": "connection",
-        "key": "ArticlesList_allArticles",
+        "key": "ArticlesList_articles",
         "filters": []
       }
     ]

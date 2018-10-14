@@ -11,7 +11,7 @@ export type EditArticleViewQueryResponse = {
         readonly author: {
             readonly id: string;
             readonly email: any;
-            readonly fullName: string | null;
+            readonly fullName: string;
         };
         readonly title: string;
         readonly content: string | null;

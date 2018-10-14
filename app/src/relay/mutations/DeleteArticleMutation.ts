@@ -39,7 +39,7 @@ const storeUpdater: SelectorStoreUpdater = (store) => {
   // Find the appropriate connection from which the node should be deleted.
   const connection = ConnectionHandler.getConnection(
     store.get('client:root'),
-    'ArticlesList_allArticles',
+    'ArticlesList_articles',
   );
 
   // Check if the connection exists.

@@ -4,7 +4,7 @@ import { ConcreteFragment } from "relay-runtime";
 declare const _ArticlesList_query$ref: unique symbol;
 export type ArticlesList_query$ref = typeof _ArticlesList_query$ref;
 export type ArticlesList_query = {
-    readonly allArticles: ({
+    readonly articles: ({
         readonly totalCount: number | null;
         readonly edges: ReadonlyArray<{
             readonly node: {
@@ -14,7 +14,7 @@ export type ArticlesList_query = {
                 readonly createdAt: any;
                 readonly author: {
                     readonly id: string;
-                    readonly fullName: string | null;
+                    readonly fullName: string;
                 };
             };
         }>;
@@ -43,7 +43,7 @@ return {
         "cursor": "cursor",
         "direction": "forward",
         "path": [
-          "allArticles"
+          "articles"
         ]
       }
     ]
@@ -65,8 +65,8 @@ return {
   "selections": [
     {
       "kind": "LinkedField",
-      "alias": "allArticles",
-      "name": "__ArticlesList_allArticles_connection",
+      "alias": "articles",
+      "name": "__ArticlesList_articles_connection",
       "storageKey": null,
       "args": null,
       "concreteType": "ArticlesConnection",
@@ -186,5 +186,5 @@ return {
   ]
 };
 })();
-(node as any).hash = '604fd1de152429402519db0d21029f48';
+(node as any).hash = '1d083c645fcff989f5879664577672b1';
 export default node;

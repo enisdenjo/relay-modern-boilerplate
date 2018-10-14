@@ -100,7 +100,7 @@ class Root extends React.Component<Decorate, State> {
                   <Grid item container alignItems="center" justify="flex-end" spacing={8}>
                     <Grid item>
                       <Typography variant="subtitle1" color="secondary">
-                        Welcome <strong>{viewer.firstName}</strong>!
+                        Welcome <strong>{viewer.fullName}</strong>!
                       </Typography>
                     </Grid>
                     <Grid item>

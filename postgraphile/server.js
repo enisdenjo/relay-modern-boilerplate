@@ -4,8 +4,9 @@ const http = require('http');
 const { postgraphile } = require('postgraphile');
 
 // plugins
-const NonNullRelationsPlugin = require('./plugins/NonNullRelationsPlugin');
 const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflector');
+const NonNullSmartCommentPlugin = require('./plugins/NonNullSmartCommentPlugin');
+const NonNullRelationsPlugin = require('./plugins/NonNullRelationsPlugin');
 
 // constants
 const postgresUser = process.env.POSTGRES_USER;
@@ -36,7 +37,11 @@ http
         graphileBuildOptions: {
           pgStrictFunctions: true,
         },
-        appendPlugins: [PgSimplifyInflectorPlugin, NonNullRelationsPlugin],
+        appendPlugins: [
+          PgSimplifyInflectorPlugin,
+          NonNullSmartCommentPlugin,
+          NonNullRelationsPlugin,
+        ],
       },
     ),
   )

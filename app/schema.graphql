@@ -236,7 +236,7 @@ type Query implements Node {
   ): Node
 
   # Reads and enables pagination through a set of `Article`.
-  allArticles(
+  articles(
     # Only read the first `n` values of the set.
     first: Int
 
@@ -261,7 +261,7 @@ type Query implements Node {
   ): ArticlesConnection
 
   # Reads and enables pagination through a set of `User`.
-  allUsers(
+  users(
     # Only read the first `n` values of the set.
     first: Int
 
@@ -371,7 +371,7 @@ type User implements Node {
   updatedAt: UpdatedTimestamp!
 
   # Reads and enables pagination through a set of `Article`.
-  articles(
+  authoredArticles(
     # Only read the first `n` values of the set.
     first: Int
 
@@ -396,7 +396,7 @@ type User implements Node {
   ): ArticlesConnection!
 
   # Combined first and last name of the `User`.
-  fullName: String
+  fullName: String!
 }
 
 # A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’

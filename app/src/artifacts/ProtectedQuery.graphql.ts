@@ -5,8 +5,7 @@ export type ProtectedQueryVariables = {};
 export type ProtectedQueryResponse = {
     readonly viewer: ({
         readonly id: string;
-        readonly firstName: string;
-        readonly lastName: string;
+        readonly fullName: string;
     }) | null;
 };
 export type ProtectedQuery = {
@@ -20,8 +19,7 @@ export type ProtectedQuery = {
 query ProtectedQuery {
   viewer {
     id
-    firstName
-    lastName
+    fullName
   }
 }
 */
@@ -47,14 +45,7 @@ var v0 = [
       {
         "kind": "ScalarField",
         "alias": null,
-        "name": "firstName",
-        "args": null,
-        "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "lastName",
+        "name": "fullName",
         "args": null,
         "storageKey": null
       }
@@ -66,7 +57,7 @@ return {
   "operationKind": "query",
   "name": "ProtectedQuery",
   "id": null,
-  "text": "query ProtectedQuery {\n  viewer {\n    id\n    firstName\n    lastName\n  }\n}\n",
+  "text": "query ProtectedQuery {\n  viewer {\n    id\n    fullName\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -84,5 +75,5 @@ return {
   }
 };
 })();
-(node as any).hash = 'caced7d044956b60429c320c939c99f3';
+(node as any).hash = '7a2a14397a12e0d17ad7cbb20e80242a';
 export default node;

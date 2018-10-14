@@ -52,7 +52,7 @@ class ArticlesList extends React.Component<Props & { relay: RelayPaginationProp 
 
     return (
       <Grid container direction="column" spacing={16}>
-        {query.allArticles!.edges.map(({ node: { id, createdAt, author, title, content } }) => (
+        {query.articles!.edges.map(({ node: { id, createdAt, author, title, content } }) => (
           <Grid key={id} item>
             <Card>
               <CardContent>
@@ -100,8 +100,8 @@ export default createPaginationContainer(
   graphql`
     fragment ArticlesList_query on Query
       @argumentDefinitions(cursor: { type: "Cursor" }, count: { type: "Int!" }) {
-      allArticles(first: $count, after: $cursor)
-        @connection(key: "ArticlesList_allArticles", filters: []) {
+      articles(first: $count, after: $cursor)
+        @connection(key: "ArticlesList_articles", filters: []) {
         totalCount
         edges {
           node {
@@ -120,7 +120,7 @@ export default createPaginationContainer(
   `,
   {
     direction: 'forward',
-    getConnectionFromProps: (props) => props.query && props.query.allArticles,
+    getConnectionFromProps: (props) => props.query && props.query.articles,
     getFragmentVariables: (prevVars, totalCount) => ({
       ...prevVars,
       count: totalCount,

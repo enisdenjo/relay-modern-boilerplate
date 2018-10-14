@@ -88,8 +88,7 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
           query ProtectedQuery {
             viewer {
               id
-              firstName
-              lastName
+              fullName
             }
           }
         `}
