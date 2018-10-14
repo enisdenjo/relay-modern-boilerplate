@@ -108,7 +108,7 @@ class CreateArticleView extends React.PureComponent<Props, State> {
                 </Grid>
               )}
               <Grid item>
-                <TextField fullWidth required label="Title" name="title" />
+                <TextField fullWidth required label="Title" name="title" autoFocus />
               </Grid>
               <Grid item>
                 <TextField

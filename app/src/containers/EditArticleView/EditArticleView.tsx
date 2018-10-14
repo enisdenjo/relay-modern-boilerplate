@@ -121,6 +121,7 @@ class EditArticleView extends React.PureComponent<Props, State> {
                   required
                   label="Title"
                   name="title"
+                  autoFocus
                 />
               </Grid>
               <Grid item>

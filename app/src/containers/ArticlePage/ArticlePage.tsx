@@ -34,7 +34,7 @@ class ArticlePage extends React.Component<RouteComponentProps<{ id: string }>> {
             }
           }
         `}
-        variables={{ id: match.params.id } as any}
+        variables={{ id: match.params.id }}
         render={({ error, retry, props }) => {
           if (error) {
             return <Err error={error} onRetry={retry} />;
