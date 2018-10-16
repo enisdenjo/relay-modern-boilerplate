@@ -19,6 +19,7 @@ import CreateArticleMutation, {
 // components
 import Err from 'components/Err';
 import Spinner from 'components/Spinner';
+import Form from 'components/Form';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -28,52 +29,31 @@ export interface Props {
   onCreate?: (createArticle: CreateArticleMutationResponse['createArticle']) => void;
 }
 
-interface State {
-  submitError: Error | null;
+interface FormValues {
+  title: string;
+  content: string | null;
 }
 
-class CreateArticleView extends React.PureComponent<Props, State> {
-  public state: State = {
-    submitError: null,
-  };
-
+class CreateArticleView extends React.PureComponent<Props> {
   private handleSubmit = (query: CreateArticleViewQuery['response']) => async (
-    event: React.FormEvent<HTMLFormElement>,
+    values: FormValues,
   ) => {
-    event.preventDefault();
+    const { createArticle } = await CreateArticleMutation(
+      {
+        input: values,
+      },
+      {
+        author: query.viewer!,
+      },
+    );
 
-    const { currentTarget: form } = event;
-
-    const title: string = form.elements['title'].value;
-    const content: string = form.elements['content'].value;
-
-    this.setState({ submitError: null });
-    try {
-      const { createArticle } = await CreateArticleMutation(
-        {
-          input: {
-            title,
-            content,
-          },
-        },
-        {
-          author: query.viewer!,
-        },
-      );
-
-      const { onCreate } = this.props;
-      if (onCreate) {
-        onCreate(createArticle);
-      }
-    } catch (error) {
-      form.reset();
-      this.setState({ submitError: error });
+    const { onCreate } = this.props;
+    if (onCreate) {
+      onCreate(createArticle);
     }
   };
 
   public render() {
-    const { submitError } = this.state;
-
     return (
       <QueryRenderer<CreateArticleViewQuery>
         environment={environment}
@@ -94,41 +74,44 @@ class CreateArticleView extends React.PureComponent<Props, State> {
             return <Spinner />;
           }
           return (
-            <Grid
+            <Form<FormValues>
               container
               direction="column"
               spacing={16}
-              component="form"
               onSubmit={this.handleSubmit(props)}
             >
-              {submitError && (
-                <Grid item>
-                  <Typography variant="body2">Something went wrong!</Typography>
-                  <Typography color="error">{submitError.message}</Typography>
-                </Grid>
+              {({ error: submitError }) => (
+                <>
+                  {submitError && (
+                    <Grid item>
+                      <Typography variant="body2">Something went wrong!</Typography>
+                      <Typography color="error">{submitError.message}</Typography>
+                    </Grid>
+                  )}
+                  <Grid item>
+                    <TextField fullWidth required label="Title" name="title" autoFocus />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      fullWidth
+                      required
+                      multiline
+                      rows={3}
+                      variant="outlined"
+                      label="Content"
+                      name="content"
+                    />
+                  </Grid>
+                  <Grid item container justify="flex-end">
+                    <Grid item>
+                      <Button color="primary" variant="contained" type="submit">
+                        Add
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </>
               )}
-              <Grid item>
-                <TextField fullWidth required label="Title" name="title" autoFocus />
-              </Grid>
-              <Grid item>
-                <TextField
-                  fullWidth
-                  required
-                  multiline
-                  rows={3}
-                  variant="outlined"
-                  label="Content"
-                  name="content"
-                />
-              </Grid>
-              <Grid item container justify="flex-end">
-                <Grid item>
-                  <Button color="primary" variant="contained" type="submit">
-                    Add
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
+            </Form>
           );
         }}
       />

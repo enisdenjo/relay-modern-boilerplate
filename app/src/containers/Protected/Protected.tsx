@@ -21,6 +21,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Form from 'components/Form';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // decorate
 import decorate, { Decorate } from './decorate';
@@ -33,38 +35,19 @@ export interface Props {
   ) => React.ReactElement<any>;
 }
 
-interface State {
-  loginError: Error | null;
+interface FormValues {
+  email: string;
+  password: string;
 }
 
-class Protected extends React.PureComponent<Props & Decorate, State> {
-  public state: State = {
-    loginError: null,
-  };
-
-  private handleLogin = (
-    retryQuery?: () => void,
-  ): React.FormEventHandler<HTMLFormElement> => async (event) => {
-    event.preventDefault();
-
-    const { currentTarget: form } = event;
-
-    const email: string = form.elements['email'].value;
-    const password: string = form.elements['password'].value;
-
-    try {
-      this.setState({ loginError: null });
-      const { authenticate } = await AuthenticateMutation({ input: { email, password } });
-
-      // set the token
-      localStorage.setItem('token', authenticate!.jwtToken);
-      // re-fetch the viewer query
-      if (retryQuery) {
-        retryQuery();
-      }
-    } catch (error) {
-      this.setState({ loginError: error });
-      form.reset();
+class Protected extends React.PureComponent<Props & Decorate> {
+  private handleLogin = (retryQuery?: () => void) => async (values: FormValues) => {
+    const { authenticate } = await AuthenticateMutation({ input: values });
+    // set the token
+    localStorage.setItem('token', authenticate!.jwtToken);
+    // re-fetch the viewer query
+    if (retryQuery) {
+      retryQuery();
     }
   };
 
@@ -79,7 +62,6 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
 
   public render() {
     const { classes, children } = this.props;
-    const { loginError } = this.state;
 
     return (
       <QueryRenderer<ProtectedQuery>
@@ -111,49 +93,76 @@ class Protected extends React.PureComponent<Props & Decorate, State> {
 
           if (!props.viewer) {
             return (
-              <Grid
+              <Form<FormValues>
                 container
                 spacing={16}
                 className={classes.root}
                 direction="column"
-                component="form"
                 onSubmit={this.handleLogin(retry)}
+                resetOnError={['password']}
               >
-                <Grid item>
-                  <Typography variant="h4">Login</Typography>
-                </Grid>
-                {loginError && (
-                  <Grid item>
-                    <Typography variant="caption">Something went wrong!</Typography>
-                    <Typography color="error">{loginError.message}</Typography>
-                  </Grid>
+                {({ error: submitError, submitting }) => (
+                  <>
+                    <Grid item>
+                      <Typography variant="h4">Login</Typography>
+                    </Grid>
+                    {submitError && (
+                      <Grid item>
+                        <Typography variant="caption">Something went wrong!</Typography>
+                        <Typography color="error">{submitError.message}</Typography>
+                      </Grid>
+                    )}
+                    <Grid item>
+                      <TextField
+                        fullWidth
+                        name="email"
+                        label="E-Mail"
+                        required
+                        type="email"
+                        autoFocus
+                      />
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        required
+                        type="password"
+                      />
+                    </Grid>
+                    <Grid item container justify="flex-end" spacing={16}>
+                      <Grid item>
+                        <Button variant="text" color="primary" disabled>
+                          Register
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          disabled={submitting}
+                          color="primary"
+                        >
+                          Login
+                          {submitting && (
+                            <CircularProgress
+                              size="1rem"
+                              style={{
+                                position: 'absolute',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                                left: 0,
+                                right: 0,
+                              }}
+                            />
+                          )}
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </>
                 )}
-                <Grid item>
-                  <TextField
-                    fullWidth
-                    name="email"
-                    label="E-Mail"
-                    required
-                    type="email"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField fullWidth name="password" label="Password" required type="password" />
-                </Grid>
-                <Grid item container justify="flex-end" spacing={16}>
-                  <Grid item>
-                    <Button variant="text" color="primary" disabled>
-                      Register
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button type="submit" variant="contained" color="primary">
-                      Login
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
+              </Form>
             );
           }
 
