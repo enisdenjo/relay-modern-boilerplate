@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS public.user (
-  row_id uuid PRIMARY KEY REFERENCES private.user(row_id) ON DELETE CASCADE,
+  id uuid PRIMARY KEY REFERENCES private.user(id) ON DELETE CASCADE,
 
   email email_address UNIQUE NOT NULL,
 

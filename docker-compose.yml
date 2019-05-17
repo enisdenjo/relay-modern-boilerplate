@@ -19,8 +19,6 @@ services:
   postgraphile:
     image: relay-modern-boilerplate/postgraphile
     env_file: .env
-    environment:
-      - NO_AUTH=false
     working_dir: /usr/relay-modern-boilerplate/postgraphile
     restart: always
     depends_on:

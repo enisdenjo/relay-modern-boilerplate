@@ -9,11 +9,13 @@
     "url": "git://github.com/enisdenjo/relay-modern-boilerplate.git"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:noauth": "NO_AUTH=t npm run start"
   },
   "dependencies": {
-    "@graphile-contrib/pg-simplify-inflector": "3.0.0",
-    "@graphile-contrib/pg-non-null": "1.0.3",
-    "postgraphile": "4.4.0"
+    "@graphile-contrib/pg-non-null": "^1.0.3",
+    "@graphile-contrib/pg-simplify-inflector": "^3.0.0",
+    "graphile-utils": "^4.4.0",
+    "postgraphile": "^4.4.0"
   }
 }

@@ -18,23 +18,23 @@ CREATE OR REPLACE FUNCTION public.register(
 $$
 DECLARE
   tokenDuration   interval := '7 days';
-  new_user_row_id uuid;
+  new_user_id uuid;
 BEGIN
   -- create user
   WITH new_private_user AS (
     INSERT INTO private.user (password)
       VALUES (crypt(register.password, gen_salt('bf')))
-    RETURNING row_id
+    RETURNING id
   )
-  INSERT INTO public.user (row_id, email, first_name, last_name)
-    VALUES ((SELECT row_id FROM new_private_user), register.email, register.first_name, register.last_name)
-  RETURNING row_id INTO new_user_row_id;
+  INSERT INTO public.user (id, email, first_name, last_name)
+    VALUES ((SELECT id FROM new_private_user), register.email, register.first_name, register.last_name)
+  RETURNING id INTO new_user_id;
 
   -- make token
   RETURN (
     'viewer',
     EXTRACT(epoch FROM (now() + tokenDuration)),
-    new_user_row_id
+    new_user_id
   )::private.jwt_token;
 
   -- catch unique violation and nicely report error
@@ -63,10 +63,10 @@ BEGIN
       (
         'viewer',
         EXTRACT(epoch FROM (now() + tokenDuration)),
-        new_public_user.row_id
+        new_public_user.id
       )
     FROM public.user AS new_public_user
-      INNER JOIN private.user AS private_user ON (private_user.row_id = new_public_user.row_id)
+      INNER JOIN private.user AS private_user ON (private_user.id = new_public_user.id)
     WHERE (
       new_public_user.email = authenticate.email
     ) AND (
@@ -90,7 +90,7 @@ COMMENT ON FUNCTION public.authenticate IS 'Authenticates a `User`.';
 
 CREATE OR REPLACE FUNCTION public.viewer() RETURNS public.user AS
 $$
-  SELECT * FROM public.user WHERE (row_id::text = current_setting('jwt.claims.sub', true))
+  SELECT * FROM public.user WHERE (id::text = current_setting('jwt.claims.sub', true))
 $$
 LANGUAGE SQL STABLE
 COST 10000; -- so that the planner calls the function as little as possible

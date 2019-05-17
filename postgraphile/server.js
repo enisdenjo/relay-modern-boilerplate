@@ -5,6 +5,7 @@ const { postgraphile } = require("postgraphile");
 
 // plugins
 const PgSimplifyInflectorPlugin = require("@graphile-contrib/pg-simplify-inflector");
+const PgIdToRowIdInflectorPlugin = require("./plugins/PgIdToRowIdInflectorPlugin");
 const PgNonNullRelationsPlugin = require("@graphile-contrib/pg-non-null/relations");
 
 // constants
@@ -12,7 +13,7 @@ const postgresUser = process.env.POSTGRES_USER;
 const postgresPassword = process.env.POSTGRES_PASSWORD;
 const postgresPort = process.env.POSTGRES_PORT;
 const postgresDb = process.env.POSTGRES_DB;
-const noAuth = process.env.NO_AUTH === "true";
+const noAuth = !!process.env.NO_AUTH;
 
 console.log(`Starting PostGraphile${noAuth ? " in no-auth mode" : ""}...\n`);
 
@@ -36,7 +37,11 @@ http
         graphileBuildOptions: {
           pgStrictFunctions: true
         },
-        appendPlugins: [PgSimplifyInflectorPlugin, PgNonNullRelationsPlugin]
+        appendPlugins: [
+          PgSimplifyInflectorPlugin,
+          PgIdToRowIdInflectorPlugin,
+          PgNonNullRelationsPlugin
+        ]
       }
     )
   )
