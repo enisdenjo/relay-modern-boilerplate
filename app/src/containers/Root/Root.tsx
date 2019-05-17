@@ -21,6 +21,7 @@ import Protected from 'containers/Protected';
 // components
 import Err from 'components/Err';
 import { makeLoadable } from 'components/Loadable';
+import NotFound from 'components/NotFound';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -114,6 +115,7 @@ class Root extends React.Component<Decorate, State> {
                       <Switch>
                         <Route path="/articles" component={LoadableArticlesPage} />
                         <Route exact path="/" component={LoadableHomePage} />
+                        <Route path="*" component={NotFound} />
                       </Switch>
                     </Grid>
                   </Grid>

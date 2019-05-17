@@ -49,213 +49,209 @@ fragment ArticlesList_query_1G22uz on Query {
 }
 */
 
-const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "kind": "LocalArgument",
-    "name": "count",
-    "type": "Int!",
-    "defaultValue": null
-  },
-  {
-    "kind": "LocalArgument",
-    "name": "cursor",
-    "type": "Cursor",
-    "defaultValue": null
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "after",
-    "variableName": "cursor",
-    "type": "Cursor"
-  },
-  {
-    "kind": "Variable",
-    "name": "first",
-    "variableName": "count",
-    "type": "Int"
-  }
-],
-v2 = {
-  "kind": "ScalarField",
-  "alias": null,
-  "name": "id",
-  "args": null,
-  "storageKey": null
-};
-return {
-  "kind": "Request",
-  "operationKind": "query",
-  "name": "ArticlesListPaginationQuery",
-  "id": null,
-  "text": "query ArticlesListPaginationQuery(\n  $count: Int!\n  $cursor: Cursor\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  articles(first: $count, after: $cursor) {\n    totalCount\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
-  "metadata": {},
-  "fragment": {
-    "kind": "Fragment",
-    "name": "ArticlesListPaginationQuery",
-    "type": "Query",
-    "metadata": null,
-    "argumentDefinitions": v0,
-    "selections": [
-      {
-        "kind": "FragmentSpread",
-        "name": "ArticlesList_query",
-        "args": [
-          {
-            "kind": "Variable",
+const node: ConcreteRequest = (function () {
+    var v0 = [
+        ({
+            "kind": "LocalArgument",
             "name": "count",
-            "variableName": "count",
-            "type": null
-          },
-          {
-            "kind": "Variable",
+            "type": "Int!",
+            "defaultValue": null
+        } as any),
+        ({
+            "kind": "LocalArgument",
             "name": "cursor",
-            "variableName": "cursor",
-            "type": null
-          }
-        ]
-      }
-    ]
-  },
-  "operation": {
-    "kind": "Operation",
-    "name": "ArticlesListPaginationQuery",
-    "argumentDefinitions": v0,
-    "selections": [
-      {
-        "kind": "LinkedField",
+            "type": "Cursor",
+            "defaultValue": null
+        } as any)
+    ], v1 = [
+        ({
+            "kind": "Variable",
+            "name": "after",
+            "variableName": "cursor"
+        } as any),
+        ({
+            "kind": "Variable",
+            "name": "first",
+            "variableName": "count"
+        } as any)
+    ], v2 = ({
+        "kind": "ScalarField",
         "alias": null,
-        "name": "articles",
-        "storageKey": null,
-        "args": v1,
-        "concreteType": "ArticlesConnection",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "totalCount",
-            "args": null,
-            "storageKey": null
-          },
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "name": "edges",
-            "storageKey": null,
-            "args": null,
-            "concreteType": "ArticlesEdge",
-            "plural": true,
+        "name": "id",
+        "args": null,
+        "storageKey": null
+    } as any);
+    return {
+        "kind": "Request",
+        "fragment": {
+            "kind": "Fragment",
+            "name": "ArticlesListPaginationQuery",
+            "type": "Query",
+            "metadata": null,
+            "argumentDefinitions": (v0 /*: any*/),
             "selections": [
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "name": "node",
-                "storageKey": null,
-                "args": null,
-                "concreteType": "Article",
-                "plural": false,
-                "selections": [
-                  v2,
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "name": "title",
-                    "args": null,
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "name": "content",
-                    "args": null,
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "name": "createdAt",
-                    "args": null,
-                    "storageKey": null
-                  },
-                  {
+                {
+                    "kind": "FragmentSpread",
+                    "name": "ArticlesList_query",
+                    "args": [
+                        {
+                            "kind": "Variable",
+                            "name": "count",
+                            "variableName": "count"
+                        },
+                        {
+                            "kind": "Variable",
+                            "name": "cursor",
+                            "variableName": "cursor"
+                        }
+                    ]
+                }
+            ]
+        },
+        "operation": {
+            "kind": "Operation",
+            "name": "ArticlesListPaginationQuery",
+            "argumentDefinitions": (v0 /*: any*/),
+            "selections": [
+                {
                     "kind": "LinkedField",
                     "alias": null,
-                    "name": "author",
+                    "name": "articles",
                     "storageKey": null,
-                    "args": null,
-                    "concreteType": "User",
+                    "args": (v1 /*: any*/),
+                    "concreteType": "ArticlesConnection",
                     "plural": false,
                     "selections": [
-                      v2,
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "name": "fullName",
-                        "args": null,
-                        "storageKey": null
-                      }
+                        {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "name": "totalCount",
+                            "args": null,
+                            "storageKey": null
+                        },
+                        {
+                            "kind": "LinkedField",
+                            "alias": null,
+                            "name": "edges",
+                            "storageKey": null,
+                            "args": null,
+                            "concreteType": "ArticlesEdge",
+                            "plural": true,
+                            "selections": [
+                                {
+                                    "kind": "LinkedField",
+                                    "alias": null,
+                                    "name": "node",
+                                    "storageKey": null,
+                                    "args": null,
+                                    "concreteType": "Article",
+                                    "plural": false,
+                                    "selections": [
+                                        (v2 /*: any*/),
+                                        {
+                                            "kind": "ScalarField",
+                                            "alias": null,
+                                            "name": "title",
+                                            "args": null,
+                                            "storageKey": null
+                                        },
+                                        {
+                                            "kind": "ScalarField",
+                                            "alias": null,
+                                            "name": "content",
+                                            "args": null,
+                                            "storageKey": null
+                                        },
+                                        {
+                                            "kind": "ScalarField",
+                                            "alias": null,
+                                            "name": "createdAt",
+                                            "args": null,
+                                            "storageKey": null
+                                        },
+                                        {
+                                            "kind": "LinkedField",
+                                            "alias": null,
+                                            "name": "author",
+                                            "storageKey": null,
+                                            "args": null,
+                                            "concreteType": "User",
+                                            "plural": false,
+                                            "selections": [
+                                                (v2 /*: any*/),
+                                                {
+                                                    "kind": "ScalarField",
+                                                    "alias": null,
+                                                    "name": "fullName",
+                                                    "args": null,
+                                                    "storageKey": null
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "kind": "ScalarField",
+                                            "alias": null,
+                                            "name": "__typename",
+                                            "args": null,
+                                            "storageKey": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "name": "cursor",
+                                    "args": null,
+                                    "storageKey": null
+                                }
+                            ]
+                        },
+                        {
+                            "kind": "LinkedField",
+                            "alias": null,
+                            "name": "pageInfo",
+                            "storageKey": null,
+                            "args": null,
+                            "concreteType": "PageInfo",
+                            "plural": false,
+                            "selections": [
+                                {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "name": "endCursor",
+                                    "args": null,
+                                    "storageKey": null
+                                },
+                                {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "name": "hasNextPage",
+                                    "args": null,
+                                    "storageKey": null
+                                }
+                            ]
+                        }
                     ]
-                  },
-                  {
-                    "kind": "ScalarField",
+                },
+                {
+                    "kind": "LinkedHandle",
                     "alias": null,
-                    "name": "__typename",
-                    "args": null,
-                    "storageKey": null
-                  }
-                ]
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "cursor",
-                "args": null,
-                "storageKey": null
-              }
+                    "name": "articles",
+                    "args": (v1 /*: any*/),
+                    "handle": "connection",
+                    "key": "ArticlesList_articles",
+                    "filters": []
+                }
             ]
-          },
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "name": "pageInfo",
-            "storageKey": null,
-            "args": null,
-            "concreteType": "PageInfo",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "endCursor",
-                "args": null,
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "hasNextPage",
-                "args": null,
-                "storageKey": null
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "kind": "LinkedHandle",
-        "alias": null,
-        "name": "articles",
-        "args": v1,
-        "handle": "connection",
-        "key": "ArticlesList_articles",
-        "filters": []
-      }
-    ]
-  }
-};
+        },
+        "params": {
+            "operationKind": "query",
+            "name": "ArticlesListPaginationQuery",
+            "id": null,
+            "text": "query ArticlesListPaginationQuery(\n  $count: Int!\n  $cursor: Cursor\n) {\n  ...ArticlesList_query_1G22uz\n}\n\nfragment ArticlesList_query_1G22uz on Query {\n  articles(first: $count, after: $cursor) {\n    totalCount\n    edges {\n      node {\n        id\n        title\n        content\n        createdAt\n        author {\n          id\n          fullName\n        }\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
+            "metadata": {}
+        }
+    } as any;
 })();
 (node as any).hash = '410c30b7cfbdc6a533e53b8bcef72dbd';
 export default node;

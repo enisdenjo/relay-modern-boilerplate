@@ -97,27 +97,29 @@ class ArticlesList extends React.Component<Props & { relay: RelayPaginationProp 
 
 export default createPaginationContainer(
   ArticlesList,
-  graphql`
-    fragment ArticlesList_query on Query
-      @argumentDefinitions(cursor: { type: "Cursor" }, count: { type: "Int!" }) {
-      articles(first: $count, after: $cursor)
-        @connection(key: "ArticlesList_articles", filters: []) {
-        totalCount
-        edges {
-          node {
-            id
-            title
-            content
-            createdAt
-            author {
+  {
+    query: graphql`
+      fragment ArticlesList_query on Query
+        @argumentDefinitions(cursor: { type: "Cursor" }, count: { type: "Int!" }) {
+        articles(first: $count, after: $cursor)
+          @connection(key: "ArticlesList_articles", filters: []) {
+          totalCount
+          edges {
+            node {
               id
-              fullName
+              title
+              content
+              createdAt
+              author {
+                id
+                fullName
+              }
             }
           }
         }
       }
-    }
-  `,
+    `,
+  },
   {
     direction: 'forward',
     getConnectionFromProps: (props) => props.query && props.query.articles,

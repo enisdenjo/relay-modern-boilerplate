@@ -29,7 +29,9 @@ module.exports = merge(require('./webpack.common.config'), {
     minimize: false,
   },
   plugins: [
-    new CleanWebpackPlugin([path.resolve(pkg.dll.path)]),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [path.resolve(pkg.dll.path)],
+    }),
     new webpack.DllPlugin({
       path: path.join(path.resolve(pkg.dll.path), '[name].manifest.json'),
       name: '[name]_[hash]',

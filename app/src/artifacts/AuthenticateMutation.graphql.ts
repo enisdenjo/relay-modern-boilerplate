@@ -10,9 +10,9 @@ export type AuthenticateMutationVariables = {
     readonly input: AuthenticateInput;
 };
 export type AuthenticateMutationResponse = {
-    readonly authenticate: ({
+    readonly authenticate: {
         readonly jwtToken: any | null;
-    }) | null;
+    } | null;
 };
 export type AuthenticateMutation = {
     readonly response: AuthenticateMutationResponse;
@@ -31,64 +31,64 @@ mutation AuthenticateMutation(
 }
 */
 
-const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "kind": "LocalArgument",
-    "name": "input",
-    "type": "AuthenticateInput!",
-    "defaultValue": null
-  }
-],
-v1 = [
-  {
-    "kind": "LinkedField",
-    "alias": null,
-    "name": "authenticate",
-    "storageKey": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input",
-        "type": "AuthenticateInput!"
-      }
-    ],
-    "concreteType": "AuthenticatePayload",
-    "plural": false,
-    "selections": [
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "jwtToken",
-        "args": null,
-        "storageKey": null
-      }
-    ]
-  }
-];
-return {
-  "kind": "Request",
-  "operationKind": "mutation",
-  "name": "AuthenticateMutation",
-  "id": null,
-  "text": "mutation AuthenticateMutation(\n  $input: AuthenticateInput!\n) {\n  authenticate(input: $input) {\n    jwtToken\n  }\n}\n",
-  "metadata": {},
-  "fragment": {
-    "kind": "Fragment",
-    "name": "AuthenticateMutation",
-    "type": "Mutation",
-    "metadata": null,
-    "argumentDefinitions": v0,
-    "selections": v1
-  },
-  "operation": {
-    "kind": "Operation",
-    "name": "AuthenticateMutation",
-    "argumentDefinitions": v0,
-    "selections": v1
-  }
-};
+const node: ConcreteRequest = (function () {
+    var v0 = [
+        ({
+            "kind": "LocalArgument",
+            "name": "input",
+            "type": "AuthenticateInput!",
+            "defaultValue": null
+        } as any)
+    ], v1 = [
+        ({
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "authenticate",
+            "storageKey": null,
+            "args": [
+                {
+                    "kind": "Variable",
+                    "name": "input",
+                    "variableName": "input"
+                }
+            ],
+            "concreteType": "AuthenticatePayload",
+            "plural": false,
+            "selections": [
+                {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "name": "jwtToken",
+                    "args": null,
+                    "storageKey": null
+                }
+            ]
+        } as any)
+    ];
+    return {
+        "kind": "Request",
+        "fragment": {
+            "kind": "Fragment",
+            "name": "AuthenticateMutation",
+            "type": "Mutation",
+            "metadata": null,
+            "argumentDefinitions": (v0 /*: any*/),
+            "selections": (v1 /*: any*/)
+        },
+        "operation": {
+            "kind": "Operation",
+            "name": "AuthenticateMutation",
+            "argumentDefinitions": (v0 /*: any*/),
+            "selections": (v1 /*: any*/)
+        },
+        "params": {
+            "operationKind": "mutation",
+            "name": "AuthenticateMutation",
+            "id": null,
+            "text": "mutation AuthenticateMutation(\n  $input: AuthenticateInput!\n) {\n  authenticate(input: $input) {\n    jwtToken\n  }\n}\n",
+            "metadata": {}
+        }
+    } as any;
 })();
 (node as any).hash = '992168c03b14bfcc0682e13e82fbefac';
 export default node;

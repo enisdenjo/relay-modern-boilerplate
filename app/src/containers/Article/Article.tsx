@@ -98,9 +98,8 @@ class Article extends React.PureComponent<Props, State> {
   }
 }
 
-export default createFragmentContainer(
-  Article,
-  graphql`
+export default createFragmentContainer(Article, {
+  article: graphql`
     fragment Article_article on Article {
       id
       rowId
@@ -114,4 +113,4 @@ export default createFragmentContainer(
       }
     }
   `,
-);
+});
