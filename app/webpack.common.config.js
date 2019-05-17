@@ -41,7 +41,7 @@ module.exports = {
                   'relay',
                   {
                     // Change artifact directory for easier navigation.
-                    artifactDirectory: path.join(__dirname, 'src', 'artifacts'),
+                    artifactDirectory: path.join(__dirname, 'src', 'relay', 'artifacts'),
                   },
                 ],
                 '@babel/plugin-proposal-object-rest-spread',

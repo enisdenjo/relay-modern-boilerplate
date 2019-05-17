@@ -10,7 +10,7 @@
   "scripts": {
     "graphql:fix-schema": "node scripts/graphql/fix-schema.js",
     "graphql:get-schema": "get-graphql-schema http://postgraphile:${POSTGRAPHILE_PORT}/graphql --json > ./schema.json && npm run graphql:fix-schema ./schema.json",
-    "relay:compile": "relay-compiler --src ./src --schema ./schema.json --language typescript --artifactDirectory ./src/artifacts",
+    "relay:compile": "relay-compiler --src ./src --schema ./schema.json --language typescript --artifactDirectory ./src/relay/artifacts",
     "relay:watch": "npm run relay:compile -- --watch",
     "build:dll": "NODE_ENV=development webpack --config webpack.dll.config.js --hide-modules --display-chunks --color --progress",
     "dev:server": "NODE_ENV=development webpack-dev-server --config ./webpack.dev.config.js",

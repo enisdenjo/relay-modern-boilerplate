@@ -8,7 +8,7 @@ import React from 'react';
 import { graphql, createPaginationContainer, RelayPaginationProp } from 'react-relay';
 
 // types
-import { ArticlesList_query } from 'artifacts/ArticlesList_query.graphql';
+import { ArticlesList_query } from 'relay/artifacts/ArticlesList_query.graphql';
 
 // components
 import Err from 'components/Err';

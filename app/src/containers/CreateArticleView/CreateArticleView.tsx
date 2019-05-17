@@ -9,7 +9,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
 
 // types
-import { CreateArticleViewQuery } from 'artifacts/CreateArticleViewQuery.graphql';
+import { CreateArticleViewQuery } from 'relay/artifacts/CreateArticleViewQuery.graphql';
 
 // mutations
 import CreateArticleMutation, {

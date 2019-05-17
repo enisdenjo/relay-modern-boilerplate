@@ -13,7 +13,7 @@ import {
   DeleteArticleMutation,
   DeleteArticleMutationVariables,
   DeleteArticleMutationResponse,
-} from 'artifacts/DeleteArticleMutation.graphql';
+} from 'relay/artifacts/DeleteArticleMutation.graphql';
 
 const mutation = graphql`
   mutation DeleteArticleMutation($input: DeleteArticleInput!) {

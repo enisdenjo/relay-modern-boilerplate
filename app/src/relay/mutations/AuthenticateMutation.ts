@@ -12,7 +12,7 @@ import {
   AuthenticateMutation,
   AuthenticateMutationVariables,
   AuthenticateMutationResponse,
-} from 'artifacts/AuthenticateMutation.graphql';
+} from 'relay/artifacts/AuthenticateMutation.graphql';
 
 const mutation = graphql`
   mutation AuthenticateMutation($input: AuthenticateInput!) {

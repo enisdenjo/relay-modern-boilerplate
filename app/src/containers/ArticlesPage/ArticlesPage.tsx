@@ -9,7 +9,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import environment from 'relay/environment';
 
 // types
-import { ArticlesPageQuery } from 'artifacts/ArticlesPageQuery.graphql';
+import { ArticlesPageQuery } from 'relay/artifacts/ArticlesPageQuery.graphql';
 
 // icons
 import AddIcon from '@material-ui/icons/Add';

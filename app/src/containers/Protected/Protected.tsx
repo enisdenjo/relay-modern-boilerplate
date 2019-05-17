@@ -9,7 +9,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import environment from 'relay/environment';
 
 // types
-import { ProtectedQuery } from 'artifacts/ProtectedQuery.graphql';
+import { ProtectedQuery } from 'relay/artifacts/ProtectedQuery.graphql';
 
 // mutations
 import AuthenticateMutation from 'relay/mutations/AuthenticateMutation';

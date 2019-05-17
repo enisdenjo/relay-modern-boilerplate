@@ -14,7 +14,7 @@ import {
   CreateArticleMutation,
   CreateArticleMutationVariables,
   CreateArticleMutationResponse,
-} from 'artifacts/CreateArticleMutation.graphql';
+} from 'relay/artifacts/CreateArticleMutation.graphql';
 
 const mutation = graphql`
   mutation CreateArticleMutation($input: CreateArticleInput!) {

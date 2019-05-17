@@ -8,7 +8,7 @@ import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
 
 // types
-import { Article_article } from 'artifacts/Article_article.graphql';
+import { Article_article } from 'relay/artifacts/Article_article.graphql';
 
 // mutations
 import DeleteArticleMutation from 'relay/mutations/DeleteArticleMutation';

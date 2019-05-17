@@ -12,7 +12,7 @@ import {
   UpdateArticleMutation,
   UpdateArticleMutationVariables,
   UpdateArticleMutationResponse,
-} from 'artifacts/UpdateArticleMutation.graphql';
+} from 'relay/artifacts/UpdateArticleMutation.graphql';
 
 const mutation = graphql`
   mutation UpdateArticleMutation($input: UpdateArticleInput!) {

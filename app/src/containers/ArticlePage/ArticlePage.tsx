@@ -9,7 +9,7 @@ import environment from 'relay/environment';
 
 // types
 import { RouteComponentProps } from 'react-router-dom';
-import { ArticlePageQuery } from 'artifacts/ArticlePageQuery.graphql';
+import { ArticlePageQuery } from 'relay/artifacts/ArticlePageQuery.graphql';
 
 // containers
 import { graphql, QueryRenderer } from 'react-relay';
