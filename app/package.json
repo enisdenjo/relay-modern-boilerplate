@@ -8,9 +8,10 @@
   "license": "MIT",
   "description": "React application for relay-modern-boilerplate",
   "scripts": {
-    "relay:get-schema": "get-graphql-schema http://postgraphile:${POSTGRAPHILE_PORT}/graphql > schema.graphql",
-    "relay:compile": "relay-compiler --src ./src --schema ./schema.graphql --language typescript --artifactDirectory ./src/artifacts",
-    "relay:watch": "relay-compiler --src ./src --schema ./schema.graphql --language typescript --artifactDirectory ./src/artifacts --watch",
+    "graphql:fix-schema": "node scripts/graphql/fix-schema.js",
+    "graphql:get-schema": "get-graphql-schema http://postgraphile:${POSTGRAPHILE_PORT}/graphql --json > ./schema.json && npm run graphql:fix-schema ./schema.json",
+    "relay:compile": "relay-compiler --src ./src --schema ./schema.json --language typescript --artifactDirectory ./src/artifacts",
+    "relay:watch": "npm run relay:compile -- --watch",
     "build:dll": "NODE_ENV=development webpack --config webpack.dll.config.js --hide-modules --display-chunks --color --progress",
     "dev:server": "NODE_ENV=development webpack-dev-server --config ./webpack.dev.config.js",
     "dev": "NODE_ENV=development concurrently -n relay-compiler,webpack-dev-server \"npm run relay:watch\" \"webpack-dev-server --config ./webpack.dev.config.js\""
