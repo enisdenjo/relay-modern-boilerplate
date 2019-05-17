@@ -1,48 +1,43 @@
-'use strict';
+"use strict";
 
-const http = require('http');
-const { postgraphile } = require('postgraphile');
+const http = require("http");
+const { postgraphile } = require("postgraphile");
 
 // plugins
-const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflector');
-const NonNullSmartCommentPlugin = require('./plugins/NonNullSmartCommentPlugin');
-const NonNullRelationsPlugin = require('./plugins/NonNullRelationsPlugin');
+const PgSimplifyInflectorPlugin = require("@graphile-contrib/pg-simplify-inflector");
+const PgNonNullRelationsPlugin = require("@graphile-contrib/pg-non-null/relations");
 
 // constants
 const postgresUser = process.env.POSTGRES_USER;
 const postgresPassword = process.env.POSTGRES_PASSWORD;
 const postgresPort = process.env.POSTGRES_PORT;
 const postgresDb = process.env.POSTGRES_DB;
-const noAuth = process.env.NO_AUTH === 'true';
+const noAuth = process.env.NO_AUTH === "true";
 
-console.log(`Starting PostGraphile${noAuth ? ' in no-auth mode' : ''}...\n`);
+console.log(`Starting PostGraphile${noAuth ? " in no-auth mode" : ""}...\n`);
 
 http
   .createServer(
     postgraphile(
       `postgres://${postgresUser}:${postgresPassword}@postgres:${postgresPort}/${postgresDb}`,
-      'public', // introspected schema
+      "public", // introspected schema
       {
         classicIds: true,
         dynamicJson: true,
         setofFunctionsContainNulls: false,
         ignoreRBAC: false,
-        pgDefaultRole: noAuth ? 'viewer' : 'anonymous',
+        pgDefaultRole: noAuth ? "viewer" : "anonymous",
         disableDefaultMutations: true,
         disableQueryLog: false,
         jwtSecret: process.env.POSTGRAPHILE_JWT_SECRET,
         graphiql: true,
         watchPg: true,
-        jwtPgTypeIdentifier: 'private.jwt_token',
+        jwtPgTypeIdentifier: "private.jwt_token",
         graphileBuildOptions: {
-          pgStrictFunctions: true,
+          pgStrictFunctions: true
         },
-        appendPlugins: [
-          PgSimplifyInflectorPlugin,
-          NonNullSmartCommentPlugin,
-          NonNullRelationsPlugin,
-        ],
-      },
-    ),
+        appendPlugins: [PgSimplifyInflectorPlugin, PgNonNullRelationsPlugin]
+      }
+    )
   )
   .listen(process.env.POSTGRAPHILE_PORT);
