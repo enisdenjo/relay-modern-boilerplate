@@ -5,7 +5,7 @@ export type CreateArticleViewQueryVariables = {};
 export type CreateArticleViewQueryResponse = {
     readonly viewer: {
         readonly id: string;
-        readonly fullName: string | null;
+        readonly fullName: string;
     } | null;
 };
 export type CreateArticleViewQuery = {

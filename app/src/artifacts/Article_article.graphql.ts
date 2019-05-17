@@ -11,7 +11,7 @@ export type Article_article = {
     readonly createdAt: any;
     readonly author: {
         readonly id: string;
-        readonly fullName: string | null;
+        readonly fullName: string;
         readonly email: any;
     };
     readonly " $refType": Article_article$ref;

@@ -14,7 +14,7 @@ export type ArticlesList_query = {
                 readonly createdAt: any;
                 readonly author: {
                     readonly id: string;
-                    readonly fullName: string | null;
+                    readonly fullName: string;
                 };
             };
         }>;

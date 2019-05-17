@@ -5,7 +5,7 @@ export type ProtectedQueryVariables = {};
 export type ProtectedQueryResponse = {
     readonly viewer: {
         readonly id: string;
-        readonly fullName: string | null;
+        readonly fullName: string;
     } | null;
 };
 export type ProtectedQuery = {
