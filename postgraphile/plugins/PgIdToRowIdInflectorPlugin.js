@@ -19,14 +19,14 @@
  *  `userRowId` -> `userRowId` (will stay the same if `Id` is prefixed with `Row`)
  */
 
-const { makeAddInflectorsPlugin } = require("graphile-utils");
+const { makeAddInflectorsPlugin } = require('graphile-utils');
 
 function replaceIdWithRowId(str) {
   return str
-    .replace(/(?<!(row_))(id)$/, "row_id")
-    .replace(/(?<!((R|r)ow))(Id)$/, "RowId")
-    .replace(/(?<!(row_))(ids)$/, "row_ids")
-    .replace(/(?<!((R|r)ow))(Ids)$/, "RowIds");
+    .replace(/(?<!(row_))(id)$/, 'row_id')
+    .replace(/(?<!((R|r)ow))(Id)$/, 'RowId')
+    .replace(/(?<!(row_))(ids)$/, 'row_ids')
+    .replace(/(?<!((R|r)ow))(Ids)$/, 'RowIds');
 }
 
 const PgIdToRowIdInflectorPlugin = makeAddInflectorsPlugin(
@@ -45,9 +45,9 @@ const PgIdToRowIdInflectorPlugin = makeAddInflectorsPlugin(
     // replace ids in all mutation arguments
     argument(name, index) {
       return this.camelCase(replaceIdWithRowId(name || `arg${index}`));
-    }
+    },
   },
-  true
+  true,
 );
 
 module.exports = PgIdToRowIdInflectorPlugin;
