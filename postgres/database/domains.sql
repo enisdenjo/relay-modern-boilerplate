@@ -1,10 +1,10 @@
-CREATE DOMAIN created_timestamp timestamp WITHOUT TIME ZONE NOT NULL DEFAULT (now() AT TIME ZONE 'UTC');
-COMMENT ON DOMAIN created_timestamp IS 'UTC timestamp representing the time at which a node is created.';
+CREATE DOMAIN created_timestamp timestamp NOT NULL DEFAULT now();
+COMMENT ON DOMAIN created_timestamp IS 'Timestamp representing the time at which a row is created.';
 
 ----
 
-CREATE DOMAIN updated_timestamp timestamp WITHOUT TIME ZONE NOT NULL DEFAULT (now() AT TIME ZONE 'UTC');
-COMMENT ON DOMAIN updated_timestamp IS 'UTC timestamp representing the time at which a node is updated.';
+CREATE DOMAIN updated_timestamp timestamp NOT NULL DEFAULT now();
+COMMENT ON DOMAIN updated_timestamp IS 'Timestamp representing the time at which a row is updated.';
 
 ----
 
