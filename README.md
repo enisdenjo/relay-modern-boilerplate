@@ -41,3 +41,7 @@ This repo is used in my talk [Reintroducing Relay Modern](https://www.youtube.co
 # Documentation
 
 Detailed documentation coming soon, for now happy code digging. 😁
+
+# About this repo
+
+To keep the talk consistent and in sync, this repo will **not be updated any further**. However, if you are interested in how this would look like _today_ or how it can become an actual project, check out [heltin](https://github.com/bhidapa/heltin) 👀 .
