@@ -21,6 +21,10 @@
 </p>
 <br>
 
+# Talk
+
+This repo is used in my talk [Reintroducing Relay Modern](https://www.youtube.com/watch?v=5WjXX9-Vu-o) where I talk about the overlooked beauties of [Relay](https://relay.dev).
+
 # Quick start
 
 1.  Make sure that you have [Docker](https://www.docker.com/products/docker-engine) and [Docker Compose](https://docs.docker.com/compose/install/) installed
